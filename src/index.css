@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Playfair Display", serif;
+  --font-label: "Montserrat", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --color-primary: #1b1c15;
+  --color-on-primary: #ffffff;
+  --color-secondary: #43483e;
+  --color-tertiary: #735c00;
+  --color-on-tertiary: #ffffff;
+  --color-surface: #fefcf3;
+  --color-on-surface: #1b1c15;
+  --color-on-surface-variant: #43483e;
+  --color-outline: #73796e;
+  --color-outline-variant: #c3c8bc;
+  --color-surface-container-low: #f5f4ea;
+  --color-surface-container-high: #e9e9df;
+  
+  /* Custom accents from screenshots */
+  --color-ba1a1a: #ba1a1a; /* Ruby Red */
+  --color-004d51: #004d51; /* Peacock Teal */
+  --color-435b9f: #435b9f; /* Royal Blue */
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface antialiased;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

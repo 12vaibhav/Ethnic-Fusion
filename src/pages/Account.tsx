@@ -1,0 +1,184 @@
+import { useState } from 'react';
+import { User, Package, Heart, CreditCard, Settings, LogOut, ChevronRight, ExternalLink } from 'lucide-react';
+import { ORDERS } from '../constants';
+import { motion, AnimatePresence } from 'motion/react';
+import { toast } from 'sonner';
+
+export default function Account() {
+  const [activeTab, setActiveTab] = useState('Dashboard');
+  const [profile, setProfile] = useState({ name: 'Anjali Sharma', email: 'anjali.s@gmail.com' });
+  const [trackingNumber, setTrackingNumber] = useState('');
+
+  const sidebarLinks = [
+    { name: 'Dashboard', icon: User },
+    { name: 'My Profile', icon: User },
+    { name: 'My Orders', icon: Package },
+    { name: 'Wishlist', icon: Heart },
+    { name: 'Payments', icon: CreditCard },
+    { name: 'Settings', icon: Settings },
+  ];
+
+  const stats = [
+    { label: 'Recent Orders', value: '12', sub: 'Last 6 months' },
+    { label: 'Wishlist Items', value: '08', sub: 'Save for later' },
+    { label: 'Loyalty Points', value: '2,450', sub: 'Gold Member' },
+  ];
+
+  const handleTrackOrder = () => {
+    if (!trackingNumber) {
+      toast.error('Please enter a tracking number');
+      return;
+    }
+    toast.loading(`Tracking order ${trackingNumber}...`);
+    setTimeout(() => {
+      toast.dismiss();
+      toast.success(`Order ${trackingNumber} is on its way!`);
+    }, 2000);
+  };
+
+  const handleSignOut = () => {
+    toast.success('Signed out successfully');
+  };
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'Dashboard':
+        return (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-12">
+            <header>
+              <h1 className="font-headline text-4xl text-primary mb-2">Welcome Back, {profile.name.split(' ')[0]}</h1>
+              <p className="text-on-surface-variant text-sm">Manage your orders, wishlist, and profile settings here.</p>
+            </header>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {stats.map((stat) => (
+                <div key={stat.label} className="bg-surface-container-low p-8 border border-outline-variant/30 rounded-sm group hover:border-tertiary transition-all">
+                  <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-2">{stat.label}</p>
+                  <p className="font-headline text-4xl text-primary group-hover:text-tertiary transition-colors">{stat.value}</p>
+                  <p className="text-[10px] text-on-surface-variant mt-2 italic">{stat.sub}</p>
+                </div>
+              ))}
+            </div>
+
+            <section className="space-y-8">
+              <div className="flex justify-between items-end">
+                <h3 className="font-headline text-2xl text-primary">Recent Orders</h3>
+                <button onClick={() => setActiveTab('My Orders')} className="text-xs uppercase tracking-widest text-tertiary font-bold hover:underline">View All Orders</button>
+              </div>
+
+              <div className="space-y-4">
+                {ORDERS.slice(0, 2).map((order) => (
+                  <div key={order.id} className="bg-white p-6 border border-outline-variant/30 flex flex-col md:flex-row items-center gap-8 group hover:shadow-lg transition-all">
+                    <div className="w-24 h-32 bg-surface-container-low flex-shrink-0 overflow-hidden">
+                      <img src={order.image} alt={order.id} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-grow grid grid-cols-2 md:grid-cols-4 gap-6">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Order ID</p>
+                        <p className="text-sm font-bold text-primary">{order.id}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Placed On</p>
+                        <p className="text-sm font-medium text-on-surface-variant">{order.date}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Status</p>
+                        <span className={`text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded-full ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-tertiary/10 text-tertiary'}`}>
+                          {order.status}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Total</p>
+                        <p className="text-sm font-bold text-primary">₹{order.total.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </motion.div>
+        );
+      case 'My Profile':
+        return (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-surface-container-low p-8 border border-outline-variant/30 rounded-sm">
+            <h3 className="font-headline text-2xl text-primary mb-6">My Profile</h3>
+            <div className="space-y-4">
+              <input type="text" value={profile.name} onChange={(e) => setProfile({...profile, name: e.target.value})} className="w-full p-4 border border-outline-variant/30" placeholder="Name" />
+              <input type="email" value={profile.email} onChange={(e) => setProfile({...profile, email: e.target.value})} className="w-full p-4 border border-outline-variant/30" placeholder="Email" />
+              <button onClick={() => toast.success('Profile updated')} className="bg-primary text-white px-6 py-3 text-xs uppercase tracking-widest font-bold hover:bg-tertiary">Save Changes</button>
+            </div>
+          </motion.div>
+        );
+      default:
+        return (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+            <h3 className="font-headline text-2xl text-primary mb-4">{activeTab}</h3>
+            <p className="text-on-surface-variant">This section is currently under development.</p>
+          </motion.div>
+        );
+    }
+  };
+
+  return (
+    <div className="bg-surface min-h-screen pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
+      <div className="flex flex-col lg:flex-row gap-16">
+        <aside className="lg:w-64 flex-shrink-0">
+          <div className="bg-surface-container-low p-8 border border-outline-variant/30 rounded-sm">
+            <div className="flex flex-col items-center text-center mb-10">
+              <div className="w-24 h-24 rounded-full bg-tertiary/10 flex items-center justify-center mb-4 border-2 border-tertiary">
+                <span className="text-3xl font-headline text-tertiary">{profile.name.split(' ').map(n => n[0]).join('')}</span>
+              </div>
+              <h2 className="font-headline text-xl text-primary">{profile.name}</h2>
+              <p className="text-[10px] uppercase tracking-widest text-outline font-bold mt-1">{profile.email}</p>
+            </div>
+
+            <nav className="space-y-2">
+              {sidebarLinks.map((link) => (
+                <button
+                  key={link.name}
+                  onClick={() => setActiveTab(link.name)}
+                  className={`w-full flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-bold transition-all rounded-sm ${activeTab === link.name ? 'bg-primary text-white' : 'text-outline hover:bg-surface-container-high hover:text-primary'}`}
+                >
+                  <link.icon className="w-4 h-4" />
+                  {link.name}
+                </button>
+              ))}
+              <button onClick={handleSignOut} className="w-full flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-bold text-ba1a1a hover:bg-ba1a1a/10 transition-all rounded-sm mt-8">
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </nav>
+          </div>
+        </aside>
+
+        <main className="flex-grow">
+          <AnimatePresence mode="wait">
+            {renderContent()}
+          </AnimatePresence>
+          
+          {activeTab === 'Dashboard' && (
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+              <div className="bg-primary p-10 text-white space-y-6 rounded-sm relative overflow-hidden group">
+                <div className="relative z-10">
+                  <h4 className="font-headline text-2xl mb-2">Need Styling Help?</h4>
+                  <p className="text-white/70 text-sm mb-6">Book a complimentary video consultation with our master stylists.</p>
+                  <button className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-tertiary hover:text-white transition-colors">
+                    Schedule Now <ExternalLink className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="bg-surface-container-high p-10 text-primary space-y-6 rounded-sm border border-outline-variant/30">
+                <h4 className="font-headline text-2xl mb-2">Track Your Shipment</h4>
+                <p className="text-on-surface-variant text-sm mb-6">Enter your tracking number to see the real-time status of your heirloom.</p>
+                <div className="flex gap-2">
+                  <input type="text" value={trackingNumber} onChange={(e) => setTrackingNumber(e.target.value)} placeholder="TRACKING #" className="bg-white border-none text-xs uppercase tracking-widest p-4 flex-grow focus:ring-1 focus:ring-tertiary" />
+                  <button onClick={handleTrackOrder} className="bg-tertiary text-white px-6 py-4 uppercase tracking-widest font-bold text-xs hover:bg-primary transition-all">Track</button>
+                </div>
+              </div>
+            </section>
+          )}
+        </main>
+      </div>
+    </div>
+  );
+}
