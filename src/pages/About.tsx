@@ -2,7 +2,17 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Heart, Sparkles, Leaf, Users, ChevronRight, Quote } from 'lucide-react';
 
+import { useEffect, useState } from 'react';
+
 export default function About() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const values = [
     {
       icon: <Sparkles className="w-6 h-6" />,
@@ -96,10 +106,10 @@ export default function About() {
       </section>
 
       {/* Designer's Journey */}
-      <section className="py-10 md:py-14 px-6 md:px-12 max-w-7xl mx-auto">
+      <section className="py-10 md:py-14 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: isMobile ? -20 : -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="relative"
@@ -118,7 +128,7 @@ export default function About() {
             </div>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: isMobile ? 20 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="space-y-4 md:space-y-6"
@@ -238,7 +248,7 @@ export default function About() {
       </section>
 
       {/* Signature Quote */}
-      <section className="py-10 md:py-14 px-6 text-center max-w-4xl mx-auto">
+      <section className="py-10 md:py-14 px-6 text-center max-w-4xl mx-auto overflow-hidden">
         <div className="w-16 md:w-24 h-[1px] bg-tertiary mx-auto mb-8 md:mb-12"></div>
         <Quote className="w-8 h-8 md:w-12 md:h-12 text-tertiary/20 mx-auto mb-6 md:mb-8" />
         <h2 className="font-headline text-2xl md:text-5xl text-primary italic leading-tight mb-8 md:mb-12">
