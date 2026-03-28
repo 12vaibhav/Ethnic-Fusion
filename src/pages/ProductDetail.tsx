@@ -126,14 +126,14 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="bg-surface min-h-screen pt-14 md:pt-20 pb-10 md:pb-20 overflow-x-hidden">
+    <div className="bg-surface min-h-screen pt-8 md:pt-20 pb-8 md:pb-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-12">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20">
           {/* Image Gallery */}
-          <section aria-label="Product Images" className="pt-4 lg:pt-0">
+          <section aria-label="Product Images" className="pt-2 lg:pt-0">
             {/* Mobile Carousel */}
-            <div className="lg:hidden space-y-4">
+            <div className="lg:hidden space-y-3">
               <div className="relative group/gallery">
                 <div 
                   className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-4 px-4 scroll-pl-4"
@@ -238,16 +238,16 @@ export default function ProductDetail() {
           </section>
 
           {/* Product Info */}
-          <section aria-label="Product Details" className="space-y-8">
+          <section aria-label="Product Details" className="space-y-6 md:space-y-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-2 md:mb-4">
                 <div className="flex text-tertiary" aria-label="4.8 out of 5 stars">
                   {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="w-3 h-3 fill-current" aria-hidden="true" />)}
                 </div>
                 <span className="text-[10px] uppercase tracking-widest text-outline font-bold">48 Reviews</span>
               </div>
-              <h1 className="font-headline text-5xl text-primary mb-4">{product.name}</h1>
-              <p className="text-on-surface-variant font-medium tracking-wide uppercase text-sm mb-6">{product.fabric} • Hand-Embroidered</p>
+              <h1 className="font-headline text-5xl text-primary mb-2 md:mb-4">{product.name}</h1>
+              <p className="text-on-surface-variant font-medium tracking-wide uppercase text-sm mb-4 md:mb-6">{product.fabric} • Hand-Embroidered</p>
               <div className="flex items-baseline gap-4">
                 <span className="font-headline text-4xl text-tertiary">₹{product.price.toLocaleString()}</span>
                 {product.originalPrice && (
@@ -260,7 +260,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Color Selection */}
-            <fieldset className="space-y-4 border-none p-0 pb-4 m-0">
+            <fieldset className="space-y-2 md:space-y-4 border-none p-0 pb-3 md:pb-4 m-0">
               <div className="flex justify-between items-center">
                 <legend className="text-xs uppercase tracking-widest text-primary font-bold">Select Color</legend>
                 <span className="text-[10px] text-outline uppercase tracking-widest font-bold">Midnight Teal</span>
@@ -281,7 +281,7 @@ export default function ProductDetail() {
             </fieldset>
 
             {/* Size Selection */}
-            <fieldset className="space-y-4 border-none p-0 m-0">
+            <fieldset className="space-y-2 md:space-y-4 border-none p-0 m-0">
               <div className="flex justify-between items-center">
                 <legend className="text-xs uppercase tracking-widest text-primary font-bold">Select Size</legend>
                 <button 
@@ -307,7 +307,7 @@ export default function ProductDetail() {
             </fieldset>
 
             {/* Actions */}
-            <div className="space-y-4 pt-4">
+            <div className="space-y-3 md:space-y-4 pt-3 md:pt-4">
               <div className="flex flex-col sm:flex-row gap-4">
                 <button 
                   onClick={() => {
@@ -378,7 +378,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Customer Reviews Section */}
-            <section aria-labelledby="reviews-heading" className="pt-4 border-t border-outline-variant/30 space-y-6">
+            <section aria-labelledby="reviews-heading" className="pt-3 md:pt-4 border-t border-outline-variant/30 space-y-4 md:space-y-6">
               <div className="flex justify-between items-center">
                 <h3 id="reviews-heading" className="text-xs uppercase tracking-widest text-primary font-bold">Customer Reviews ({reviews.length})</h3>
                 <button 
@@ -475,7 +475,7 @@ export default function ProductDetail() {
             </section>
 
             {/* Features */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-outline-variant/30" role="list" aria-label="Product features">
+            <div className="grid grid-cols-3 gap-4 pt-3 md:pt-4 border-t border-outline-variant/30" role="list" aria-label="Product features">
               <div className="flex flex-col items-center text-center gap-2" role="listitem">
                 <Truck className="w-5 h-5 text-tertiary" aria-hidden="true" />
                 <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Free Shipping</span>
@@ -491,7 +491,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Tabs */}
-            <div className="pt-6">
+            <div className="pt-3 md:pt-6">
               <div className="flex border-b border-outline-variant/30 gap-8" role="tablist" aria-label="Product information tabs">
                 {['description', 'styling', 'shipping'].map((tab) => (
                   <button
@@ -508,7 +508,7 @@ export default function ProductDetail() {
                 ))}
               </div>
               <div 
-                className="py-8 font-body text-on-surface-variant text-sm leading-relaxed"
+                className="py-6 md:py-8 font-body text-on-surface-variant text-sm leading-relaxed"
                 id={`panel-${activeTab}`}
                 role="tabpanel"
                 aria-labelledby={`tab-${activeTab}`}
@@ -529,9 +529,9 @@ export default function ProductDetail() {
         </div>
 
         {/* Complete the Look Bundle */}
-        <section aria-labelledby="bundle-heading" className="mt-8 px-4 py-8 md:px-10 md:py-10 bg-surface-container-low border border-outline-variant/30">
-          <h3 id="bundle-heading" className="font-headline text-2xl md:text-3xl text-primary mb-10 text-center md:text-left">Complete Your Heirloom Look</h3>
-          <div className="flex flex-col md:flex-row items-center gap-16 md:gap-12">
+        <section aria-labelledby="bundle-heading" className="mt-6 md:mt-8 px-4 py-6 md:px-10 md:py-10 bg-surface-container-low border border-outline-variant/30">
+          <h3 id="bundle-heading" className="font-headline text-2xl md:text-3xl text-primary mb-6 md:mb-10 text-center md:text-left">Complete Your Heirloom Look</h3>
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="flex -space-x-12 md:-space-x-16" aria-hidden="true">
               {bundleItems.map((item, index) => (
                 <img 
@@ -543,7 +543,7 @@ export default function ProductDetail() {
                 />
               ))}
             </div>
-            <div className="w-full flex-grow space-y-6">
+            <div className="w-full flex-grow space-y-4 md:space-y-6">
               <div className="space-y-3" role="list" aria-label="Bundle items">
                 {bundleItems.map(item => (
                   <div key={item.id} className="flex justify-between text-[11px] md:text-sm" role="listitem">
@@ -552,7 +552,7 @@ export default function ProductDetail() {
                   </div>
                 ))}
               </div>
-              <div className="pt-6 border-t border-outline-variant/30 flex flex-col sm:flex-row justify-between items-center gap-6">
+              <div className="pt-4 md:pt-6 border-t border-outline-variant/30 flex flex-col sm:flex-row justify-between items-center gap-6">
                 <div className="text-center sm:text-left">
                   <p className="text-[10px] md:text-xs uppercase tracking-widest text-outline font-bold">Bundle Price</p>
                   <p className="font-headline text-3xl md:text-3xl text-tertiary">₹{bundleItems.reduce((sum, item) => sum + item.price, 0).toLocaleString()}</p>
@@ -569,8 +569,8 @@ export default function ProductDetail() {
         </section>
 
         {/* Recommendations */}
-        <section aria-labelledby="recommendations-heading" className="mt-12 md:mt-16">
-          <div className="flex justify-between items-end mb-8 md:mb-16">
+        <section aria-labelledby="recommendations-heading" className="mt-8 md:mt-16">
+          <div className="flex justify-between items-end mb-6 md:mb-16">
             <h3 id="recommendations-heading" className="font-headline text-2xl md:text-4xl text-primary">You May Also Like</h3>
             <Link to="/collections" className="flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-widest text-tertiary font-bold hover:underline">
               Explore More <ChevronRight className="w-4 h-4" />
