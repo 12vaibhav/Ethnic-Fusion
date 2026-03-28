@@ -11,7 +11,7 @@ export default function Home() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useShop();
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   const desktopHeroImages = [
     '/Assets/hero section/herosection banner.webp',
