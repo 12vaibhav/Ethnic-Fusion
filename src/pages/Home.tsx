@@ -75,7 +75,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="font-label text-tertiary tracking-[0.3em] md:tracking-[0.4em] uppercase mt-8 md:mt-12 mb-4 md:mb-6 text-xs md:text-sm font-bold"
+            className="hidden md:block font-label text-tertiary tracking-[0.3em] md:tracking-[0.4em] uppercase mt-8 md:mt-12 mb-4 md:mb-6 text-xs md:text-sm font-bold"
           >
             Exquisite Craftsmanship
           </motion.span>
@@ -92,7 +92,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="font-body text-white/90 text-base md:text-xl max-w-xl mb-8 md:mb-12 leading-relaxed italic"
+            className="hidden md:block font-body text-white/90 text-base md:text-xl max-w-xl mb-8 md:mb-12 leading-relaxed italic"
           >
             "A symphony of heritage silk and modern precision. Discover the timeless grace of our signature Anarkali silhouettes."
           </motion.p>
