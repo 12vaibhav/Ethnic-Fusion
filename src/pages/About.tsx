@@ -85,10 +85,10 @@ export default function About() {
             viewport={{ once: true }}
             className="max-w-3xl"
           >
-            <h2 className="font-headline text-4xl md:text-7xl text-white mb-1 md:mb-6 uppercase leading-[1.1]">
+            <h2 className="font-headline text-2xl md:text-7xl text-white mb-1 md:mb-6 uppercase leading-[1.1]">
               Crafted with Soul.<br />Styled for Today.
             </h2>
-            <p className="font-body text-white/90 text-sm md:text-xl leading-relaxed line-clamp-3 md:line-clamp-none">
+            <p className="font-body text-white/90 text-[11px] md:text-xl leading-relaxed line-clamp-3 md:line-clamp-none">
               Ethnic Fusion was born from a singular vision: to liberate Indian ethnic wear from tradition, making it a versatile expression for the modern wardrobe.
             </p>
           </motion.div>
