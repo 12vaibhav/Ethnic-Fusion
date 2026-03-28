@@ -48,7 +48,7 @@ export default function Home() {
               src={heroImages[currentHeroIndex]}
               alt="Ethnic Fusion Collection Banner"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
+              className={cn("w-full h-full object-cover", currentHeroIndex !== 0 ? "object-right md:object-center" : "object-center")}
             />
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
