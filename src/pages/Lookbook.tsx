@@ -65,7 +65,7 @@ export default function Lookbook() {
   return (
     <div className="bg-surface min-h-screen">
       {/* Featured Lookbook Hero */}
-      <section className="relative h-[80vh] md:h-screen w-full overflow-hidden">
+      <section className="relative h-[60vh] md:h-screen w-full overflow-hidden">
         <motion.div 
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
