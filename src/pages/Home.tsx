@@ -103,12 +103,12 @@ export default function Home() {
             className="mt-6 md:mt-12 md:mb-0 flex flex-col sm:flex-row gap-4 md:gap-6 items-center sm:items-start"
           >
             <Link to="/collections" className="w-full sm:w-auto flex justify-center sm:justify-start">
-              <button className="w-[92%] sm:w-auto bg-tertiary text-white px-6 md:px-10 py-3 md:py-4 rounded-sm font-label uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-500 text-[10px] md:text-xs font-bold shadow-xl">
+              <button className="w-[96%] sm:w-auto bg-tertiary text-white px-6 md:px-10 py-3 md:py-4 rounded-sm font-label uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-500 text-[10px] md:text-xs font-bold shadow-xl">
                 Shop Now
               </button>
             </Link>
             <Link to="/lookbook" className="w-full sm:w-auto flex justify-center sm:justify-start">
-              <button className="w-[92%] sm:w-auto border border-white/40 text-white px-6 md:px-10 py-3 md:py-4 rounded-sm font-label uppercase tracking-widest hover:bg-white/10 transition-all duration-300 backdrop-blur-sm text-[10px] md:text-xs font-bold">
+              <button className="w-[96%] sm:w-auto border border-white/40 text-white px-6 md:px-10 py-3 md:py-4 rounded-sm font-label uppercase tracking-widest hover:bg-white/10 transition-all duration-300 backdrop-blur-sm text-[10px] md:text-xs font-bold">
                 Explore Lookbook
               </button>
             </Link>
