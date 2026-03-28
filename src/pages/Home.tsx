@@ -54,7 +54,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[70vh] md:h-screen w-full overflow-hidden bg-black">
         <div className="absolute inset-0 z-0">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.img
               key={`${isMobile ? 'mobile' : 'desktop'}-${currentHeroIndex}`}
               initial={{ opacity: 0 }}
