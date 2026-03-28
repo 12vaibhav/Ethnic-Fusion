@@ -168,7 +168,7 @@ export default function StoreLocator() {
 
       {/* Search & Filter Bar */}
       <div className="bg-white border-y border-outline-variant/20 sticky top-[68px] z-40 backdrop-blur-md bg-white/80">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 md:py-6 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-12 py-4 md:py-6 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-6">
           <div className="relative w-full lg:w-96 flex items-center">
             <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
             <input
@@ -183,8 +183,8 @@ export default function StoreLocator() {
             </button>
           </div>
           
-          <div className="w-[calc(100%+3rem)] -mx-6 overflow-x-auto hide-scrollbar snap-x snap-mandatory lg:w-full lg:mx-0">
-            <div className="flex flex-nowrap lg:flex-wrap lg:justify-center items-center gap-2 md:gap-4 px-6 md:px-0 pb-1 scroll-pl-6">
+          <div className="w-[calc(100%+2rem)] -mx-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory lg:w-full lg:mx-0">
+            <div className="flex flex-nowrap lg:flex-wrap lg:justify-center items-center gap-2 md:gap-4 px-4 md:px-0 pb-1 scroll-pl-4">
               {filters.map((filter) => (
                 <button
                   key={filter}
