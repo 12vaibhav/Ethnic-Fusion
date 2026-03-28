@@ -12,7 +12,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-surface-container-low pt-8 pb-6 md:pt-12 md:pb-8 border-t border-outline-variant/30" aria-label="Site Footer">
+    <footer className="bg-surface-container-low pt-8 pb-4 md:pt-12 md:pb-8 border-t border-outline-variant/30" aria-label="Site Footer">
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:grid md:grid-cols-4 gap-6 md:gap-10">
         {/* Brand Section */}
         <div className="space-y-3 md:space-y-6">
@@ -103,7 +103,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-8 md:mt-12 text-center border-t border-outline-variant/10 pt-6 md:pt-8">
+      <div className="mt-4 md:mt-12 text-center border-t border-outline-variant/10 pt-3 md:pt-8">
         <p className="font-body text-[10px] uppercase tracking-widest text-outline">
           © 2024 Ethnic Fusion. Crafted with Heritage.
         </p>
