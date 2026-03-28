@@ -275,7 +275,7 @@ export default function ProductDetail() {
                     style={{ backgroundColor: color }}
                     aria-label={`Select color ${color}`}
                     aria-pressed={selectedColor === color}
-                    className={`w-10 h-10 rounded-full ring-1 ring-offset-4 transition-all focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary ${selectedColor === color ? 'ring-tertiary' : 'ring-transparent hover:ring-outline'}`}
+                    className={`w-7 h-7 md:w-10 md:h-10 rounded-full ring-1 ring-offset-2 md:ring-offset-4 transition-all focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary ${selectedColor === color ? 'ring-tertiary' : 'ring-transparent hover:ring-outline'}`}
                   />
                 ))}
               </div>
