@@ -317,7 +317,7 @@ export default function ProductDetail() {
                     });
                     announce(`${product.name} added to cart.`);
                   }}
-                  className="flex-grow bg-primary text-white py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 hover:bg-tertiary transition-all duration-500 shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                  className="flex-grow bg-primary text-white py-3.5 md:py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 hover:bg-tertiary transition-all duration-500 shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
                 >
                   <ShoppingBag className="w-5 h-5" aria-hidden="true" /> Add to Cart
                 </button>
@@ -337,7 +337,7 @@ export default function ProductDetail() {
                   }}
                   aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
                   className={cn(
-                    "flex-grow py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 transition-all duration-500 border shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
+                    "flex-grow py-3.5 md:py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 transition-all duration-500 border shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
                     isWishlisted 
                       ? "bg-tertiary text-white border-tertiary" 
                       : "bg-white text-primary border-outline-variant hover:border-tertiary hover:text-tertiary"
