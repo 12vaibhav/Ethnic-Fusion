@@ -176,12 +176,12 @@ export default function Account() {
                   </button>
                 </div>
               </div>
-              <div className="bg-surface-container-high p-10 text-primary space-y-6 rounded-sm border border-outline-variant/30">
+              <div className="bg-surface-container-high p-6 md:p-10 text-primary space-y-6 rounded-sm border border-outline-variant/30 relative">
                 <h4 className="font-headline text-2xl mb-2">Track Your Shipment</h4>
                 <p className="text-on-surface-variant text-sm mb-6">Enter your tracking number to see the real-time status of your heirloom.</p>
-                <div className="flex gap-2">
-                  <input type="text" value={trackingNumber} onChange={(e) => setTrackingNumber(e.target.value)} placeholder="TRACKING #" className="bg-white border-none text-xs uppercase tracking-widest p-4 flex-grow focus:ring-1 focus:ring-tertiary" />
-                  <button onClick={handleTrackOrder} className="bg-tertiary text-white px-6 py-4 uppercase tracking-widest font-bold text-xs hover:bg-primary transition-all">Track</button>
+                <div className="flex flex-col sm:flex-row gap-2 w-full">
+                  <input type="text" value={trackingNumber} onChange={(e) => setTrackingNumber(e.target.value)} placeholder="TRACKING #" className="bg-white border-none text-[10px] md:text-xs uppercase tracking-widest p-4 flex-grow focus:ring-1 focus:ring-tertiary w-full" />
+                  <button onClick={handleTrackOrder} className="bg-tertiary text-white px-6 py-4 uppercase tracking-widest font-bold text-[10px] md:text-xs hover:bg-primary transition-all w-full sm:w-auto">Track</button>
                 </div>
               </div>
             </section>
