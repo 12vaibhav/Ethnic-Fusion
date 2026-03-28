@@ -11,19 +11,35 @@ export default function Home() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useShop();
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const heroImages = [
+  const desktopHeroImages = [
     '/Assets/hero section/herosection banner.webp',
     '/Assets/hero section/banner_1.webp',
     '/Assets/hero section/banner_2.webp'
   ];
 
+  const mobileHeroImages = [
+    '/Assets/hero section/mobile_banner1.jpg',
+    '/Assets/hero section/mobile_banner2.jpeg',
+    '/Assets/hero section/mobile_banner3.jpeg'
+  ];
+
+  const currentHeroImages = isMobile ? mobileHeroImages : desktopHeroImages;
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+      setCurrentHeroIndex((prev) => (prev + 1) % desktopHeroImages.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [desktopHeroImages.length]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -40,12 +56,12 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.img
-              key={currentHeroIndex}
+              key={`${isMobile ? 'mobile' : 'desktop'}-${currentHeroIndex}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.9 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.5 }}
-              src={heroImages[currentHeroIndex]}
+              src={currentHeroImages[currentHeroIndex]}
               alt="Ethnic Fusion Collection Banner"
               referrerPolicy="no-referrer"
               className={cn("w-full h-full object-cover", currentHeroIndex !== 0 ? "object-right md:object-center" : "object-center")}
@@ -100,7 +116,7 @@ export default function Home() {
         </div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 z-20">
-          {heroImages.map((_, idx) => (
+          {currentHeroImages.map((_, idx) => (
             <div 
               key={idx}
               onClick={() => setCurrentHeroIndex(idx)}
