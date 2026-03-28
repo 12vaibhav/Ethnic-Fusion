@@ -57,7 +57,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
       <nav
         aria-label="Main Navigation"
         className={cn(
-          'fixed top-0 w-full z-[102] transition-all duration-500 px-6 md:px-12 flex justify-between items-center',
+          'fixed top-0 left-0 right-0 z-[102] transition-[background-color,padding,box-shadow,border-color] duration-500 px-6 md:px-12 flex justify-between items-center',
           isScrolled || !isHome
             ? 'bg-white/80 backdrop-blur-md shadow-sm py-4'
             : 'bg-transparent py-6'
