@@ -168,7 +168,7 @@ export default function StoreLocator() {
 
       {/* Search & Filter Bar */}
       <div className="bg-white border-y border-outline-variant/20 sticky top-[68px] z-40 backdrop-blur-md bg-white/80">
-        <div className="max-w-7xl mx-auto px-4 md:px-12 py-4 md:py-6 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-12 py-2.5 md:py-6 flex flex-col lg:flex-row justify-between items-center gap-3 md:gap-6">
           <div className="relative w-full lg:w-96 flex items-center">
             <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
             <input
