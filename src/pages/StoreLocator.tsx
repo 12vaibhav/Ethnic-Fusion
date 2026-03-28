@@ -183,8 +183,8 @@ export default function StoreLocator() {
             </button>
           </div>
           
-          <div className="w-[calc(100%+2rem)] -mx-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory lg:w-full lg:mx-0">
-            <div className="flex flex-nowrap lg:flex-wrap lg:justify-center items-center gap-2 md:gap-4 px-4 md:px-0 pb-1 scroll-pl-4">
+          <div className="w-full overflow-x-auto hide-scrollbar snap-x snap-mandatory lg:overflow-visible">
+            <div className="flex flex-nowrap lg:flex-wrap lg:justify-center items-center gap-2 md:gap-4 pb-1 scroll-pl-0">
               {filters.map((filter) => (
                 <button
                   key={filter}
