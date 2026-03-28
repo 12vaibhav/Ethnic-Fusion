@@ -128,7 +128,7 @@ export default function ProductDetail() {
 
   return (
     <div className="bg-surface min-h-screen pt-16 md:pt-20 pb-8 md:pb-20 overflow-x-hidden">
-      <div className="max-w-7xl mx-auto px-3 md:px-12">
+      <div className="max-w-7xl mx-auto px-4 md:px-12">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20">
           {/* Image Gallery */}
@@ -137,7 +137,7 @@ export default function ProductDetail() {
             <div className="lg:hidden space-y-3">
               <div className="relative group/gallery">
                 <div 
-                  className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-3 px-3 scroll-pl-3"
+                  className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-4 px-4 scroll-pl-4"
                   onScroll={(e) => {
                     const scrollLeft = e.currentTarget.scrollLeft;
                     const width = e.currentTarget.offsetWidth;
@@ -146,7 +146,7 @@ export default function ProductDetail() {
                   }}
                 >
                   {[1, 2, 3, 4].map((i, index) => (
-                    <div key={i} className="flex-shrink-0 w-[calc(100vw-24px)] snap-start aspect-[3/4] bg-surface-container-low overflow-hidden mr-4 last:mr-0">
+                    <div key={i} className="flex-shrink-0 w-[calc(100vw-32px)] snap-start aspect-[3/4] bg-surface-container-low overflow-hidden mr-4 last:mr-0">
                       <img
                         src={product.image}
                         alt={`${product.name} view ${i}`}
@@ -191,7 +191,7 @@ export default function ProductDetail() {
                       const carousel = document.querySelector('.flex.lg\\:hidden.overflow-x-auto');
                       if (carousel) {
                         carousel.scrollTo({
-                          left: i * (carousel.clientWidth - 24 + 16),
+                          left: i * (carousel.clientWidth - 32 + 16),
                           behavior: 'smooth'
                         });
                       }
@@ -590,7 +590,7 @@ export default function ProductDetail() {
               Explore More <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="flex md:grid md:grid-cols-4 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-3 px-3 md:mx-0 hide-scrollbar scroll-pl-3">
+          <div className="flex md:grid md:grid-cols-4 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-4 px-4 md:mx-0 hide-scrollbar scroll-pl-4">
             {PRODUCTS.slice(4, 8).map((p) => (
               <div key={p.id} className="flex-shrink-0 w-[70vw] md:w-auto snap-start">
                 <ProductCard product={p} />
