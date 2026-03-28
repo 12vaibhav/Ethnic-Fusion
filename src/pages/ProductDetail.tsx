@@ -261,7 +261,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Color Selection */}
-            <fieldset className="space-y-2 md:space-y-4 border-none p-0 pb-3 md:pb-4 m-0">
+            <fieldset className="space-y-2 md:space-y-4 border-none p-0 pb-5 md:pb-6 m-0">
               <div className="flex justify-between items-center">
                 <legend className="text-xs uppercase tracking-widest text-primary font-bold">Select Color</legend>
                 <span className="text-[10px] text-outline uppercase tracking-widest font-bold">Midnight Teal</span>
