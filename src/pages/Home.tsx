@@ -70,7 +70,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 h-full flex flex-col justify-start md:justify-center px-6 md:px-24 max-w-7xl pt-32 md:pt-0">
+        <div className="relative z-10 h-full flex flex-col justify-center items-center md:items-start px-6 md:px-24 max-w-7xl pt-12 md:pt-0">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -83,10 +83,10 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="font-headline text-4xl sm:text-5xl md:text-9xl text-white leading-[1] md:leading-[0.9] mb-6 md:mb-8 uppercase tracking-tighter"
+            className="font-headline text-5xl sm:text-6xl md:text-9xl text-white leading-[1] md:leading-[0.9] mb-8 md:mb-8 uppercase tracking-tighter text-center md:text-left drop-shadow-2xl"
           >
             The Anarkali<br />
-            <span className="italic font-light lowercase">Edit</span>
+            <span className="italic font-light lowercase text-tertiary">Edit</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -100,7 +100,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="mt-auto mb-20 md:mt-12 md:mb-0 flex flex-col sm:flex-row gap-4 md:gap-6 items-center sm:items-start"
+            className="mt-6 md:mt-12 md:mb-0 flex flex-col sm:flex-row gap-4 md:gap-6 items-center sm:items-start"
           >
             <Link to="/collections" className="w-full sm:w-auto flex justify-center sm:justify-start">
               <button className="w-3/4 sm:w-auto bg-tertiary text-white px-6 md:px-10 py-3 md:py-4 rounded-sm font-label uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-500 text-[10px] md:text-xs font-bold shadow-xl">
