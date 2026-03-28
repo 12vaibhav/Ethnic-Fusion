@@ -487,7 +487,7 @@ export default function ProductDetail() {
             </section>
 
             {/* Features */}
-            <div className="grid grid-cols-3 gap-4 pt-3 md:pt-4 border-t border-outline-variant/30" role="list" aria-label="Product features">
+            <div className="flex justify-center md:grid md:grid-cols-3 gap-8 md:gap-4 pt-3 md:pt-4 border-t border-outline-variant/30" role="list" aria-label="Product features">
               <div className="flex flex-col items-center text-center gap-2" role="listitem">
                 <Truck className="w-5 h-5 text-tertiary" aria-hidden="true" />
                 <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Free Shipping</span>
