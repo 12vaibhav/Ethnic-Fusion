@@ -12,10 +12,10 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-surface-container-low pt-12 pb-8 border-t border-outline-variant/30" aria-label="Site Footer">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:grid md:grid-cols-4 gap-12 md:gap-10">
+    <footer className="bg-surface-container-low pt-8 pb-6 md:pt-12 md:pb-8 border-t border-outline-variant/30" aria-label="Site Footer">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:grid md:grid-cols-4 gap-6 md:gap-10">
         {/* Brand Section */}
-        <div className="space-y-4 md:space-y-6">
+        <div className="space-y-3 md:space-y-6">
           <Link 
             to="/" 
             className="font-headline text-2xl md:text-xl font-bold text-tertiary italic focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
@@ -43,10 +43,10 @@ export default function Footer() {
         </div>
 
         {/* Links Grid - 2 columns on mobile */}
-        <div className="grid grid-cols-2 md:col-span-2 md:grid-cols-2 gap-8 md:gap-10">
+        <div className="grid grid-cols-2 md:col-span-2 md:grid-cols-2 gap-4 md:gap-10">
           <div>
-            <h5 className="font-label text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary mb-4 md:mb-6">Discover</h5>
-            <ul className="space-y-3 md:space-y-2">
+            <h5 className="font-label text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary mb-2 md:mb-6">Discover</h5>
+            <ul className="space-y-1.5 md:space-y-2">
               {['Our Story', 'Artisans', 'Sustainability', 'Lookbook'].map((item) => (
                 <li key={item}>
                   <Link 
@@ -61,8 +61,8 @@ export default function Footer() {
           </div>
 
           <div>
-            <h5 className="font-label text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary mb-4 md:mb-6">Concierge</h5>
-            <ul className="space-y-3 md:space-y-2">
+            <h5 className="font-label text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary mb-2 md:mb-6">Concierge</h5>
+            <ul className="space-y-1.5 md:space-y-2">
               {['Shipping', 'Returns', 'Size Guide', 'Privacy'].map((item) => (
                 <li key={item}>
                   <Link 
@@ -78,8 +78,8 @@ export default function Footer() {
         </div>
 
         {/* Newsletter Section */}
-        <div className="border-t border-outline-variant/10 md:border-none pt-8 md:pt-0">
-          <h5 className="font-label text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary mb-4 md:mb-6">Journal</h5>
+        <div className="border-t border-outline-variant/10 md:border-none pt-6 md:pt-0">
+          <h5 className="font-label text-[10px] md:text-xs font-bold uppercase tracking-widest text-primary mb-2 md:mb-6">Journal</h5>
           <div className="space-y-4">
             <p className="font-body text-xs text-on-surface-variant italic leading-relaxed">Sign up for the latest collection previews and artisan stories.</p>
             <form onSubmit={handleSubscribe} className="relative border-b border-outline-variant pb-3">
@@ -103,7 +103,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-12 text-center border-t border-outline-variant/10 pt-8">
+      <div className="mt-8 md:mt-12 text-center border-t border-outline-variant/10 pt-6 md:pt-8">
         <p className="font-body text-[10px] uppercase tracking-widest text-outline">
           © 2024 Ethnic Fusion. Crafted with Heritage.
         </p>
