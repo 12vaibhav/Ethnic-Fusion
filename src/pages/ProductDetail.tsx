@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, FormEvent } from 'react';
 import { Heart, ShoppingBag, Share2, Ruler, Truck, RotateCcw, Star, ChevronRight, Plus } from 'lucide-react';
 import { PRODUCTS } from '../constants';
@@ -28,6 +28,7 @@ const PinterestIcon = (props: any) => (
 
 export default function ProductDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const product = PRODUCTS.find((p) => p.id === id) || PRODUCTS[0];
   const [selectedSize, setSelectedSize] = useState('M');
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
@@ -308,19 +309,30 @@ export default function ProductDetail() {
 
             {/* Actions */}
             <div className="space-y-3 md:space-y-4 pt-3 md:pt-4">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button 
-                  onClick={() => {
-                    addToCart(product);
-                    toast.success('Added to Bag', {
-                      description: `${product.name} has been added to your bag.`
-                    });
-                    announce(`${product.name} added to cart.`);
-                  }}
-                  className="flex-grow bg-primary text-white py-3.5 md:py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 hover:bg-tertiary transition-all duration-500 shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
-                >
-                  <ShoppingBag className="w-5 h-5" aria-hidden="true" /> Add to Cart
-                </button>
+              <div className="flex flex-col gap-3 md:gap-4">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                  <button 
+                    onClick={() => {
+                      addToCart(product);
+                      toast.success('Added to Bag', {
+                        description: `${product.name} has been added to your bag.`
+                      });
+                      announce(`${product.name} added to cart.`);
+                    }}
+                    className="bg-primary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-tertiary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                  >
+                    <ShoppingBag className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" /> Add to Cart
+                  </button>
+                  <button 
+                    onClick={() => {
+                      addToCart(product);
+                      navigate('/cart');
+                    }}
+                    className="bg-tertiary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-primary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                  >
+                    Buy Now
+                  </button>
+                </div>
                 <button 
                   onClick={() => {
                     toggleWishlist(product);
@@ -337,7 +349,7 @@ export default function ProductDetail() {
                   }}
                   aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
                   className={cn(
-                    "flex-grow py-3.5 md:py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 transition-all duration-500 border shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
+                    "w-full py-3.5 md:py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 transition-all duration-500 border shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
                     isWishlisted 
                       ? "bg-tertiary text-white border-tertiary" 
                       : "bg-white text-primary border-outline-variant hover:border-tertiary hover:text-tertiary"
