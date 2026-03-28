@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <div className="bg-surface overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative h-[70vh] md:h-screen w-full overflow-hidden bg-black">
+      <section className="relative h-[80vh] md:h-screen w-full overflow-hidden bg-black">
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.img
@@ -48,7 +48,12 @@ export default function Home() {
               src={heroImages[currentHeroIndex]}
               alt="Ethnic Fusion Collection Banner"
               referrerPolicy="no-referrer"
-              className={cn("w-full h-full object-cover", currentHeroIndex !== 0 ? "object-right md:object-center" : "object-center")}
+              className={cn(
+                "w-full h-full object-cover", 
+                currentHeroIndex !== 0 
+                  ? "object-[95%_center] md:object-center" 
+                  : "object-center"
+              )}
             />
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
