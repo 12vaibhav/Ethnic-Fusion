@@ -66,7 +66,7 @@ export default function About() {
   return (
     <div className="bg-surface min-h-screen pt-18 md:pt-32">
       {/* Page Header */}
-      <header className="px-6 md:px-12 py-8 md:py-12 max-w-7xl mx-auto">
+      <header className="px-6 md:px-12 pt-2 pb-8 md:py-12 max-w-7xl mx-auto">
         <motion.div
           className="text-center flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
