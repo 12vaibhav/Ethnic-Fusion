@@ -247,7 +247,7 @@ export default function ProductDetail() {
                 </div>
                 <span className="text-[10px] uppercase tracking-widest text-outline font-bold">48 Reviews</span>
               </div>
-              <h1 className="font-headline text-5xl text-primary mb-2 md:mb-4">{product.name}</h1>
+              <h1 className="font-headline text-3xl md:text-5xl text-primary mb-2 md:mb-4">{product.name}</h1>
               <p className="text-on-surface-variant font-medium tracking-wide uppercase text-sm mb-4 md:mb-6">{product.fabric} • Hand-Embroidered</p>
               <div className="flex items-baseline gap-4">
                 <span className="font-headline text-4xl text-tertiary">₹{product.price.toLocaleString()}</span>
