@@ -68,7 +68,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             to="/"
             aria-label="Ethnic Fusion Home"
             className={cn(
-              'font-headline text-2xl font-bold tracking-tighter uppercase focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
+              'font-headline text-2xl font-bold tracking-tighter uppercase whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
               isScrolled || !isHome ? 'text-primary' : 'text-white'
             )}
           >
@@ -162,7 +162,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             className="fixed inset-0 bg-white z-[110] flex flex-col p-8"
           >
             <div className="flex justify-between items-center mb-12">
-              <span className="font-headline text-xl font-bold text-primary italic uppercase">Ethnic Fusion</span>
+              <span className="font-headline text-xl font-bold text-primary italic uppercase whitespace-nowrap">Ethnic Fusion</span>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Close Mobile Menu"

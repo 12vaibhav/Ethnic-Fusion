@@ -65,19 +65,19 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-4 md:gap-6"
           >
             <Link to="/collections" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto bg-tertiary text-white px-8 md:px-12 py-4 md:py-5 rounded-sm font-label uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-500 text-xs md:text-sm font-bold shadow-xl">
+              <button className="w-full sm:w-auto bg-tertiary text-white px-6 md:px-10 py-3 md:py-4 rounded-sm font-label uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-500 text-[10px] md:text-xs font-bold shadow-xl">
                 Shop Now
               </button>
             </Link>
             <Link to="/lookbook" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto border border-white/40 text-white px-8 md:px-12 py-4 md:py-5 rounded-sm font-label uppercase tracking-widest hover:bg-white/10 transition-all duration-300 backdrop-blur-sm text-xs md:text-sm">
+              <button className="w-full sm:w-auto border border-white/40 text-white px-6 md:px-10 py-3 md:py-4 rounded-sm font-label uppercase tracking-widest hover:bg-white/10 transition-all duration-300 backdrop-blur-sm text-[10px] md:text-xs font-bold">
                 Explore Lookbook
               </button>
             </Link>
           </motion.div>
         </div>
 
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-20">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 z-20">
           <div className="w-12 h-[2px] bg-tertiary cursor-pointer"></div>
           <div className="w-12 h-[2px] bg-white/30 cursor-pointer hover:bg-white/60"></div>
           <div className="w-12 h-[2px] bg-white/30 cursor-pointer hover:bg-white/60"></div>
