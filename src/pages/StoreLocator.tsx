@@ -183,14 +183,14 @@ export default function StoreLocator() {
             </button>
           </div>
           
-          <div className="w-auto -mx-6 overflow-x-auto hide-scrollbar snap-x snap-mandatory mb-1 scroll-pl-6">
-            <div className="flex flex-nowrap md:flex-wrap lg:justify-center items-center gap-2 md:gap-4 px-6 pb-2">
+          <div className="w-full -mx-6 overflow-x-auto hide-scrollbar">
+            <div className="flex flex-nowrap md:flex-wrap justify-start md:justify-center items-center gap-2 md:gap-4 px-6 pb-1">
               {filters.map((filter) => (
                 <button
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
                   className={cn(
-                    "px-4 md:px-6 py-1.5 md:py-2 text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold border transition-all flex-shrink-0 snap-start",
+                    "px-4 md:px-6 py-1.5 md:py-2 text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold border transition-all flex-shrink-0",
                     activeFilter === filter 
                       ? "bg-primary text-white border-primary" 
                       : "bg-transparent text-outline border-outline-variant hover:border-primary hover:text-primary"
