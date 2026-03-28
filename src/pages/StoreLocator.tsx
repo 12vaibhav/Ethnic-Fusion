@@ -167,7 +167,7 @@ export default function StoreLocator() {
       </header>
 
       {/* Search & Filter Bar */}
-      <div className="bg-white border-y border-outline-variant/20 sticky top-[64px] z-40 backdrop-blur-md bg-white/80">
+      <div className="bg-white border-y border-outline-variant/20 sticky top-[68px] z-40 backdrop-blur-md bg-white/80">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 md:py-6 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-6">
           <div className="relative w-full lg:w-96 flex items-center">
             <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
@@ -183,21 +183,23 @@ export default function StoreLocator() {
             </button>
           </div>
           
-          <div className="flex flex-nowrap md:flex-wrap justify-start md:justify-center items-center gap-2 md:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 hide-scrollbar">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={cn(
-                  "px-4 md:px-6 py-1.5 md:py-2 text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold border transition-all flex-shrink-0 snap-start",
-                  activeFilter === filter 
-                    ? "bg-primary text-white border-primary" 
-                    : "bg-transparent text-outline border-outline-variant hover:border-primary hover:text-primary"
-                )}
-              >
-                {filter}
-              </button>
-            ))}
+          <div className="w-full overflow-x-auto hide-scrollbar">
+            <div className="flex flex-nowrap md:flex-wrap justify-start md:justify-center items-center gap-2 md:gap-4 pb-1">
+              {filters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className={cn(
+                    "px-4 md:px-6 py-1.5 md:py-2 text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold border transition-all flex-shrink-0",
+                    activeFilter === filter 
+                      ? "bg-primary text-white border-primary" 
+                      : "bg-transparent text-outline border-outline-variant hover:border-primary hover:text-primary"
+                  )}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="relative group hidden lg:block">
