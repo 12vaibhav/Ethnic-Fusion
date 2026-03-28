@@ -349,13 +349,13 @@ export default function ProductDetail() {
                   }}
                   aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
                   className={cn(
-                    "w-full py-3.5 md:py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 transition-all duration-500 border shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
+                    "w-full py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
                     isWishlisted 
-                      ? "bg-tertiary text-white border-tertiary" 
-                      : "bg-white text-primary border-outline-variant hover:border-tertiary hover:text-tertiary"
+                      ? "bg-tertiary text-white" 
+                      : "bg-primary text-white hover:bg-tertiary"
                   )}
                 >
-                  <Heart className={cn("w-5 h-5", isWishlisted && "fill-white")} aria-hidden="true" />
+                  <Heart className={cn("w-4 h-4 md:w-5 md:h-5", isWishlisted && "fill-white")} aria-hidden="true" />
                   {isWishlisted ? "In Wishlist" : "Add to Wishlist"}
                 </button>
               </div>
