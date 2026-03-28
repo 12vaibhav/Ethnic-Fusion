@@ -70,7 +70,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 h-full flex flex-col justify-center items-center md:items-start px-6 md:px-24 max-w-7xl pt-12 md:pt-0">
+        <div className="relative z-10 h-full flex flex-col justify-center items-center md:items-start px-6 md:px-24 max-w-7xl pt-12 md:pt-0 translate-y-6 md:translate-y-0">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
