@@ -68,10 +68,10 @@ export default function Collections() {
   const fabrics = ['Raw Silk', 'Chiffon', 'Organza', 'Velvet'];
 
   return (
-    <div className="bg-surface min-h-screen pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-12 max-w-[1920px] mx-auto">
+    <div className="bg-surface min-h-screen pt-20 md:pt-24 pb-12 md:pb-20 px-4 md:px-12 max-w-[1920px] mx-auto">
       {/* Header */}
       <header className="mb-8 md:mb-12">
-        <nav className="flex text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant mb-4 gap-2">
+        <nav className="hidden md:flex text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant mb-4 gap-2">
           <Link to="/" className="hover:text-tertiary transition-colors">Home</Link>
           <span>/</span>
           <span className="text-tertiary font-bold">All Products</span>

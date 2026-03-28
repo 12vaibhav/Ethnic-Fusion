@@ -210,12 +210,12 @@ export default function Couture() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 scroll-pl-4 md:mx-0 md:px-0 hide-scrollbar">
             {COUTURE_PIECES.map((piece) => (
               <motion.div
                 key={piece.id}
                 whileHover={{ y: -10 }}
-                className="group cursor-pointer"
+                className="group cursor-pointer flex-shrink-0 w-[80vw] md:w-auto snap-start"
               >
                 <div className="relative aspect-[3/4] overflow-hidden mb-3 md:mb-4">
                   <img 

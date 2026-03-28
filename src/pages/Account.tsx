@@ -50,11 +50,11 @@ export default function Account() {
               <p className="text-on-surface-variant text-sm">Manage your orders, wishlist, and profile settings here.</p>
             </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 hide-scrollbar scroll-pl-6">
               {stats.map((stat) => (
-                <div key={stat.label} className="bg-surface-container-low p-8 border border-outline-variant/30 rounded-sm group hover:border-tertiary transition-all">
+                <div key={stat.label} className="flex-shrink-0 w-[80vw] md:w-auto bg-surface-container-low p-6 md:p-8 border border-outline-variant/30 rounded-sm group hover:border-tertiary transition-all snap-start">
                   <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-2">{stat.label}</p>
-                  <p className="font-headline text-4xl text-primary group-hover:text-tertiary transition-colors">{stat.value}</p>
+                  <p className="font-headline text-3xl md:text-4xl text-primary group-hover:text-tertiary transition-colors">{stat.value}</p>
                   <p className="text-[10px] text-on-surface-variant mt-2 italic">{stat.sub}</p>
                 </div>
               ))}
@@ -68,28 +68,28 @@ export default function Account() {
 
               <div className="space-y-4">
                 {ORDERS.slice(0, 2).map((order) => (
-                  <div key={order.id} className="bg-white p-6 border border-outline-variant/30 flex flex-col md:flex-row items-center gap-8 group hover:shadow-lg transition-all">
-                    <div className="w-24 h-32 bg-surface-container-low flex-shrink-0 overflow-hidden">
+                  <div key={order.id} className="bg-white p-4 md:p-6 border border-outline-variant/30 flex flex-row items-center gap-4 md:gap-8 group hover:shadow-lg transition-all">
+                    <div className="w-16 h-20 md:w-24 md:h-32 bg-surface-container-low flex-shrink-0 overflow-hidden">
                       <img src={order.image} alt={order.id} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
                     </div>
-                    <div className="flex-grow grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className="flex-grow grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
                       <div>
-                        <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Order ID</p>
-                        <p className="text-sm font-bold text-primary">{order.id}</p>
+                        <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">ID</p>
+                        <p className="text-[10px] md:text-sm font-bold text-primary truncate">{order.id}</p>
                       </div>
-                      <div>
+                      <div className="hidden md:block">
                         <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Placed On</p>
                         <p className="text-sm font-medium text-on-surface-variant">{order.date}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Status</p>
-                        <span className={`text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded-full ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-tertiary/10 text-tertiary'}`}>
+                        <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">Status</p>
+                        <span className={`text-[8px] md:text-[10px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-tertiary/10 text-tertiary'}`}>
                           {order.status}
                         </span>
                       </div>
                       <div>
-                        <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Total</p>
-                        <p className="text-sm font-bold text-primary">₹{order.total.toLocaleString()}</p>
+                        <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">Total</p>
+                        <p className="text-[10px] md:text-sm font-bold text-primary">₹{order.total.toLocaleString()}</p>
                       </div>
                     </div>
                   </div>
@@ -120,32 +120,41 @@ export default function Account() {
   };
 
   return (
-    <div className="bg-surface min-h-screen pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
-      <div className="flex flex-col lg:flex-row gap-16">
+    <div className="bg-surface min-h-screen pt-20 md:pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
+      <div className="flex flex-col lg:flex-row gap-8 md:gap-16">
         <aside className="lg:w-64 flex-shrink-0">
-          <div className="bg-surface-container-low p-8 border border-outline-variant/30 rounded-sm">
-            <div className="flex flex-col items-center text-center mb-10">
-              <div className="w-24 h-24 rounded-full bg-tertiary/10 flex items-center justify-center mb-4 border-2 border-tertiary">
-                <span className="text-3xl font-headline text-tertiary">{profile.name.split(' ').map(n => n[0]).join('')}</span>
+          <div className="bg-surface-container-low p-6 md:p-8 border border-outline-variant/30 rounded-sm">
+            <div className="flex flex-row lg:flex-col items-center text-left lg:text-center mb-6 lg:mb-10 gap-4 lg:gap-0 relative">
+              <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-tertiary/10 flex items-center justify-center lg:mb-4 border-2 border-tertiary flex-shrink-0">
+                <span className="text-xl lg:text-3xl font-headline text-tertiary">{profile.name.split(' ').map(n => n[0]).join('')}</span>
               </div>
-              <h2 className="font-headline text-xl text-primary">{profile.name}</h2>
-              <p className="text-[10px] uppercase tracking-widest text-outline font-bold mt-1">{profile.email}</p>
+              <div className="overflow-hidden">
+                <h2 className="font-headline text-lg lg:text-xl text-primary truncate">{profile.name}</h2>
+                <p className="text-[9px] lg:text-[10px] uppercase tracking-widest text-outline font-bold mt-1 truncate">{profile.email}</p>
+              </div>
+              <button 
+                onClick={handleSignOut} 
+                className="lg:hidden ml-auto p-2 text-ba1a1a hover:bg-ba1a1a/10 transition-colors rounded-full"
+                aria-label="Sign Out"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
             </div>
 
-            <nav className="space-y-2">
+            <nav className="flex lg:flex-col overflow-x-auto lg:overflow-visible gap-2 lg:space-y-2 -mx-6 pl-4 pr-6 lg:mx-0 lg:px-0 hide-scrollbar scroll-pl-4 snap-x snap-mandatory">
               {sidebarLinks.map((link) => (
                 <button
                   key={link.name}
                   onClick={() => setActiveTab(link.name)}
-                  className={`w-full flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-bold transition-all rounded-sm ${activeTab === link.name ? 'bg-primary text-white' : 'text-outline hover:bg-surface-container-high hover:text-primary'}`}
+                  className={`flex-shrink-0 snap-start flex items-center gap-3 lg:gap-4 px-4 py-2.5 lg:py-3 text-[10px] lg:text-xs uppercase tracking-widest font-bold transition-all rounded-sm ${activeTab === link.name ? 'bg-primary text-white border-primary' : 'text-outline hover:bg-surface-container-high hover:text-primary border border-transparent'}`}
                 >
-                  <link.icon className="w-4 h-4" />
+                  <link.icon className="w-3.5 h-3.5" />
                   {link.name}
                 </button>
               ))}
-              <button onClick={handleSignOut} className="w-full flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest font-bold text-ba1a1a hover:bg-ba1a1a/10 transition-all rounded-sm mt-8">
-                <LogOut className="w-4 h-4" />
-                Sign Out
+              <button onClick={handleSignOut} className="hidden lg:flex items-center gap-3 lg:gap-4 px-4 py-2.5 lg:py-3 text-[10px] lg:text-xs uppercase tracking-widest font-bold text-ba1a1a hover:bg-ba1a1a/10 transition-all rounded-sm lg:mt-8 border border-transparent">
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Sign Out</span>
               </button>
             </nav>
           </div>

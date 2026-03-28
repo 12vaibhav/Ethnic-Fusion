@@ -19,15 +19,15 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-surface">
+    <div className="bg-surface overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative h-[90vh] md:h-screen w-full overflow-hidden bg-black">
+      <section className="relative h-[70vh] md:h-screen w-full overflow-hidden bg-black">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=1920"
-            alt="Ethnic Anarkali Dress"
+            src="/Assets/hero section/herosection banner.webp"
+            alt="Ethnic Fusion Collection Banner"
             referrerPolicy="no-referrer"
-            className="w-full h-full object-cover opacity-80"
+            className="w-full h-full object-cover opacity-90"
           />
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
         </div>
@@ -37,7 +37,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="font-label text-tertiary tracking-[0.3em] md:tracking-[0.4em] uppercase mt-12 mb-4 md:mb-6 text-xs md:text-sm font-bold"
+            className="font-label text-tertiary tracking-[0.3em] md:tracking-[0.4em] uppercase mt-8 md:mt-12 mb-4 md:mb-6 text-xs md:text-sm font-bold"
           >
             Exquisite Craftsmanship
           </motion.span>
@@ -54,7 +54,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="font-body text-white/90 text-base md:text-xl max-w-xl mb-10 md:mb-12 leading-relaxed italic"
+            className="font-body text-white/90 text-base md:text-xl max-w-xl mb-8 md:mb-12 leading-relaxed italic"
           >
             "A symphony of heritage silk and modern precision. Discover the timeless grace of our signature Anarkali silhouettes."
           </motion.p>
@@ -85,33 +85,33 @@ export default function Home() {
       </section>
 
       {/* Signature Collections */}
-      <section className="py-6 md:py-10 px-6 md:px-12 max-w-screen-2xl mx-auto">
-        <div className="flex flex-col items-center mb-4 md:mb-12 text-center">
+      <section className="pt-6 pb-2 md:py-10 px-6 md:px-12 max-w-screen-2xl mx-auto">
+        <div className="flex flex-col items-center mb-6 md:mb-12 text-center">
           <span className="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] md:text-xs mb-1 font-bold">The Curated Archive</span>
           <h3 className="font-headline text-4xl md:text-6xl text-primary uppercase">Signature Collections</h3>
           <div className="w-16 md:w-24 h-1 bg-tertiary mt-1 md:mt-4"></div>
         </div>
 
-        <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-8 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 h-[680px] md:h-auto hide-scrollbar">
+        <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-0 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
           {[
             {
               title: 'Festive Fusion',
-              image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBipIWa8MawnwdauQ9wVSxZQ-vQ8KIt3GB_uDqupycYGT7fS_y8XuCzwky2mQn2uTMHkM7jGKoZsFt_qF7lnIXrAd_PyoRWHbRkokrETEheiEuxaTqIkSKVxGEV8T32UNf9DGZIHpmtlD10fhYHRCjSeA4PJWq-uNsZN7J2LyRDTQjZqxKKfvgzBWsrifbqXeziIYYyeA1YBJEqWz4IMensuev6MAT2WfJvGKomf-p0oNHWIODC7zCz8rfb_mJOcaL9uXRnQLVY43ss',
+              image: '/Assets/Signature Collections/Festive Fusion.webp',
               description: 'Vibrant colors for celebration'
             },
             {
               title: 'Everyday Indo-Western',
-              image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDA3Q6iJKgy_dpsq5X2Yguczq0vg7bdGDFD0BQ5OWku2GbKncg5yGvppGxPC76q-tX5JJ8M6izY1m2kPfpzazxv_qZHdNg85OQ-iQyDMIrR1v7KiuWF5wu03Hnjy2cRm0b1xtUh1dCSRnSsjoCdogOBVUEoq80tj7CH6exxAecTtqjxuZL6RSMTfGjghWH6L2IrQNFEzwCioca_fjNVbgQiBcM278YhCjwxT5jKTEYQUhqt5-KpiJuVuIAVIhfau9Rd82fZjs3HPh4-',
+              image: '/Assets/Signature Collections/Everyday Indo-Western.webp',
               description: 'Modern silhouettes for daily grace'
             },
             {
               title: 'Bridal Edit',
-              image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAsW9Ewf0A-IG-mqxRZTC4FUtNCiOYRtFxWUNGDz-jy6vi__olfaIPYKtkGQGf1kNL6tLlJOADCAsmCSQ4mmJXblsRXnA_N41l7ZphjiunAwgzwM08rd1Rf-gyz8apvkgAbvYX8imcjXRRVCYcfstMePe1FYQQIKxB3r-kBesFpnWWI0NRdmVphxW0s0Vc2jCsaScc4qkIWsZr5W7mML8sXmAGRFhDtAadY8qgyuU1uZ21qXSs4trlRhateC66FXGfOX20v2xX-COii',
+              image: '/Assets/Signature Collections/Bridal Edit.webp',
               description: 'Timeless heirlooms for your big day'
             },
             {
               title: 'Sustainable Luxe',
-              image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDJnD1vz3ir9EgbMgdmusanhGZYe-wjwFhidDPSXkIInNDcNawpAnkwKH2gX7kQQ9Pf_JHARQIBWM449fTnZWbGYqyLfk1Z8RWC7NSPQmXA6qsD2mDv1jNJcCEAJuEwrvwJ736ab3dTm4wj6OG8xMo6jUhkbsVMGqx2At3cIfEX4-37i4Yz9bqirbt9Ntr_KDXLPhcC6JXUY4rELhz-bsYZlFMr_697oTfVBWzdHj5Ch1guzf9hLsVIeHeZsgf63_b16eqYlNW6aFGo',
+              image: '/Assets/Signature Collections/Sustainable Luxe.webp',
               description: 'Eco-conscious heritage textiles'
             }
           ].map((col, idx) => (
@@ -121,33 +121,33 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="group cursor-pointer flex flex-col h-[330px] md:h-full w-[45vw] md:w-auto snap-start"
+              className="group cursor-pointer flex flex-col h-auto md:h-full w-[45vw] md:w-auto snap-start"
             >
-              <div className="relative aspect-[3/4] overflow-hidden mb-2 md:mb-4 bg-surface-container-low flex-shrink-0">
-                <img
-                  src={col.image}
-                  alt={col.title}
-                  referrerPolicy="no-referrer"
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/20 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                  <Link to="/collections">
+              <Link to="/collections" className="flex flex-col h-full w-full">
+                <div className="relative aspect-[3/4] overflow-hidden mb-2 md:mb-4 bg-surface-container-low flex-shrink-0">
+                  <img
+                    src={col.image}
+                    alt={col.title}
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                     <button className="bg-white text-primary px-8 py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all">
                       Shop Collection
                     </button>
-                  </Link>
+                  </div>
                 </div>
-              </div>
-              <div className="flex-grow overflow-hidden">
-                <h4 className="font-headline text-xl md:text-2xl text-primary mb-1 truncate">{col.title}</h4>
-                <p className="font-body text-on-surface-variant text-xs md:text-sm leading-relaxed line-clamp-2">{col.description}</p>
-              </div>
-              <div className="hidden md:block mt-2 pt-3 border-t border-outline-variant/30 flex-shrink-0">
-                <Link to="/collections" className="text-[10px] uppercase tracking-[0.2em] font-bold text-tertiary flex items-center gap-2 group-hover:gap-4 transition-all">
-                  Explore <ArrowRight className="w-3 h-3" />
-                </Link>
-              </div>
+                <div className="flex-grow overflow-hidden">
+                  <h4 className="font-headline text-xl md:text-2xl text-primary mb-1 truncate">{col.title}</h4>
+                  <p className="font-body text-on-surface-variant text-xs md:text-sm leading-relaxed line-clamp-2">{col.description}</p>
+                </div>
+                <div className="hidden md:block mt-2 pt-3 border-t border-outline-variant/30 flex-shrink-0">
+                  <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-tertiary flex items-center gap-2 group-hover:gap-4 transition-all">
+                    Explore <ArrowRight className="w-3 h-3" />
+                  </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -156,14 +156,14 @@ export default function Home() {
       {/* Stylist's Picks */}
       <section className="bg-surface-container-low py-6 md:py-10 overflow-hidden relative">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-4 md:mb-12 gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-12 gap-8">
             <div className="text-center md:text-left">
               <span className="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] mb-3 font-bold block">Curated Excellence</span>
               <h3 className="font-headline text-4xl md:text-6xl text-primary uppercase">Stylist's Picks</h3>
               <div className="w-16 md:w-24 h-1 bg-tertiary mt-2 mx-auto md:mx-0"></div>
             </div>
             
-            <div className="flex gap-4">
+            <div className="hidden md:flex gap-4">
               <button 
                 onClick={() => scroll('left')}
                 className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-500"
@@ -183,7 +183,7 @@ export default function Home() {
 
           <div 
             ref={scrollRef}
-            className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:flex gap-4 md:gap-8 overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0 h-[750px] md:h-auto"
+            className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:flex gap-x-4 gap-y-4 md:gap-8 overflow-x-auto pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto"
           >
             {PRODUCTS.slice(0, 6).map((item, idx) => (
               <motion.div
@@ -192,46 +192,52 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="w-[45vw] md:min-w-[360px] md:w-auto h-[350px] md:h-auto snap-start group"
+                className="w-[45vw] md:min-w-[360px] md:w-auto h-auto md:h-auto snap-start group relative"
               >
-                <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-sm border border-outline-variant/10 flex-shrink-0">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                  />
-                  
-                  {/* Quick Add Overlay */}
-                  <div className="absolute inset-0 bg-primary/30 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-                    <button 
-                      onClick={() => addToCart(item)}
-                      className="w-full bg-white text-primary py-5 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all transform translate-y-6 md:group-hover:translate-y-0 duration-500 shadow-2xl flex items-center justify-center gap-3"
-                    >
-                      <ShoppingBag className="w-5 h-5" /> Quick Add to Bag
-                    </button>
+                <Link to={`/product/${item.id}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-sm border border-outline-variant/10 flex-shrink-0 mb-3 md:mb-8">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    />
+                    
+                    {/* Badge */}
+                    <div className="absolute top-3 left-3 md:top-8 md:left-8">
+                      <span className="bg-white/90 backdrop-blur-md text-primary px-3 py-1 md:px-4 md:py-1.5 text-[8px] md:text-[9px] uppercase tracking-widest font-bold border border-outline-variant/20 shadow-sm transition-opacity group-hover:opacity-0">
+                        Best Seller
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Badge */}
-                  <div className="absolute top-8 left-8">
-                    <span className="bg-white/95 backdrop-blur-md text-primary px-4 py-1.5 text-[9px] uppercase tracking-widest font-bold border border-outline-variant/20 shadow-sm">
-                      Best Seller
-                    </span>
+                  <div className="flex justify-between items-start px-2 overflow-hidden">
+                    <div className="space-y-1 overflow-hidden">
+                      <h5 className="font-headline text-xl md:text-2xl text-primary group-hover:text-tertiary transition-colors truncate">{item.name}</h5>
+                      <p className="font-body text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-medium truncate">{item.fabric} • Limited Edition</p>
+                    </div>
+                    <div className="text-right flex-shrink-0 ml-4">
+                      <p className="font-headline text-xl md:text-2xl text-tertiary">₹{item.price.toLocaleString()}</p>
+                      {item.originalPrice && (
+                        <p className="text-outline line-through text-xs mt-1 opacity-60">₹{item.originalPrice.toLocaleString()}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
+                </Link>
 
-                <div className="mt-2 md:mt-8 flex justify-between items-start px-2 overflow-hidden">
-                  <div className="space-y-1 overflow-hidden">
-                    <h5 className="font-headline text-xl md:text-2xl text-primary group-hover:text-tertiary transition-colors truncate">{item.name}</h5>
-                    <p className="font-body text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-medium truncate">{item.fabric} • Limited Edition</p>
-                  </div>
-                  <div className="text-right flex-shrink-0 ml-4">
-                    <p className="font-headline text-xl md:text-2xl text-tertiary">₹{item.price.toLocaleString()}</p>
-                    {item.originalPrice && (
-                      <p className="text-outline line-through text-xs mt-1 opacity-60">₹{item.originalPrice.toLocaleString()}</p>
-                    )}
-                  </div>
+                {/* Quick Add Overlay - Styled button to sit on top of Link */}
+                <div className="absolute inset-0 top-0 left-0 w-full h-[75%] md:h-[80%] pointer-events-none flex flex-col justify-end p-8">
+                  <button 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      addToCart(item);
+                    }}
+                    className="w-full bg-white text-primary py-5 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all transform translate-y-6 opacity-0 md:group-hover:opacity-100 md:group-hover:translate-y-0 duration-500 shadow-2xl flex items-center justify-center gap-3 pointer-events-none md:group-hover:pointer-events-auto"
+                  >
+                    <ShoppingBag className="w-5 h-5" /> Quick Add to Bag
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -249,13 +255,13 @@ export default function Home() {
       {/* Shop by Occasion */}
       <section className="py-6 md:py-10 px-6 md:px-12 bg-surface">
         <div className="max-w-screen-2xl mx-auto">
-          <div className="flex flex-col items-center mb-4 md:mb-12 text-center">
+          <div className="flex flex-col items-center mb-6 md:mb-12 text-center">
             <span className="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] mb-2 font-bold block">Curated for Every Moment</span>
             <h3 className="font-headline text-4xl md:text-6xl text-primary uppercase">Shop by Occasion</h3>
             <div className="w-16 md:w-24 h-1 bg-tertiary mt-2"></div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-8 md:gap-6">
             {[
               { 
                 label: 'Wedding', 
@@ -290,19 +296,21 @@ export default function Home() {
                 transition={{ delay: idx * 0.1 }}
                 className="flex flex-col items-center group cursor-pointer"
               >
-                <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mb-2 border-2 border-outline-variant/30 md:group-hover:border-tertiary transition-all duration-500 shadow-lg">
-                  <img
-                    src={item.image}
-                    alt={item.label}
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-primary/10 md:group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-                <span className="font-label text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-primary text-center md:group-hover:text-tertiary transition-colors">
-                  {item.label}
-                </span>
+                <Link to="/collections" className="flex flex-col items-center">
+                  <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mb-3 border-2 border-outline-variant/30 md:group-hover:border-tertiary transition-all duration-500 shadow-lg">
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-primary/10 md:group-hover:bg-transparent transition-colors duration-500"></div>
+                  </div>
+                  <span className="font-label text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-primary text-center md:group-hover:text-tertiary transition-colors">
+                    {item.label}
+                  </span>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -312,13 +320,13 @@ export default function Home() {
       {/* Featured Arrivals */}
       <section className="py-6 md:py-10 px-6 md:px-12 bg-surface-container-high">
         <div className="max-w-screen-2xl mx-auto">
-          <div className="flex flex-col items-center mb-4 md:mb-12 text-center">
+          <div className="flex flex-col items-center mb-6 md:mb-12 text-center">
             <span className="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] mb-2 font-bold block">The New Season</span>
             <h3 className="font-headline text-4xl md:text-6xl text-primary uppercase">Featured Arrivals</h3>
             <div className="w-16 md:w-24 h-1 bg-tertiary mt-2"></div>
           </div>
 
-          <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-12 overflow-x-auto snap-x snap-mandatory pb-8 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 h-[720px] md:h-auto hide-scrollbar">
+          <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 md:gap-x-12 gap-y-4 md:gap-y-12 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
             {PRODUCTS.slice(4, 8).map((product, idx) => (
               <motion.div
                 key={product.id}
@@ -326,43 +334,43 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="group relative cursor-pointer w-[45vw] md:w-auto h-[340px] md:h-full snap-start"
+                className="group relative cursor-pointer flex-shrink-0 w-[45vw] md:w-auto h-auto md:h-full snap-start"
               >
-                <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-lg md:shadow-2xl border border-outline-variant/10 flex-shrink-0">
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    referrerPolicy="no-referrer" 
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-                  />
-                  
-                  {/* Hover Overlay with Fabric Details - Persistent on Mobile */}
-                  <div className="absolute inset-0 bg-primary/90 opacity-0 md:group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center text-center p-6 md:p-8 backdrop-blur-md">
-                    <span className="text-tertiary font-label text-[10px] uppercase tracking-[0.4em] mb-2 md:mb-3 font-bold">Artisan Fabric</span>
-                    <h4 className="text-white font-headline text-2xl md:text-3xl mb-2 md:mb-3 italic">{product.fabric}</h4>
-                    <div className="w-10 md:w-12 h-[1px] bg-white/30 mb-3 md:mb-4"></div>
-                    <p className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.2em] leading-relaxed mb-4 md:mb-6 line-clamp-3">Hand-crafted heritage textile with intricate detailing and modern precision.</p>
-                    <div className="flex flex-col gap-2 w-full">
+                <Link to={`/product/${product.id}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-lg md:shadow-2xl border border-outline-variant/10 flex-shrink-0 mb-3 md:mb-6">
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      referrerPolicy="no-referrer" 
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                    />
+                    
+                    {/* Hover Overlay with Fabric Details */}
+                    <div className="absolute inset-0 bg-primary/90 opacity-0 md:group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center text-center p-6 md:p-8 backdrop-blur-md">
+                      <span className="text-tertiary font-label text-[10px] uppercase tracking-[0.4em] mb-2 md:mb-3 font-bold">Artisan Fabric</span>
+                      <h4 className="text-white font-headline text-2xl md:text-3xl mb-2 md:mb-3 italic">{product.fabric}</h4>
+                      <div className="w-10 md:w-12 h-[1px] bg-white/30 mb-3 md:mb-4"></div>
+                      <p className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.2em] leading-relaxed mb-4 md:mb-6 line-clamp-3">Hand-crafted heritage textile with intricate detailing and modern precision.</p>
+                      
                       <button 
-                        onClick={() => addToCart(product)}
-                        className="w-full bg-white text-primary px-6 md:px-10 py-2.5 md:py-3.5 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all duration-300"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          addToCart(product);
+                        }}
+                        className="w-full bg-white text-primary px-6 md:px-10 py-2.5 md:py-3.5 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all duration-300 pointer-events-auto"
                       >
                         Add to Bag
                       </button>
-                      <Link to={`/product/${product.id}`} className="w-full">
-                        <button className="w-full border border-white/30 text-white px-6 md:px-10 py-2.5 md:py-3.5 text-[10px] uppercase tracking-widest font-bold hover:bg-white hover:text-primary transition-all duration-300">
-                          View Details
-                        </button>
-                      </Link>
                     </div>
                   </div>
-                </div>
-                
-                <div className="mt-2 md:mt-6 text-center px-4 overflow-hidden">
-                  <h5 className="font-headline text-xl md:text-2xl text-primary mb-1 group-hover:text-tertiary transition-colors truncate">{product.name}</h5>
-                  <p className="font-headline text-lg md:text-xl text-tertiary">₹{product.price.toLocaleString()}</p>
-                </div>
+                  
+                  <div className="text-center px-4 overflow-hidden">
+                    <h5 className="font-headline text-xl md:text-2xl text-primary mb-1 group-hover:text-tertiary transition-colors truncate">{product.name}</h5>
+                    <p className="font-headline text-lg md:text-xl text-tertiary">₹{product.price.toLocaleString()}</p>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -372,13 +380,13 @@ export default function Home() {
       {/* Masterpiece Gallery */}
       <section className="py-6 md:py-10 px-6 md:px-12 bg-surface">
         <div className="max-w-screen-2xl mx-auto">
-          <div className="flex flex-col items-center mb-4 text-center">
+          <div className="flex flex-col items-center mb-6 text-center">
             <span className="font-label text-tertiary uppercase tracking-widest text-sm mb-4">Hand-Picked For You</span>
             <h3 className="font-headline text-5xl text-primary">Masterpiece Gallery</h3>
           </div>
-          <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-x-8 md:gap-y-16 overflow-x-auto snap-x snap-mandatory pb-8 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 h-[750px] md:h-auto hide-scrollbar">
-            {PRODUCTS.slice(0, 4).map((product) => (
-              <div key={product.id} className="w-[45vw] md:w-auto h-[350px] md:h-full snap-start">
+          <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-16 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
+            {PRODUCTS.slice(0, 4).map((product, idx) => (
+              <div key={product.id} className="w-[45vw] md:w-auto h-auto md:h-full snap-start">
                 <ProductCard product={product} />
               </div>
             ))}
@@ -390,7 +398,7 @@ export default function Home() {
       <section className="py-6 md:py-10 bg-surface-container-low">
         <div className="max-w-screen-xl mx-auto px-6 md:px-12">
           <div className="flex items-center gap-4 md:gap-20 flex-col md:flex-row">
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/2 relative group/testim">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDomFbZ6QHBrI9kz3UVyYT2EvgAvSAPz8umWvm0RgrUxjWizxcgG-pSuU07FfrL-nUkXweHnPt6PxFNRHQWvMIWWN_sG8uwf5pnyUcWcm8t5FHaWF7gwXFKSFG36WGNlWlFEDhFXHzfD1w1n0IpKX3MZLhdi0z4tdrB_Mi3cnWW0uOu3OuAHK1Lr9RmAcff9j_OJDHDApHUnSDrDbIWZKwLY_cgcXeShyeXftPUvY7La1XnMZLVa4c9Z5K2zC0KRntB6UChFR-HCraY"
                 alt="Testimonial"
@@ -398,6 +406,15 @@ export default function Home() {
                 loading="lazy"
                 className="w-full h-[350px] md:h-[500px] object-cover shadow-2xl"
               />
+              {/* Mobile Chevrons - Overlaid on image */}
+              <div className="md:hidden flex absolute bottom-8 right-8 gap-4">
+                 <button className="w-12 h-12 rounded-full flex items-center justify-center text-primary bg-white/80 backdrop-blur-md shadow-xl active:scale-95 border border-white/20">
+                    <ChevronLeft className="w-6 h-6" />
+                 </button>
+                 <button className="w-12 h-12 rounded-full flex items-center justify-center text-primary bg-white/80 backdrop-blur-md shadow-xl active:scale-95 border border-white/20">
+                    <ChevronRight className="w-6 h-6" />
+                 </button>
+              </div>
             </div>
             <div className="w-full md:w-1/2 text-center md:text-left">
               <span className="text-tertiary text-4xl md:text-6xl mb-2 md:mb-6 block">"</span>
@@ -406,12 +423,14 @@ export default function Home() {
               </h3>
               <p className="font-label text-on-surface font-bold uppercase tracking-widest text-sm">Anjali Sharma</p>
               <p className="text-on-surface-variant text-xs md:text-sm mt-1">London, UK</p>
-              <div className="flex justify-center md:justify-start gap-4 mt-4 md:mt-10">
-                <button className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 rotate-180" />
+              
+              {/* Desktop Chevrons - Side aligned */}
+              <div className="hidden md:flex gap-4 mt-10">
+                <button className="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
+                  <ChevronLeft className="w-6 h-6" />
                 </button>
-                <button className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                <button className="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
+                  <ChevronRight className="w-6 h-6" />
                 </button>
               </div>
             </div>
@@ -419,12 +438,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Floating Chat Button */}
-      <div className="fixed bottom-8 right-8 z-[100]">
-        <div className="bg-primary flex items-center justify-center rounded-full shadow-2xl h-16 w-16 hover:bg-tertiary hover:scale-110 transition-all cursor-pointer">
-          <MessageSquare className="text-white w-6 h-6" />
+      {/* Floating WhatsApp Concierge */}
+      <a 
+        href="https://wa.me/910000000000" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 z-[101] group"
+        aria-label="Contact Concierge on WhatsApp"
+      >
+        <div className="bg-[#25D366] flex items-center justify-center rounded-full shadow-[0_10px_40px_rgba(37,211,102,0.3)] h-16 w-16 hover:scale-110 transition-all duration-500 relative">
+          <svg 
+            viewBox="0 0 24 24" 
+            className="w-8 h-8 fill-white"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+          <div className="absolute -top-2 -right-2 bg-tertiary text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-lg border border-white/20 animate-bounce">
+            LIVE
+          </div>
         </div>
-      </div>
+      </a>
     </div>
   );
 }

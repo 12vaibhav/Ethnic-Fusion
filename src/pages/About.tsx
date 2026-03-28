@@ -54,7 +54,7 @@ export default function About() {
   ];
 
   return (
-    <div className="bg-surface min-h-screen pt-8 md:pt-12">
+    <div className="bg-surface min-h-screen pt-16 md:pt-12">
       {/* Page Header */}
       <header className="px-6 md:px-12 py-8 md:py-12 max-w-7xl mx-auto">
         <motion.div
@@ -71,7 +71,7 @@ export default function About() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative h-[50vh] md:h-[60vh] w-full overflow-hidden">
+      <section className="relative h-[30vh] md:h-[60vh] w-full overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=2000"
           alt="Designer at work"
@@ -85,11 +85,11 @@ export default function About() {
             viewport={{ once: true }}
             className="max-w-3xl"
           >
-            <h2 className="font-headline text-3xl md:text-7xl text-white mb-4 md:mb-6 uppercase leading-tight">
+            <h2 className="font-headline text-4xl md:text-7xl text-white mb-1 md:mb-6 uppercase leading-[1.1]">
               Crafted with Soul.<br />Styled for Today.
             </h2>
-            <p className="font-body text-white/90 text-base md:text-xl leading-relaxed">
-              Ethnic Fusion was born from a singular vision: to liberate Indian ethnic wear from the confines of tradition, making it a versatile expression for the modern global wardrobe.
+            <p className="font-body text-white/90 text-sm md:text-xl leading-relaxed line-clamp-3 md:line-clamp-none">
+              Ethnic Fusion was born from a singular vision: to liberate Indian ethnic wear from tradition, making it a versatile expression for the modern wardrobe.
             </p>
           </motion.div>
         </div>
@@ -147,7 +147,7 @@ export default function About() {
             <h2 className="font-headline text-3xl md:text-6xl text-primary mb-4 uppercase">Our Inspiration</h2>
             <div className="w-16 md:w-24 h-1 bg-tertiary mx-auto"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="flex md:grid md:grid-cols-3 gap-5 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 hide-scrollbar scroll-pl-6">
             {[
               { title: 'Roots in Tradition', img: 'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&q=80&w=800' },
               { title: 'Twist of Modernity', img: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&q=80&w=800' },
@@ -155,21 +155,21 @@ export default function About() {
             ].map((item, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.2 }}
-                className="group relative aspect-[4/5] overflow-hidden"
+                transition={{ delay: idx * 0.1 }}
+                className="group relative flex-shrink-0 w-[78vw] md:w-auto aspect-[4/5] overflow-hidden rounded-sm snap-start"
               >
                 <img
                   src={item.img}
                   alt={item.title}
                   referrerPolicy="no-referrer"
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-1000 md:group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
-                  <h3 className="text-white font-headline text-xl md:text-2xl uppercase tracking-widest">{item.title}</h3>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent md:bg-black/40 flex items-end md:items-center justify-center p-6 md:p-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
+                  <h3 className="text-white font-headline text-lg md:text-2xl uppercase tracking-widest text-center">{item.title}</h3>
                 </div>
               </motion.div>
             ))}
@@ -188,7 +188,7 @@ export default function About() {
             Meet Our Artisans
           </button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-8">
+        <div className="flex md:grid md:grid-cols-4 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 hide-scrollbar scroll-pl-6">
           {artisans.map((artisan, idx) => (
             <motion.div
               key={idx}
@@ -196,9 +196,9 @@ export default function About() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="space-y-4 md:space-y-6"
+              className="flex-shrink-0 w-[75vw] md:w-auto space-y-4 md:space-y-6 snap-start"
             >
-              <div className="aspect-square overflow-hidden grayscale md:hover:grayscale-0 transition-all duration-700">
+              <div className="aspect-square overflow-hidden grayscale-0 md:grayscale md:hover:grayscale-0 transition-all duration-700 rounded-sm">
                 <img src={artisan.image} alt={artisan.name} referrerPolicy="no-referrer" loading="lazy" className="w-full h-full object-cover" />
               </div>
               <div>
@@ -218,7 +218,7 @@ export default function About() {
             <h2 className="font-headline text-3xl md:text-6xl mb-4 uppercase">Our Values</h2>
             <p className="font-body text-white/60 text-sm md:text-base max-w-xl mx-auto">The pillars that define our commitment to luxury, ethics, and innovation.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 hide-scrollbar scroll-pl-6">
             {values.map((value, idx) => (
               <motion.div
                 key={idx}
@@ -226,7 +226,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="p-6 md:p-8 border border-white/10 md:hover:bg-white/5 transition-colors group"
+                className="flex-shrink-0 w-[80vw] md:w-auto p-6 md:p-8 border border-white/10 md:hover:bg-white/5 transition-colors group snap-start"
               >
                 <div className="text-tertiary mb-4 md:mb-6 md:group-hover:scale-110 transition-transform duration-500">{value.icon}</div>
                 <h3 className="font-headline text-xl md:text-2xl mb-3 md:mb-4">{value.title}</h3>

@@ -150,9 +150,9 @@ export default function StoreLocator() {
   };
 
   return (
-    <div className="bg-surface min-h-screen pt-8 md:pt-12">
+    <div className="bg-surface min-h-screen pt-16 md:pt-12">
       {/* Page Header */}
-      <header className="px-6 md:px-12 py-8 md:py-12 max-w-7xl mx-auto">
+      <header className="px-6 md:px-12 pt-8 pb-4 md:py-12 max-w-7xl mx-auto">
         <motion.div
           className="text-center flex flex-col items-center"
           initial={{ opacity: 0, y: 20 }}
@@ -183,13 +183,13 @@ export default function StoreLocator() {
             </button>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+          <div className="flex flex-nowrap md:flex-wrap justify-start md:justify-center items-center gap-2 md:gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 hide-scrollbar">
             {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
                 className={cn(
-                  "px-4 md:px-6 py-1.5 md:py-2 text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold border transition-all",
+                  "px-4 md:px-6 py-1.5 md:py-2 text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold border transition-all flex-shrink-0 snap-start",
                   activeFilter === filter 
                     ? "bg-primary text-white border-primary" 
                     : "bg-transparent text-outline border-outline-variant hover:border-primary hover:text-primary"

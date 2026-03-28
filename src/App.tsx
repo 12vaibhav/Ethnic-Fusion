@@ -16,6 +16,7 @@ import StoreLocator from './pages/StoreLocator';
 import Couture from './pages/Couture';
 import ProductDetail from './pages/ProductDetail';
 import Account from './pages/Account';
+import Checkout from './pages/Checkout';
 import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
 import { ShopProvider } from './context/ShopContext';
@@ -56,6 +57,7 @@ export default function App() {
               <Route path="/couture" element={<Couture />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Routes>
           </main>
           <Footer />

@@ -32,6 +32,7 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState('M');
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [activeTab, setActiveTab] = useState('description');
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
   const isWishlisted = isInWishlist(product.id);
 
@@ -125,57 +126,119 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="bg-surface min-h-screen pt-32 pb-20">
+    <div className="bg-surface min-h-screen pt-14 md:pt-20 pb-10 md:pb-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Breadcrumbs */}
-        <nav aria-label="Breadcrumb" className="mb-12">
-          <ol className="flex text-[10px] uppercase tracking-widest text-outline gap-2 font-bold list-none p-0">
-            <li>
-              <Link to="/" className="hover:text-tertiary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary">Home</Link>
-            </li>
-            <li aria-hidden="true">/</li>
-            <li>
-              <Link to="/collections" className="hover:text-tertiary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary">{product.category}</Link>
-            </li>
-            <li aria-hidden="true">/</li>
-            <li>
-              <span className="text-primary" aria-current="page">{product.name}</span>
-            </li>
-          </ol>
-        </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20">
           {/* Image Gallery */}
-          <section aria-label="Product Images" className="space-y-6">
-            <div className="aspect-[3/4] overflow-hidden bg-surface-container-low">
-              <img
-                src={product.image}
-                alt={`Main view of ${product.name}`}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="grid grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <button 
-                  key={i} 
-                  className="aspect-square overflow-hidden bg-surface-container-low cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
-                  aria-label={`View product image ${i}`}
+          <section aria-label="Product Images" className="pt-4 lg:pt-0">
+            {/* Mobile Carousel */}
+            <div className="lg:hidden space-y-4">
+              <div className="relative group/gallery">
+                <div 
+                  className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-6 px-6 scroll-pl-6"
+                  onScroll={(e) => {
+                    const scrollLeft = e.currentTarget.scrollLeft;
+                    const width = e.currentTarget.offsetWidth;
+                    const index = Math.round(scrollLeft / width);
+                    if (index !== activeImageIndex) setActiveImageIndex(index);
+                  }}
                 >
-                  <img
-                    src={product.image}
-                    alt={`${product.name} detail view ${i}`}
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
+                  {[1, 2, 3, 4].map((i, index) => (
+                    <div key={i} className="flex-shrink-0 w-[calc(100vw-48px)] snap-start aspect-[3/4] bg-surface-container-low overflow-hidden mr-4 last:mr-0">
+                      <img
+                        src={product.image}
+                        alt={`${product.name} view ${i}`}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Floating Wishlist on Mobile */}
+                <button 
+                  onClick={() => toggleWishlist(product)}
+                  className={cn(
+                    "absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all active:scale-90 z-10",
+                    isWishlisted ? "bg-tertiary text-white" : "bg-white/90 backdrop-blur-sm text-primary"
+                  )}
+                >
+                  <Heart className={cn("w-5 h-5", isWishlisted && "fill-white")} />
                 </button>
-              ))}
+
+                {/* Pagination Dots */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                  {[0, 1, 2, 3].map((i) => (
+                    <div 
+                      key={i} 
+                      className={cn(
+                        "w-1.5 h-1.5 rounded-full transition-all duration-300",
+                        activeImageIndex === i ? "bg-primary w-4" : "bg-primary/30"
+                      )} 
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile Thumbnails */}
+              <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
+                {[0, 1, 2, 3].map((i) => (
+                  <button 
+                    key={i}
+                    onClick={() => {
+                      const carousel = document.querySelector('.flex.lg\\:hidden.overflow-x-auto');
+                      if (carousel) {
+                        carousel.scrollTo({
+                          left: i * (carousel.clientWidth - 48 + 16),
+                          behavior: 'smooth'
+                        });
+                      }
+                      setActiveImageIndex(i);
+                    }}
+                    className={cn(
+                      "flex-shrink-0 w-16 h-20 border-2 transition-all",
+                      activeImageIndex === i ? "border-primary" : "border-transparent opacity-60"
+                    )}
+                  >
+                    <img src={product.image} alt="Thumbnail" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop Gallery */}
+            <div className="hidden lg:block space-y-6">
+              <div className="aspect-[3/4] overflow-hidden bg-surface-container-low">
+                <img
+                  src={product.image}
+                  alt={`Main view of ${product.name}`}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="grid grid-cols-4 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <button 
+                    key={i} 
+                    className="aspect-square overflow-hidden bg-surface-container-low cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                    aria-label={`View product image ${i}`}
+                  >
+                    <img
+                      src={product.image}
+                      alt={`${product.name} detail view ${i}`}
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
           </section>
 
           {/* Product Info */}
-          <section aria-label="Product Details" className="space-y-10">
+          <section aria-label="Product Details" className="space-y-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex text-tertiary" aria-label="4.8 out of 5 stars">
@@ -197,7 +260,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Color Selection */}
-            <fieldset className="space-y-4 border-none p-0 m-0">
+            <fieldset className="space-y-4 border-none p-0 pb-4 m-0">
               <div className="flex justify-between items-center">
                 <legend className="text-xs uppercase tracking-widest text-primary font-bold">Select Color</legend>
                 <span className="text-[10px] text-outline uppercase tracking-widest font-bold">Midnight Teal</span>
@@ -315,7 +378,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Customer Reviews Section */}
-            <section aria-labelledby="reviews-heading" className="pt-8 border-t border-outline-variant/30 space-y-6">
+            <section aria-labelledby="reviews-heading" className="pt-4 border-t border-outline-variant/30 space-y-6">
               <div className="flex justify-between items-center">
                 <h3 id="reviews-heading" className="text-xs uppercase tracking-widest text-primary font-bold">Customer Reviews ({reviews.length})</h3>
                 <button 
@@ -387,12 +450,12 @@ export default function ProductDetail() {
                 </motion.form>
               )}
 
-              <div className="max-h-[400px] overflow-y-auto pr-2 space-y-6 scrollbar-thin scrollbar-thumb-outline-variant" role="list" aria-label="Customer reviews list">
+              <div className="max-h-[400px] overflow-y-auto pr-2 space-y-4 scrollbar-thin scrollbar-thumb-outline-variant" role="list" aria-label="Customer reviews list">
                 {reviews.length === 0 ? (
                   <p className="text-xs text-outline italic">No reviews yet. Be the first to share your experience.</p>
                 ) : (
                   reviews.map((review) => (
-                    <div key={review.id} className="space-y-2 border-b border-outline-variant/10 pb-6 last:border-0" role="listitem">
+                    <div key={review.id} className="space-y-2 border-b border-outline-variant/10 pb-4 last:border-0" role="listitem">
                       <div className="flex justify-between items-start">
                         <div>
                           <p className="text-xs font-bold text-primary uppercase tracking-wide">{review.name}</p>
@@ -412,7 +475,7 @@ export default function ProductDetail() {
             </section>
 
             {/* Features */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-outline-variant/30" role="list" aria-label="Product features">
+            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-outline-variant/30" role="list" aria-label="Product features">
               <div className="flex flex-col items-center text-center gap-2" role="listitem">
                 <Truck className="w-5 h-5 text-tertiary" aria-hidden="true" />
                 <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Free Shipping</span>
@@ -428,7 +491,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Tabs */}
-            <div className="pt-10">
+            <div className="pt-6">
               <div className="flex border-b border-outline-variant/30 gap-8" role="tablist" aria-label="Product information tabs">
                 {['description', 'styling', 'shipping'].map((tab) => (
                   <button
@@ -466,37 +529,37 @@ export default function ProductDetail() {
         </div>
 
         {/* Complete the Look Bundle */}
-        <section aria-labelledby="bundle-heading" className="mt-32 p-12 bg-surface-container-low border border-outline-variant/30">
-          <h3 id="bundle-heading" className="font-headline text-3xl text-primary mb-12">Complete Your Heirloom Look</h3>
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex -space-x-12" aria-hidden="true">
+        <section aria-labelledby="bundle-heading" className="mt-8 px-4 py-8 md:px-10 md:py-10 bg-surface-container-low border border-outline-variant/30">
+          <h3 id="bundle-heading" className="font-headline text-2xl md:text-3xl text-primary mb-10 text-center md:text-left">Complete Your Heirloom Look</h3>
+          <div className="flex flex-col md:flex-row items-center gap-16 md:gap-12">
+            <div className="flex -space-x-12 md:-space-x-16" aria-hidden="true">
               {bundleItems.map((item, index) => (
                 <img 
                   key={item.id} 
                   src={item.image} 
                   alt="" 
                   loading="lazy" 
-                  className={cn("w-48 h-64 object-cover border-4 border-white shadow-xl", index === 0 ? "z-30" : index === 1 ? "z-20 translate-y-8" : "z-10 translate-y-16")} 
+                  className={cn("w-32 h-44 md:w-48 md:h-64 object-cover border-4 border-white shadow-xl", index === 0 ? "z-30" : index === 1 ? "z-20 translate-y-6 md:translate-y-8" : "z-10 translate-y-12 md:translate-y-16")} 
                 />
               ))}
             </div>
-            <div className="flex-grow space-y-6">
-              <div className="space-y-2" role="list" aria-label="Bundle items">
+            <div className="w-full flex-grow space-y-6">
+              <div className="space-y-3" role="list" aria-label="Bundle items">
                 {bundleItems.map(item => (
-                  <div key={item.id} className="flex justify-between text-sm" role="listitem">
-                    <span className="text-on-surface-variant">{item.name}</span>
+                  <div key={item.id} className="flex justify-between text-[11px] md:text-sm" role="listitem">
+                    <span className="text-on-surface-variant uppercase tracking-widest font-bold">{item.name}</span>
                     <span className="font-bold">₹{item.price.toLocaleString()}</span>
                   </div>
                 ))}
               </div>
-              <div className="pt-6 border-t border-outline-variant/30 flex justify-between items-center">
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-outline font-bold">Bundle Price</p>
-                  <p className="font-headline text-3xl text-tertiary">₹{bundleItems.reduce((sum, item) => sum + item.price, 0).toLocaleString()}</p>
+              <div className="pt-6 border-t border-outline-variant/30 flex flex-col sm:flex-row justify-between items-center gap-6">
+                <div className="text-center sm:text-left">
+                  <p className="text-[10px] md:text-xs uppercase tracking-widest text-outline font-bold">Bundle Price</p>
+                  <p className="font-headline text-3xl md:text-3xl text-tertiary">₹{bundleItems.reduce((sum, item) => sum + item.price, 0).toLocaleString()}</p>
                 </div>
                 <button 
                   onClick={addBundleToCart}
-                  className="bg-primary text-white px-10 py-4 uppercase tracking-widest font-bold flex items-center gap-3 hover:bg-tertiary transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                  className="w-full sm:w-auto bg-primary text-white px-10 py-5 uppercase tracking-widest font-bold flex items-center justify-center gap-3 hover:bg-tertiary transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
                 >
                   <Plus className="w-4 h-4" aria-hidden="true" /> Add All to Bag
                 </button>
@@ -506,16 +569,18 @@ export default function ProductDetail() {
         </section>
 
         {/* Recommendations */}
-        <section aria-labelledby="recommendations-heading" className="mt-32">
-          <div className="flex justify-between items-end mb-16">
-            <h3 id="recommendations-heading" className="font-headline text-4xl text-primary">You May Also Like</h3>
-            <Link to="/collections" className="flex items-center gap-2 text-xs uppercase tracking-widest text-tertiary font-bold hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
-              Explore More <ChevronRight className="w-4 h-4" aria-hidden="true" />
+        <section aria-labelledby="recommendations-heading" className="mt-12 md:mt-16">
+          <div className="flex justify-between items-end mb-8 md:mb-16">
+            <h3 id="recommendations-heading" className="font-headline text-2xl md:text-4xl text-primary">You May Also Like</h3>
+            <Link to="/collections" className="flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-widest text-tertiary font-bold hover:underline">
+              Explore More <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="flex md:grid md:grid-cols-4 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 hide-scrollbar scroll-pl-6">
             {PRODUCTS.slice(4, 8).map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <div key={p.id} className="flex-shrink-0 w-[70vw] md:w-auto snap-start">
+                <ProductCard product={p} />
+              </div>
             ))}
           </div>
         </section>

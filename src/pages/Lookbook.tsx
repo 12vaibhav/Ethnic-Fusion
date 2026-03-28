@@ -65,7 +65,7 @@ export default function Lookbook() {
   return (
     <div className="bg-surface min-h-screen">
       {/* Featured Lookbook Hero */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section className="relative h-[80vh] md:h-screen w-full overflow-hidden">
         <motion.div 
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
@@ -110,8 +110,8 @@ export default function Lookbook() {
 
       {/* Filter Bar */}
       <div className="bg-surface py-4 border-b border-outline-variant/20 sticky top-[64px] z-40 backdrop-blur-md bg-surface/80">
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex gap-10 overflow-x-auto w-full md:w-auto hide-scrollbar">
+        <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex flex-row justify-between items-center gap-4">
+          <div className="flex gap-8 md:gap-10 overflow-x-auto flex-1 hide-scrollbar">
             {['All Stories', 'Bridal', 'Festive', 'Couture', 'Contemporary'].map((item, idx) => (
               <button
                 key={item}
@@ -121,15 +121,19 @@ export default function Lookbook() {
               </button>
             ))}
           </div>
-          <button className="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-primary font-bold border border-outline-variant px-6 py-2 hover:bg-primary hover:text-white transition-all">
-            <Share2 className="w-3 h-3" /> Share Archive
+          <button 
+            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-primary font-bold border border-outline-variant p-2 md:px-6 md:py-2 hover:bg-primary hover:text-white transition-all flex-shrink-0"
+            aria-label="Share Archive"
+          >
+            <Share2 className="w-4 h-4 md:w-3 md:h-3" />
+            <span className="hidden md:inline">Share Archive</span>
           </button>
         </div>
       </div>
 
       {/* Stories Grid - Asymmetrical Layout */}
       <section className="pt-6 pb-12 md:pt-10 md:pb-20 px-6 md:px-12 max-w-screen-2xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-y-20 md:gap-y-24 md:gap-x-16">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-y-8 md:gap-y-24 gap-x-4 md:gap-x-16">
           {stories.map((story, idx) => {
             const getGridClasses = (index: number) => {
               const patterns = [
@@ -154,7 +158,7 @@ export default function Lookbook() {
                 transition={{ duration: 0.8, delay: idx * 0.1 }}
                 className={`group cursor-pointer ${getGridClasses(idx)}`}
               >
-                <div className={`relative aspect-[3/4] overflow-hidden mb-8 md:mb-12 shadow-2xl transition-transform duration-700 ${idx % 2 === 0 ? '-rotate-2' : 'rotate-2'} md:group-hover:rotate-0 md:group-hover:scale-[1.02]`}>
+                <div className={`relative aspect-[3/4] overflow-hidden mb-4 md:mb-12 shadow-2xl transition-transform duration-700 ${idx % 2 === 0 ? '-rotate-2' : 'rotate-2'} md:group-hover:rotate-0 md:group-hover:scale-[1.02]`}>
                   <img
                     src={story.image}
                     alt={story.title}
@@ -164,25 +168,25 @@ export default function Lookbook() {
                   />
                   
                   {/* Visual Overlay */}
-                  <div className="absolute inset-0 bg-primary/30 opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-8 md:p-12">
-                    <button className="w-full py-5 md:py-6 bg-white text-primary text-[12px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary hover:text-white transition-all transform translate-y-4 md:group-hover:translate-y-0 duration-500">
-                      Explore Chapter
+                  <div className="absolute inset-0 bg-primary/30 opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-4 md:p-12">
+                    <button className="w-full py-3 md:py-6 bg-white text-primary text-[10px] md:text-[12px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary hover:text-white transition-all transform translate-y-4 md:group-hover:translate-y-0 duration-500">
+                      Explore
                     </button>
                   </div>
 
-                  <div className="absolute top-8 left-8 md:top-12 md:left-12">
-                    <span className="bg-white/90 backdrop-blur-md text-primary px-4 md:px-6 py-2 text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold">
+                  <div className="absolute top-4 left-4 md:top-12 md:left-12">
+                    <span className="bg-white/90 backdrop-blur-md text-primary px-3 md:px-6 py-1.5 md:py-2 text-[8px] md:text-[11px] uppercase tracking-[0.4em] font-bold">
                       {story.category}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex justify-between items-start px-2 md:px-4">
-                  <div>
-                    <span className="font-label text-tertiary text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-bold block mb-3 md:mb-4">Chapter {story.chapter}</span>
-                    <h3 className="font-headline text-4xl md:text-5xl text-primary md:group-hover:text-tertiary transition-colors">{story.title}</h3>
+                <div className="flex justify-between items-start px-1 md:px-4">
+                  <div className="overflow-hidden">
+                    <span className="font-label text-tertiary text-[8px] md:text-[12px] uppercase tracking-[0.4em] font-bold block mb-1 md:mb-4 whitespace-nowrap overflow-hidden text-ellipsis">Chapter {story.chapter}</span>
+                    <h3 className="font-headline text-lg md:text-5xl text-primary md:group-hover:text-tertiary transition-colors truncate">{story.title}</h3>
                   </div>
-                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-outline-variant flex items-center justify-center md:group-hover:bg-primary md:group-hover:border-primary transition-all duration-500">
+                  <div className="hidden sm:flex w-12 h-12 md:w-16 md:h-16 rounded-full border border-outline-variant items-center justify-center md:group-hover:bg-primary md:group-hover:border-primary transition-all duration-500">
                     <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-primary md:group-hover:text-white transition-colors" />
                   </div>
                 </div>

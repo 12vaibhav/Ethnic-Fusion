@@ -71,7 +71,7 @@ export default function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps)
                   </p>
                   <button 
                     onClick={onClose}
-                    className="bg-primary text-white px-6 md:px-8 py-3.5 md:py-4 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                    className="bg-primary text-white px-6 md:px-8 py-3.5 md:py-4 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary transition-all"
                   >
                     Explore Collections
                   </button>
@@ -79,8 +79,8 @@ export default function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps)
               ) : (
                 <div className="space-y-6 md:space-y-8" role="list" aria-label="Wishlist items">
                   {wishlist.map((item) => (
-                    <div key={item.id} className="flex gap-3 md:gap-4 group" role="listitem">
-                      <div className="w-20 h-28 md:w-24 md:h-32 bg-surface-container-low flex-shrink-0 overflow-hidden">
+                    <div key={item.id} className="flex gap-4 group" role="listitem">
+                      <div className="w-20 h-24 md:w-24 md:h-32 bg-surface-container-low flex-shrink-0 overflow-hidden shadow-sm">
                         <img 
                           src={item.image} 
                           alt={item.name} 
@@ -88,10 +88,10 @@ export default function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps)
                           referrerPolicy="no-referrer"
                         />
                       </div>
-                      <div className="flex-grow flex flex-col justify-between py-0.5 md:py-1">
-                        <div>
+                      <div className="flex-grow flex flex-col justify-between py-1">
+                        <div className="mb-2">
                           <div className="flex justify-between items-start mb-1">
-                            <h4 className="font-headline text-base md:text-lg text-primary leading-tight">{item.name}</h4>
+                            <h4 className="font-headline text-base md:text-lg text-primary leading-tight line-clamp-1">{item.name}</h4>
                             <button 
                               onClick={() => {
                                 toggleWishlist(item);
@@ -99,20 +99,18 @@ export default function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps)
                                   description: `${item.name} has been removed.`
                                 });
                               }}
-                              aria-label={`Remove ${item.name} from wishlist`}
-                              className="text-outline hover:text-destructive transition-colors p-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                              className="text-outline hover:text-destructive transition-colors p-1"
                             >
-                              <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" aria-hidden="true" />
+                              <Trash2 className="w-4 h-4 md:w-4 md:h-4" aria-hidden="true" />
                             </button>
                           </div>
-                          <p className="text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest mb-1.5 md:mb-2">{item.fabric}</p>
+                          <p className="text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">{item.fabric}</p>
                           <p className="font-headline text-base md:text-lg text-tertiary">₹{item.price.toLocaleString()}</p>
                         </div>
                         
                         <button 
                           onClick={() => handleMoveToCart(item)}
-                          aria-label={`Move ${item.name} to bag`}
-                          className="w-full py-2.5 md:py-3 bg-primary text-white text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold hover:bg-tertiary transition-all flex items-center justify-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                          className="w-full py-2 md:py-3 bg-primary text-white text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold hover:bg-tertiary transition-all flex items-center justify-center gap-2"
                         >
                           <ShoppingBag className="w-3 h-3" aria-hidden="true" /> Move to Bag
                         </button>
@@ -124,10 +122,10 @@ export default function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps)
             </div>
 
             {wishlist.length > 0 && (
-              <div className="p-6 md:p-8 bg-surface-container-low border-t border-outline-variant/30">
+              <div className="p-4 md:p-8 bg-surface-container-low border-t border-outline-variant/30">
                 <button 
                   onClick={onClose}
-                  className="w-full bg-white text-primary border border-primary py-4 md:py-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 md:gap-3 shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                  className="w-full bg-white text-primary border border-primary py-4 md:py-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 md:gap-3 shadow-sm"
                 >
                   Continue Browsing <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" aria-hidden="true" />
                 </button>

@@ -53,101 +53,103 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
   ];
 
   return (
-    <nav
-      aria-label="Main Navigation"
-      className={cn(
-        'fixed top-0 w-full z-[102] transition-all duration-500 px-6 md:px-12 py-6 flex justify-between items-center',
-        isScrolled || !isHome
-          ? 'bg-white/80 backdrop-blur-md shadow-sm py-4'
-          : 'bg-transparent'
-      )}
-    >
-      <div className="flex items-center gap-12">
-        <Link
-          to="/"
-          aria-label="Ethnic Fusion Home"
-          className={cn(
-            'font-headline text-2xl font-bold tracking-tighter uppercase focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
-            isScrolled || !isHome ? 'text-primary' : 'text-white'
-          )}
-        >
-          Ethnic Fusion
-        </Link>
-        <div className="hidden lg:flex gap-8" role="list">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              role="listitem"
-              className={cn(
-                'font-body text-xs uppercase tracking-widest font-medium hover:text-tertiary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
-                isScrolled || !isHome ? 'text-on-surface-variant' : 'text-white/90'
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <div className="hidden md:flex items-center relative">
-          <label htmlFor="search-atelier" className="sr-only">Search the Atelier</label>
-          <Search className={cn('w-4 h-4 absolute left-3', isScrolled || !isHome ? 'text-outline' : 'text-white/60')} aria-hidden="true" />
-          <input
-            id="search-atelier"
-            type="text"
-            placeholder="Search the Atelier..."
+    <>
+      <nav
+        aria-label="Main Navigation"
+        className={cn(
+          'fixed top-0 w-full z-[102] transition-all duration-500 px-6 md:px-12 py-6 flex justify-between items-center',
+          isScrolled || !isHome
+            ? 'bg-white/80 backdrop-blur-md shadow-sm py-4'
+            : 'bg-transparent'
+        )}
+      >
+        <div className="flex items-center gap-12">
+          <Link
+            to="/"
+            aria-label="Ethnic Fusion Home"
             className={cn(
-              'pl-10 pr-4 py-2 text-xs rounded-sm border-none focus:ring-1 focus:ring-tertiary w-64 transition-all',
-              isScrolled || !isHome ? 'bg-surface-container-low' : 'bg-white/10 text-white placeholder:text-white/40'
+              'font-headline text-2xl font-bold tracking-tighter uppercase focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
+              isScrolled || !isHome ? 'text-primary' : 'text-white'
             )}
-          />
-        </div>
-        <div className={cn('flex gap-5', isScrolled || !isHome ? 'text-primary' : 'text-white')}>
-          <button 
-            className="relative cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary" 
-            onClick={() => setIsWishlistOpen(true)}
-            aria-label={`Open Wishlist, ${wishlist.length} items`}
           >
-            <Heart className={cn("w-5 h-5 transition-colors", wishlist.length > 0 ? "fill-tertiary text-tertiary" : "hover:text-tertiary")} aria-hidden="true" />
-            {wishlist.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-tertiary text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
-                <span className="sr-only">Wishlist count: </span>
-                {wishlist.length}
-              </span>
-            )}
-          </button>
-          <button 
-            className="relative cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary" 
-            onClick={() => setIsCartOpen(true)}
-            aria-label={`Open Shopping Bag, ${cartCount} items`}
-          >
-            <ShoppingBag className="w-5 h-5 hover:text-tertiary transition-colors" aria-hidden="true" />
-            {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-primary text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
-                <span className="sr-only">Cart count: </span>
-                {cartCount}
-              </span>
-            )}
-          </button>
-          <Link 
-            to="/account" 
-            aria-label="Account Settings"
-            className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
-          >
-            <User className="w-5 h-5 cursor-pointer hover:text-tertiary transition-colors" aria-hidden="true" />
+            Ethnic Fusion
           </Link>
-          <button 
-            onClick={() => setIsMobileMenuOpen(true)} 
-            className="lg:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
-            aria-label="Open Mobile Menu"
-            aria-expanded={isMobileMenuOpen}
-          >
-            <Menu className="w-5 h-5 cursor-pointer" aria-hidden="true" />
-          </button>
+          <div className="hidden lg:flex gap-8" role="list">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                role="listitem"
+                className={cn(
+                  'font-body text-xs uppercase tracking-widest font-medium hover:text-tertiary transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
+                  isScrolled || !isHome ? 'text-on-surface-variant' : 'text-white/90'
+                )}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+  
+        <div className="flex items-center gap-6">
+          <div className="hidden md:flex items-center relative">
+            <label htmlFor="search-atelier" className="sr-only">Search the Atelier</label>
+            <Search className={cn('w-4 h-4 absolute left-3', isScrolled || !isHome ? 'text-outline' : 'text-white/60')} aria-hidden="true" />
+            <input
+              id="search-atelier"
+              type="text"
+              placeholder="Search the Atelier..."
+              className={cn(
+                'pl-10 pr-4 py-2 text-xs rounded-sm border-none focus:ring-1 focus:ring-tertiary w-64 transition-all',
+                isScrolled || !isHome ? 'bg-surface-container-low' : 'bg-white/10 text-white placeholder:text-white/40'
+              )}
+            />
+          </div>
+          <div className={cn('flex gap-5', isScrolled || !isHome ? 'text-primary' : 'text-white')}>
+            <button 
+              className="relative cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary" 
+              onClick={() => setIsWishlistOpen(true)}
+              aria-label={`Open Wishlist, ${wishlist.length} items`}
+            >
+              <Heart className={cn("w-5 h-5 transition-colors", wishlist.length > 0 ? "fill-tertiary text-tertiary" : "hover:text-tertiary")} aria-hidden="true" />
+              {wishlist.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-tertiary text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                  <span className="sr-only">Wishlist count: </span>
+                  {wishlist.length}
+                </span>
+              )}
+            </button>
+            <button 
+              className="relative cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary" 
+              onClick={() => setIsCartOpen(true)}
+              aria-label={`Open Shopping Bag, ${cartCount} items`}
+            >
+              <ShoppingBag className="w-5 h-5 hover:text-tertiary transition-colors" aria-hidden="true" />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                  <span className="sr-only">Cart count: </span>
+                  {cartCount}
+                </span>
+              )}
+            </button>
+            <Link 
+              to="/account" 
+              aria-label="Account Settings"
+              className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
+            >
+              <User className="w-5 h-5 cursor-pointer hover:text-tertiary transition-colors" aria-hidden="true" />
+            </Link>
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)} 
+              className="lg:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
+              aria-label="Open Mobile Menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              <Menu className="w-5 h-5 cursor-pointer" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </nav>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
@@ -157,7 +159,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-white z-[100] flex flex-col p-8"
+            className="fixed inset-0 bg-white z-[110] flex flex-col p-8"
           >
             <div className="flex justify-between items-center mb-12">
               <span className="font-headline text-xl font-bold text-primary italic uppercase">Ethnic Fusion</span>
@@ -240,6 +242,6 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }
