@@ -37,7 +37,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentHeroIndex((prev) => (prev + 1) % desktopHeroImages.length);
-    }, 5000);
+    }, 4000);
     return () => clearInterval(timer);
   }, [desktopHeroImages.length]);
 
@@ -60,7 +60,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.9 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.5 }}
+              transition={{ duration: 1.0 }}
               src={currentHeroImages[currentHeroIndex]}
               alt="Ethnic Fusion Collection Banner"
               referrerPolicy="no-referrer"
