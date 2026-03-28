@@ -1,7 +1,8 @@
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, MessageSquare, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { cn } from '../lib/utils';
 import ProductCard from '../components/ProductCard';
 import { PRODUCTS } from '../constants';
 import { useShop } from '../context/ShopContext';
@@ -9,6 +10,20 @@ import { useShop } from '../context/ShopContext';
 export default function Home() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useShop();
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+
+  const heroImages = [
+    '/Assets/hero section/herosection banner.webp',
+    '/Assets/hero section/banner_1.webp',
+    '/Assets/hero section/banner_2.webp'
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -23,12 +38,19 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[70vh] md:h-screen w-full overflow-hidden bg-black">
         <div className="absolute inset-0 z-0">
-          <img
-            src="/Assets/hero section/herosection banner.webp"
-            alt="Ethnic Fusion Collection Banner"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover opacity-90"
-          />
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={currentHeroIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.9 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+              src={heroImages[currentHeroIndex]}
+              alt="Ethnic Fusion Collection Banner"
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover"
+            />
+          </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
         </div>
 
@@ -78,9 +100,16 @@ export default function Home() {
         </div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 z-20">
-          <div className="w-12 h-[2px] bg-tertiary cursor-pointer"></div>
-          <div className="w-12 h-[2px] bg-white/30 cursor-pointer hover:bg-white/60"></div>
-          <div className="w-12 h-[2px] bg-white/30 cursor-pointer hover:bg-white/60"></div>
+          {heroImages.map((_, idx) => (
+            <div 
+              key={idx}
+              onClick={() => setCurrentHeroIndex(idx)}
+              className={cn(
+                "w-12 h-[2px] cursor-pointer transition-all duration-500",
+                idx === currentHeroIndex ? "bg-tertiary" : "bg-white/30 hover:bg-white/60"
+              )}
+            ></div>
+          ))}
         </div>
       </section>
 
