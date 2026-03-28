@@ -81,26 +81,26 @@ export default function Lookbook() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
         </motion.div>
 
-        <div className="relative z-10 h-full flex flex-col justify-end items-start px-6 md:px-24 pb-16 md:pb-24 max-w-7xl mx-auto w-full">
+        <div className="relative z-10 h-full flex flex-col justify-end items-start px-6 md:px-24 pb-10 md:pb-24 max-w-7xl mx-auto w-full">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
             className="max-w-2xl"
           >
-            <span className="font-label text-tertiary uppercase tracking-[0.5em] text-[10px] md:text-xs mb-4 md:mb-6 font-bold block">Spring Summer 2024</span>
-            <h1 className="font-headline text-5xl md:text-9xl text-white mb-6 md:mb-8 leading-tight">
+            <span className="font-label text-tertiary uppercase tracking-[0.5em] text-[9px] md:text-xs mb-3 md:mb-6 font-bold block">Spring Summer 2024</span>
+            <h1 className="font-headline text-4xl md:text-9xl text-white mb-4 md:mb-8 leading-tight">
               The Regal<br />
               <span className="italic font-light">Atelier</span>
             </h1>
             <div className="flex items-center gap-4 md:gap-8">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center cursor-pointer hover:bg-tertiary hover:border-tertiary transition-all group"
+                className="w-12 h-12 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center cursor-pointer hover:bg-tertiary hover:border-tertiary transition-all group"
               >
-                <Play className="text-white w-5 h-5 md:w-6 md:h-6 fill-white" />
+                <Play className="text-white w-4 h-4 md:w-6 md:h-6 fill-white" />
               </motion.div>
-              <p className="font-body text-white/70 text-xs md:text-sm max-w-[200px] md:max-w-xs uppercase tracking-widest leading-relaxed">
+              <p className="font-body text-white/70 text-[10px] md:text-sm max-w-[150px] md:max-w-xs uppercase tracking-[0.2em] leading-relaxed">
                 A cinematic journey through the heart of Indian craftsmanship.
               </p>
             </div>
