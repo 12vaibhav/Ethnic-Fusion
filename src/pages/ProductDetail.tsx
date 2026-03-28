@@ -239,7 +239,7 @@ export default function ProductDetail() {
           </section>
 
           {/* Product Info */}
-          <section aria-label="Product Details" className="space-y-6 md:space-y-8">
+          <section aria-label="Product Details" className="space-y-4 md:space-y-8">
             <div>
               <div className="flex items-center gap-2 mb-2 md:mb-4">
                 <div className="flex text-tertiary" aria-label="4.8 out of 5 stars">
@@ -248,7 +248,7 @@ export default function ProductDetail() {
                 <span className="text-[10px] uppercase tracking-widest text-outline font-bold">48 Reviews</span>
               </div>
               <h1 className="font-headline text-3xl md:text-5xl text-primary mb-2 md:mb-4">{product.name}</h1>
-              <p className="text-on-surface-variant font-medium tracking-wide uppercase text-sm mb-4 md:mb-6">{product.fabric} • Hand-Embroidered</p>
+              <p className="text-on-surface-variant font-medium tracking-wide uppercase text-sm mb-2 md:mb-6">{product.fabric} • Hand-Embroidered</p>
               <div className="flex items-baseline gap-4">
                 <span className="font-headline text-4xl text-tertiary">₹{product.price.toLocaleString()}</span>
                 {product.originalPrice && (
