@@ -57,10 +57,10 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
       <nav
         aria-label="Main Navigation"
         className={cn(
-          'fixed top-0 w-full z-[102] transition-all duration-500 px-6 md:px-12 py-6 flex justify-between items-center',
+          'fixed top-0 w-full z-[102] transition-all duration-500 px-6 md:px-12 flex justify-between items-center',
           isScrolled || !isHome
             ? 'bg-white/80 backdrop-blur-md shadow-sm py-4'
-            : 'bg-transparent'
+            : 'bg-transparent py-6'
         )}
       >
         <div className="flex items-center gap-12">

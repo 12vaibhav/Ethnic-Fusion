@@ -54,7 +54,7 @@ export default function About() {
   ];
 
   return (
-    <div className="bg-surface min-h-screen pt-16 md:pt-12">
+    <div className="bg-surface min-h-screen pt-24 md:pt-32">
       {/* Page Header */}
       <header className="px-6 md:px-12 py-8 md:py-12 max-w-7xl mx-auto">
         <motion.div
