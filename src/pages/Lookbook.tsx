@@ -109,13 +109,13 @@ export default function Lookbook() {
       </section>
 
       {/* Filter Bar */}
-      <div className="bg-surface py-4 border-b border-outline-variant/20 sticky top-[60px] z-40 backdrop-blur-md bg-surface/80">
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex flex-row justify-between items-center gap-4">
-          <div className="flex gap-8 md:gap-10 overflow-x-auto flex-1 hide-scrollbar">
+      <div className="bg-surface py-2.5 md:py-4 border-b border-outline-variant/20 sticky top-[60px] z-40 backdrop-blur-md bg-surface/80">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-12 flex flex-row justify-between items-center gap-4">
+          <div className="flex gap-5 md:gap-10 overflow-x-auto flex-1 hide-scrollbar snap-x snap-mandatory scroll-pl-4">
             {['All Stories', 'Bridal', 'Festive', 'Couture', 'Contemporary'].map((item, idx) => (
               <button
                 key={item}
-                className={`font-label text-[10px] uppercase tracking-[0.3em] font-bold whitespace-nowrap transition-all ${idx === 0 ? 'text-primary border-b border-primary pb-2' : 'text-outline hover:text-primary'}`}
+                className={`font-label text-[10px] uppercase tracking-[0.3em] font-bold whitespace-nowrap transition-all snap-start ${idx === 0 ? 'text-primary border-b border-primary pb-2' : 'text-outline hover:text-primary'}`}
               >
                 {item}
               </button>
