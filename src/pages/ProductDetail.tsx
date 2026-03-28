@@ -504,7 +504,7 @@ export default function ProductDetail() {
 
             {/* Tabs */}
             <div className="pt-3 md:pt-6">
-              <div className="flex border-b border-outline-variant/30 gap-8" role="tablist" aria-label="Product information tabs">
+              <div className="flex justify-center md:justify-start border-b border-outline-variant/30 gap-6 md:gap-8" role="tablist" aria-label="Product information tabs">
                 {['description', 'styling', 'shipping'].map((tab) => (
                   <button
                     key={tab}
