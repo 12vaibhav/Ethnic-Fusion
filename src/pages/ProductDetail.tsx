@@ -389,6 +389,60 @@ export default function ProductDetail() {
               </div>
             </div>
 
+
+
+            {/* Features */}
+            <div className="flex justify-center md:grid md:grid-cols-3 gap-8 md:gap-4 pt-3 md:pt-4 border-t border-outline-variant/30" role="list" aria-label="Product features">
+              <div className="flex flex-col items-center text-center gap-2" role="listitem">
+                <Truck className="w-5 h-5 text-tertiary" aria-hidden="true" />
+                <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Free Shipping</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-2" role="listitem">
+                <RotateCcw className="w-5 h-5 text-tertiary" aria-hidden="true" />
+                <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Easy Returns</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-2" role="listitem">
+                <Share2 className="w-5 h-5 text-tertiary" aria-hidden="true" />
+                <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Authentic</span>
+              </div>
+            </div>
+
+            {/* Tabs */}
+            <div className="pt-3 md:pt-6">
+              <div className="flex justify-center md:justify-start border-b border-outline-variant/30 gap-6 md:gap-8" role="tablist" aria-label="Product information tabs">
+                {['description', 'styling', 'shipping'].map((tab) => (
+                  <button
+                    key={tab}
+                    id={`tab-${tab}`}
+                    role="tab"
+                    aria-selected={activeTab === tab}
+                    aria-controls={`panel-${tab}`}
+                    onClick={() => setActiveTab(tab)}
+                    className={`pb-4 text-xs uppercase tracking-widest font-bold transition-all border-b-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary ${activeTab === tab ? 'text-tertiary border-tertiary' : 'text-outline border-transparent hover:text-primary'}`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+              <div 
+                className="py-6 md:py-8 font-body text-on-surface-variant text-sm leading-relaxed"
+                id={`panel-${activeTab}`}
+                role="tabpanel"
+                aria-labelledby={`tab-${activeTab}`}
+                tabIndex={0}
+              >
+                {activeTab === 'description' && (
+                  <p>{product.description} This piece is a testament to the rich heritage of Indian textiles, featuring intricate Zardosi embroidery and hand-woven silk. Each motif is carefully placed to create a balanced, royal aesthetic.</p>
+                )}
+                {activeTab === 'styling' && (
+                  <p>Pair this masterpiece with heavy kundan jewelry and a sleek bun for a classic bridal look. For a more contemporary fusion appeal, try a contrasting sheer dupatta and statement earrings.</p>
+                )}
+                {activeTab === 'shipping' && (
+                  <p>Complimentary express shipping on all orders above ₹50,000. Each piece is made to order and will be delivered within 4-6 weeks of purchase.</p>
+                )}
+              </div>
+            </div>
+
             {/* Customer Reviews Section */}
             <section aria-labelledby="reviews-heading" className="pt-3 md:pt-4 border-t border-outline-variant/30 space-y-4 md:space-y-6">
               <div className="flex justify-between items-center">
@@ -426,7 +480,7 @@ export default function ProductDetail() {
                   <div className="space-y-2">
                     <span className="text-[10px] uppercase tracking-widest text-outline font-bold block">Rating</span>
                     <div className="flex gap-2" role="radiogroup" aria-label="Star rating">
-                      {[1, 2, 3, 4, 5].map((star) => (
+                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
                           type="button"
@@ -485,58 +539,6 @@ export default function ProductDetail() {
                 )}
               </div>
             </section>
-
-            {/* Features */}
-            <div className="flex justify-center md:grid md:grid-cols-3 gap-8 md:gap-4 pt-3 md:pt-4 border-t border-outline-variant/30" role="list" aria-label="Product features">
-              <div className="flex flex-col items-center text-center gap-2" role="listitem">
-                <Truck className="w-5 h-5 text-tertiary" aria-hidden="true" />
-                <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Free Shipping</span>
-              </div>
-              <div className="flex flex-col items-center text-center gap-2" role="listitem">
-                <RotateCcw className="w-5 h-5 text-tertiary" aria-hidden="true" />
-                <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Easy Returns</span>
-              </div>
-              <div className="flex flex-col items-center text-center gap-2" role="listitem">
-                <Share2 className="w-5 h-5 text-tertiary" aria-hidden="true" />
-                <span className="text-[10px] uppercase tracking-widest font-bold text-outline">Authentic</span>
-              </div>
-            </div>
-
-            {/* Tabs */}
-            <div className="pt-3 md:pt-6">
-              <div className="flex justify-center md:justify-start border-b border-outline-variant/30 gap-6 md:gap-8" role="tablist" aria-label="Product information tabs">
-                {['description', 'styling', 'shipping'].map((tab) => (
-                  <button
-                    key={tab}
-                    id={`tab-${tab}`}
-                    role="tab"
-                    aria-selected={activeTab === tab}
-                    aria-controls={`panel-${tab}`}
-                    onClick={() => setActiveTab(tab)}
-                    className={`pb-4 text-xs uppercase tracking-widest font-bold transition-all border-b-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary ${activeTab === tab ? 'text-tertiary border-tertiary' : 'text-outline border-transparent hover:text-primary'}`}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
-              <div 
-                className="py-6 md:py-8 font-body text-on-surface-variant text-sm leading-relaxed"
-                id={`panel-${activeTab}`}
-                role="tabpanel"
-                aria-labelledby={`tab-${activeTab}`}
-                tabIndex={0}
-              >
-                {activeTab === 'description' && (
-                  <p>{product.description} This piece is a testament to the rich heritage of Indian textiles, featuring intricate Zardosi embroidery and hand-woven silk. Each motif is carefully placed to create a balanced, royal aesthetic.</p>
-                )}
-                {activeTab === 'styling' && (
-                  <p>Pair this masterpiece with heavy kundan jewelry and a sleek bun for a classic bridal look. For a more contemporary fusion appeal, try a contrasting sheer dupatta and statement earrings.</p>
-                )}
-                {activeTab === 'shipping' && (
-                  <p>Complimentary express shipping on all orders above ₹50,000. Each piece is made to order and will be delivered within 4-6 weeks of purchase.</p>
-                )}
-              </div>
-            </div>
           </section>
         </div>
 
