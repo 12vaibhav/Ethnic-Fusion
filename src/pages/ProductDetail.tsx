@@ -126,7 +126,7 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="bg-surface min-h-screen pt-20 md:pt-20 pb-8 md:pb-20 overflow-x-hidden">
+    <div className="bg-surface min-h-screen pt-10 md:pt-20 pb-8 md:pb-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-12">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-20">
