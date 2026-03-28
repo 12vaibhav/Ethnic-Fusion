@@ -68,7 +68,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             to="/"
             aria-label="Ethnic Fusion Home"
             className={cn(
-              'font-headline text-2xl font-bold tracking-tighter uppercase whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
+              'font-headline text-xl lg:text-2xl font-bold tracking-tighter uppercase whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
               isScrolled || !isHome ? 'text-primary' : 'text-white'
             )}
           >
