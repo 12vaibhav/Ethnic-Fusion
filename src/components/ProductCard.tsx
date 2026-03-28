@@ -40,8 +40,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             {/* Quick Add overlay will be handled by the button below */}
           </div>
           {product.isNew && (
-            <div className="absolute top-4 left-4">
-              <span className="bg-tertiary text-white px-2 py-1 text-[10px] uppercase tracking-widest font-bold">
+            <div className="absolute top-2 left-2 md:top-4 md:left-4">
+              <span className="bg-tertiary text-white px-1.5 py-0.5 md:px-2 md:py-1 text-[8px] md:text-[10px] uppercase tracking-widest font-bold">
                 New Season
               </span>
             </div>
@@ -97,11 +97,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         }}
         aria-label={isWishlisted ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
         className={cn(
-          "absolute top-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center transition-all shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
+          "absolute top-2 right-2 md:top-4 md:right-4 w-8 h-8 md:w-12 md:h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center transition-all shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
           isWishlisted ? "text-tertiary" : "text-primary hover:text-tertiary"
         )}
       >
-        <Heart className={cn("w-5 h-5", isWishlisted && "fill-tertiary")} aria-hidden="true" />
+        <Heart className={cn("w-3.5 h-3.5 md:w-5 md:h-5", isWishlisted && "fill-tertiary")} aria-hidden="true" />
       </button>
     </motion.div>
   );
