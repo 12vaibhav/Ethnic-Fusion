@@ -21,11 +21,11 @@ export default function Footer() {
             className="font-headline text-2xl md:text-xl font-bold text-tertiary italic focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
             aria-label="Ethnic Fusion Home"
           >
-            <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden border border-outline-variant/30 p-2">
+            <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden border border-outline-variant/30">
               <img 
                 src="/logo.png" 
                 alt="Ethnic Fusion logo" 
-                className="w-full h-full object-contain" 
+                className="w-full h-full object-cover" 
               />
             </div>
           </Link>
