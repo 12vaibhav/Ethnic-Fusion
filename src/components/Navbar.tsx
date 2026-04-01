@@ -67,19 +67,15 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
           <Link
             to="/"
             aria-label="Ethnic Fusion Home"
-            className={cn(
-              'font-headline text-xl lg:text-2xl font-bold tracking-tighter uppercase whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary',
-              isScrolled || !isHome ? 'text-primary' : 'text-white'
-            )}
+            className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary block"
           >
-            <img 
-              src="/logo.png" 
-              alt="Ethnic Fusion" 
-              className={cn(
-                "h-8 md:h-10 w-auto object-contain transition-all duration-500",
-                isScrolled || !isHome ? "brightness-100" : "brightness-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
-              )} 
-            />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden border border-outline-variant/20 p-1.5 transition-transform duration-300 hover:scale-105">
+              <img 
+                src="/logo.png" 
+                alt="Ethnic Fusion" 
+                className="w-full h-full object-contain" 
+              />
+            </div>
           </Link>
           <div className="hidden lg:flex gap-8" role="list">
             {navLinks.map((link) => (
@@ -169,11 +165,13 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             className="fixed inset-0 bg-white z-[110] flex flex-col p-8"
           >
             <div className="flex justify-between items-center mb-12">
-              <img 
-              src="/logo.png" 
-              alt="Ethnic Fusion logo" 
-              className="h-10 md:h-12 w-auto object-contain" 
-            />
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md overflow-hidden border border-outline-variant/30 p-1.5">
+                <img 
+                  src="/logo.png" 
+                  alt="Ethnic Fusion logo" 
+                  className="w-full h-full object-contain" 
+                />
+              </div>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Close Mobile Menu"
