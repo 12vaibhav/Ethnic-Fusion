@@ -18,10 +18,10 @@ export default function Footer() {
         <div className="space-y-3 md:space-y-6">
           <Link 
             to="/" 
-            className="font-headline text-2xl md:text-xl font-bold text-tertiary italic focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
+            className="block pb-2 md:pb-4 font-headline text-2xl md:text-xl font-bold text-tertiary italic focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
             aria-label="Ethnic Fusion Home"
           >
-            <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden border border-outline-variant/30">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden border border-outline-variant/30">
               <img 
                 src="/logo.png" 
                 alt="Ethnic Fusion logo" 

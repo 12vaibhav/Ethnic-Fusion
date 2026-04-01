@@ -67,15 +67,21 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
           <Link
             to="/"
             aria-label="Ethnic Fusion Home"
-            className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary block"
+            className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary group"
           >
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden border border-outline-variant/20 transition-transform duration-300 hover:scale-105">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden border border-outline-variant/20 transition-transform duration-300 group-hover:scale-105">
               <img 
                 src="/logo.png" 
                 alt="Ethnic Fusion" 
                 className="w-full h-full object-cover" 
               />
             </div>
+            <span className={cn(
+              "font-headline text-xl md:text-2xl font-bold tracking-wider transition-colors duration-300",
+              isScrolled || !isHome ? "text-primary" : "text-white"
+            )}>
+              Ethnic Fusion
+            </span>
           </Link>
           <div className="hidden lg:flex gap-8" role="list">
             {navLinks.map((link) => (
@@ -165,12 +171,17 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             className="fixed inset-0 bg-white z-[110] flex flex-col p-8"
           >
             <div className="flex justify-between items-center mb-12">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md overflow-hidden border border-outline-variant/30">
-                <img 
-                  src="/logo.png" 
-                  alt="Ethnic Fusion logo" 
-                  className="w-full h-full object-cover" 
-                />
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md overflow-hidden border border-outline-variant/30">
+                  <img 
+                    src="/logo.png" 
+                    alt="Ethnic Fusion logo" 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+                <span className="font-headline text-2xl font-bold text-primary tracking-wider">
+                  Ethnic Fusion
+                </span>
               </div>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
