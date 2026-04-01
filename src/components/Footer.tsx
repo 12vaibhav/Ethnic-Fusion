@@ -24,7 +24,7 @@ export default function Footer() {
             <img 
               src="/logo.png" 
               alt="Ethnic Fusion logo" 
-              className="h-10 md:h-12 w-auto object-contain brightness-100" 
+              className="h-10 md:h-12 w-auto object-contain" 
             />
           </Link>
           <p className="font-body text-sm text-on-surface-variant leading-relaxed max-w-xs">

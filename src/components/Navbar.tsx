@@ -77,7 +77,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
               alt="Ethnic Fusion" 
               className={cn(
                 "h-8 md:h-10 w-auto object-contain transition-all duration-500",
-                isScrolled || !isHome ? "brightness-100" : "brightness-0 invert"
+                isScrolled || !isHome ? "brightness-100" : "brightness-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
               )} 
             />
           </Link>
@@ -170,10 +170,10 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
           >
             <div className="flex justify-between items-center mb-12">
               <img 
-                src="/logo.png" 
-                alt="Ethnic Fusion" 
-                className="h-8 w-auto object-contain" 
-              />
+              src="/logo.png" 
+              alt="Ethnic Fusion logo" 
+              className="h-10 md:h-12 w-auto object-contain" 
+            />
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Close Mobile Menu"
