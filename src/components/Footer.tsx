@@ -21,7 +21,11 @@ export default function Footer() {
             className="font-headline text-2xl md:text-xl font-bold text-tertiary italic focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
             aria-label="Ethnic Fusion Home"
           >
-            <img src="/Assets/Logo/Logo.png" alt="Ethnic Fusion" className="h-10 md:h-12 w-auto object-contain mb-2" />
+            <img 
+              src="/logo.png" 
+              alt="Ethnic Fusion logo" 
+              className="h-10 md:h-12 w-auto object-contain brightness-100" 
+            />
           </Link>
           <p className="font-body text-sm text-on-surface-variant leading-relaxed max-w-xs">
             Defining the next century of ethnic couture. Crafted with heritage, worn with pride.

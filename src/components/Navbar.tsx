@@ -72,7 +72,14 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
               isScrolled || !isHome ? 'text-primary' : 'text-white'
             )}
           >
-            <img src="/Assets/Logo/Logo.png" alt="Ethnic Fusion" className="h-8 md:h-10 w-auto object-contain" />
+            <img 
+              src="/logo.png" 
+              alt="Ethnic Fusion" 
+              className={cn(
+                "h-8 md:h-10 w-auto object-contain transition-all duration-500",
+                isScrolled || !isHome ? "brightness-100" : "brightness-0 invert"
+              )} 
+            />
           </Link>
           <div className="hidden lg:flex gap-8" role="list">
             {navLinks.map((link) => (
@@ -162,7 +169,11 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             className="fixed inset-0 bg-white z-[110] flex flex-col p-8"
           >
             <div className="flex justify-between items-center mb-12">
-              <img src="/Assets/Logo/Logo.png" alt="Ethnic Fusion" className="h-8 w-auto object-contain" />
+              <img 
+                src="/logo.png" 
+                alt="Ethnic Fusion" 
+                className="h-8 w-auto object-contain" 
+              />
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Close Mobile Menu"
