@@ -116,7 +116,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
           </div>
           <div className={cn('flex gap-5', isScrolled || !isHome ? 'text-primary' : 'text-white')}>
             <button 
-              className="relative cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary" 
+              className="hidden lg:flex relative cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary" 
               onClick={() => setIsWishlistOpen(true)}
               aria-label={`Open Wishlist, ${wishlist.length} items`}
             >
@@ -144,7 +144,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             <Link 
               to="/account" 
               aria-label="Account Settings"
-              className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
+              className="hidden lg:flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
             >
               <User className="w-5 h-5 cursor-pointer hover:text-tertiary transition-colors" aria-hidden="true" />
             </Link>
