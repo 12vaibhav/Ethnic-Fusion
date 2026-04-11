@@ -86,7 +86,7 @@ export default function Home() {
             className="font-headline text-5xl sm:text-6xl md:text-9xl text-white leading-[1] md:leading-[0.9] mb-8 md:mb-8 uppercase tracking-tighter text-center md:text-left drop-shadow-2xl"
           >
             Tradition Meets<br />
-            <span className="italic font-medium lowercase text-tertiary bg-black/40 backdrop-blur-sm px-3 leading-none rounded-sm">tomorrow</span>
+            <span className="italic font-medium lowercase text-tertiary bg-black/40 backdrop-blur-sm px-2 inline-block leading-[0.85] rounded-sm">tomorrow</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
