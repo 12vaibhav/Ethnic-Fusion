@@ -85,8 +85,8 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="font-headline text-5xl sm:text-6xl md:text-9xl text-white leading-[1] md:leading-[0.9] mb-8 md:mb-8 uppercase tracking-tighter text-center md:text-left drop-shadow-2xl"
           >
-            The Anarkali<br />
-            <span className="italic font-light lowercase text-tertiary">Edit</span>
+            Tradition Meets<br />
+            <span className="italic font-light lowercase text-tertiary">tomorrow</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -94,13 +94,13 @@ export default function Home() {
             transition={{ delay: 0.6 }}
             className="hidden md:block font-body text-white/90 text-base md:text-xl max-w-xl mb-8 md:mb-12 leading-relaxed italic"
           >
-            "A symphony of heritage silk and modern precision. Discover the timeless grace of our signature Anarkali silhouettes."
+            "A symphony of heritage silk and modern precision. Discover the timeless grace of our signature silhouettes, reimagined for the modern archive."
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="mt-6 md:mt-12 md:mb-0 flex flex-col sm:flex-row gap-4 md:gap-6 items-center sm:items-start"
+            className="mt-6 md:mt-12 md:mb-0 hidden md:flex flex-col sm:flex-row gap-4 md:gap-6 items-center sm:items-start"
           >
             <Link to="/collections" className="w-full sm:w-auto flex justify-center sm:justify-start">
               <button className="w-full sm:w-auto bg-tertiary text-white px-6 md:px-10 py-3 md:py-4 rounded-sm font-label uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-500 text-[10px] md:text-xs font-bold shadow-xl">
