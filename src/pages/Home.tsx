@@ -112,6 +112,11 @@ export default function Home() {
                 Explore Lookbook
               </button>
             </Link>
+            <Link to="/collections" className="flex md:hidden w-full justify-center">
+              <button className="w-full border border-white/40 text-white px-6 py-3 rounded-sm font-label uppercase tracking-widest hover:bg-white/10 transition-all duration-300 backdrop-blur-sm text-[10px] font-bold">
+                Explore Collections
+              </button>
+            </Link>
           </motion.div>
         </div>
 
