@@ -40,3 +40,24 @@
     scrollbar-width: none;
   }
 }
+
+/* Chatbot Mobile Optimizations */
+@media (max-width: 768px) {
+  #chatlayer-container {
+    width: calc(100vw - 32px) !important;
+    height: 60vh !important;
+    max-height: 500px !important;
+    right: 16px !important;
+    bottom: 85px !important;
+  }
+
+  #chatlayer-btn {
+    right: 16px !important;
+    bottom: 16px !important;
+    padding: 10px !important;
+  }
+
+  #chatlayer-btn span {
+    display: none !important; /* Hide "Chat With Us" text on mobile to save space */
+  }
+}
