@@ -39,6 +39,13 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .text-outline-white {
+    text-shadow: 
+      -1px -1px 0 #fff,  
+       1px -1px 0 #fff,
+      -1px  1px 0 #fff,
+       1px  1px 0 #fff;
+  }
 }
 
 /* Chatbot Mobile Optimizations */
