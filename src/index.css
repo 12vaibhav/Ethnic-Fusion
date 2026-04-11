@@ -54,7 +54,19 @@
   #chatlayer-btn {
     right: 16px !important;
     bottom: 16px !important;
-    padding: 10px !important;
+    padding: 14px !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+  }
+
+  #chatlayer-btn svg, 
+  #chatlayer-btn img {
+    width: 28px !important;
+    height: 28px !important;
   }
 
   #chatlayer-btn span {

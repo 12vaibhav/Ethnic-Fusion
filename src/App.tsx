@@ -40,6 +40,25 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
+  useEffect(() => {
+    // Automatically open chatbot after a short delay
+    const openChatbot = () => {
+      const btn = document.getElementById('chatlayer-btn');
+      if (btn) {
+        btn.click();
+      } else {
+        // If button isn't found, try again once more after a small delay
+        setTimeout(() => {
+          const retryBtn = document.getElementById('chatlayer-btn');
+          if (retryBtn) retryBtn.click();
+        }, 1000);
+      }
+    };
+
+    const timer = setTimeout(openChatbot, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <ShopProvider>
       <Toaster position="bottom-center" expand={false} richColors />
