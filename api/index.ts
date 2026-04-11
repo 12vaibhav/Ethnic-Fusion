@@ -47,7 +47,7 @@ async function getAIResponse(userMessage: string) {
       OUR COLLECTION: ${JSON.stringify(PRODUCTS)}
       ORDER DATA: ${JSON.stringify(ORDERS)}
       GUIDELINES:
-      - Include direct Buy Links: https://ethnic-fusion-fashion.vercel.app/product/[ID]
+      - Include direct Buy Links: https://ethnic-fusion.vercel.app/product/[ID]
       - Use WhatsApp formatting (*bold*).
     `;
     const response = await client.chat.completions.create({
