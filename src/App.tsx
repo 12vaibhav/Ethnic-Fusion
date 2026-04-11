@@ -41,22 +41,35 @@ export default function App() {
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
   useEffect(() => {
-    // Automatically open chatbot after a short delay
-    const openChatbot = () => {
+    // Open chatbot immediately when button appears
+    const attemptClick = () => {
       const btn = document.getElementById('chatlayer-btn');
       if (btn) {
         btn.click();
-      } else {
-        // If button isn't found, try again once more after a small delay
-        setTimeout(() => {
-          const retryBtn = document.getElementById('chatlayer-btn');
-          if (retryBtn) retryBtn.click();
-        }, 1000);
+        return true;
       }
+      return false;
     };
 
-    const timer = setTimeout(openChatbot, 2000);
-    return () => clearTimeout(timer);
+    // Fast check first
+    if (attemptClick()) return;
+
+    // Observe body for changes if it's not there yet
+    const observer = new MutationObserver((_, obs) => {
+      if (attemptClick()) {
+        obs.disconnect();
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    
+    // Safety timeout to prevent observer from running forever if widget fails
+    const timeout = setTimeout(() => observer.disconnect(), 10000);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (
