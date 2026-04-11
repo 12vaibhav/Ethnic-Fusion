@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ethnic Fusion | Defining Heritage Couture</title>
     <link rel="icon" type="image/png" href="/logo-circle.png" />
+    <style>
+      @media (max-width: 640px) {
+        /* General fix for external widgets that might overflow on mobile */
+        iframe[src*="supabase"], 
+        #chatbot-container,
+        .chatbot-widget {
+          max-width: 90vw !important;
+          right: 5vw !important;
+          bottom: 20px !important;
+          left: auto !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
