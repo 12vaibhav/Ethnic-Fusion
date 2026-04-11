@@ -2,7 +2,24 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import OpenAI from 'openai';
 import axios from 'axios';
-import { PRODUCTS, ORDERS } from '../src/constants';
+
+// --- SELF-CONTAINED DATA (To avoid ERR_MODULE_NOT_FOUND on Vercel) ---
+const PRODUCTS = [
+  { id: '1', name: 'Zari Velvet Bridal Lehenga', price: 84500, category: 'Lehengas' },
+  { id: '2', name: 'Kanchipuram Silk Drape', price: 42000, category: 'Sarees' },
+  { id: '3', name: 'Mustard Fusion Gown', price: 28500, category: 'Fusion Dresses' },
+  { id: '4', name: 'Floral Anarkali Suit', price: 36200, category: 'Anarkalis' },
+  { id: '5', name: 'Ruby Gotta Patti Lehenga', price: 115000, category: 'Lehengas' },
+  { id: '6', name: 'Sheer Organza Saree', price: 22400, category: 'Sarees' },
+  { id: '7', name: 'Geometric Co-ord Set', price: 18900, category: 'Indo-Western' },
+  { id: '8', name: 'Heritage Banarasi Dupatta', price: 12000, category: 'Kurtis' }
+];
+
+const ORDERS = [
+  { id: 'RT-8849201', status: 'Shipped' },
+  { id: 'RT-8847392', status: 'Delivered' },
+  { id: 'RT-8845510', status: 'Delivered' }
+];
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,11 +43,11 @@ async function getAIResponse(userMessage: string) {
     const client = getOpenAIClient();
     const systemPrompt = `
       You are the "Ethnic Fusion AI Stylist," a premium assistant for an ethnic fusion fashion boutique.
-      BRAND VOICE: Elegant, sophisticated, modern.
+      BRAND VOICE: Elegant, sophisticated.
       OUR COLLECTION: ${JSON.stringify(PRODUCTS)}
       ORDER DATA: ${JSON.stringify(ORDERS)}
       GUIDELINES:
-      - Include direct Buy Links for products: https://ethnic-fusion-fashion.vercel.app/product/[ID]
+      - Include direct Buy Links: https://ethnic-fusion-fashion.vercel.app/product/[ID]
       - Use WhatsApp formatting (*bold*).
     `;
     const response = await client.chat.completions.create({
@@ -59,35 +76,38 @@ async function sendWhatsAppMessage(to: string, text: string) {
 }
 
 // --- Express Routes ---
-app.get('/api', (req, res) => {
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
-  const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN || 'ethnic_fusion_secret_123';
+// Vercel routes both GET and POST to this file
+app.all('/api', async (req, res) => {
+  if (req.method === 'GET') {
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
+    const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN || 'ethnic_fusion_secret_123';
 
-  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-    res.status(200).send(challenge);
-  } else {
-    res.sendStatus(403);
-  }
-});
-
-app.post('/api', async (req, res) => {
-  const body = req.body;
-  if (body.object === 'whatsapp_business_account') {
-    const messages = body.entry?.[0]?.changes?.[0]?.value?.messages;
-    if (messages && messages[0]) {
-      const from = messages[0].from;
-      const text = messages[0].text?.body;
-      if (text) {
-        const aiResponse = await getAIResponse(text);
-        await sendWhatsAppMessage(from, aiResponse);
-      }
+    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+      return res.status(200).send(challenge);
     }
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(404);
+    return res.sendStatus(403);
   }
+
+  if (req.method === 'POST') {
+    const body = req.body;
+    if (body.object === 'whatsapp_business_account') {
+      const messages = body.entry?.[0]?.changes?.[0]?.value?.messages;
+      if (messages && messages[0]) {
+        const from = messages[0].from;
+        const text = messages[0].text?.body;
+        if (text) {
+          const aiResponse = await getAIResponse(text);
+          await sendWhatsAppMessage(from, aiResponse);
+        }
+      }
+      return res.sendStatus(200);
+    }
+    return res.sendStatus(404);
+  }
+
+  res.sendStatus(405);
 });
 
 export default app;
