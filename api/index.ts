@@ -3,23 +3,9 @@ import bodyParser from 'body-parser';
 import OpenAI from 'openai';
 import axios from 'axios';
 
-// --- SELF-CONTAINED DATA (To avoid ERR_MODULE_NOT_FOUND on Vercel) ---
-const PRODUCTS = [
-  { id: '1', name: 'Zari Velvet Bridal Lehenga', price: 84500, category: 'Lehengas' },
-  { id: '2', name: 'Kanchipuram Silk Drape', price: 42000, category: 'Sarees' },
-  { id: '3', name: 'Mustard Fusion Gown', price: 28500, category: 'Fusion Dresses' },
-  { id: '4', name: 'Floral Anarkali Suit', price: 36200, category: 'Anarkalis' },
-  { id: '5', name: 'Ruby Gotta Patti Lehenga', price: 115000, category: 'Lehengas' },
-  { id: '6', name: 'Sheer Organza Saree', price: 22400, category: 'Sarees' },
-  { id: '7', name: 'Geometric Co-ord Set', price: 18900, category: 'Indo-Western' },
-  { id: '8', name: 'Heritage Banarasi Dupatta', price: 12000, category: 'Kurtis' }
-];
-
-const ORDERS = [
-  { id: 'RT-8849201', status: 'Shipped' },
-  { id: 'RT-8847392', status: 'Delivered' },
-  { id: 'RT-8845510', status: 'Delivered' }
-];
+// --- MINIMAL DATA FOR INITIALIZATION ---
+const PRODUCTS: any[] = [];
+const ORDERS: any[] = [];
 
 const app = express();
 app.use(bodyParser.json());

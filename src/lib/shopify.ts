@@ -2,6 +2,10 @@ const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN;
 const SHOPIFY_STOREFRONT_ACCESS_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 
 async function shopifyFetch({ query, variables = {} }: { query: string, variables?: any }) {
+  if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
+    console.warn('Shopify credentials missing. Skipping fetch.');
+    return null;
+  }
   const endpoint = `https://${SHOPIFY_STORE_DOMAIN}/api/2024-01/graphql.json`;
   
   try {
