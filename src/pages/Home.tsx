@@ -4,14 +4,31 @@ import { Link } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
 import ProductCard from '../components/ProductCard';
-import { PRODUCTS } from '../constants';
 import { useShop } from '../context/ShopContext';
+import { getProducts } from '../lib/shopify';
+import { Product } from '../types';
 
 export default function Home() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useShop();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const fetchedProducts = await getProducts();
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const desktopHeroImages = [
     '/Assets/hero section/herosection banner.webp',
@@ -235,7 +252,15 @@ export default function Home() {
             ref={scrollRef}
             className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:flex gap-x-4 gap-y-4 md:gap-8 overflow-x-auto pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto"
           >
-            {PRODUCTS.slice(0, 6).map((item, idx) => (
+            {loading ? (
+              [...Array(4)].map((_, idx) => (
+                <div key={idx} className="w-[45vw] md:min-w-[360px] animate-pulse">
+                  <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
+                  <div className="h-6 bg-surface-container-low w-3/4 mb-2"></div>
+                  <div className="h-4 bg-surface-container-low w-1/2"></div>
+                </div>
+              ))
+            ) : products.slice(0, 6).map((item, idx) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -377,7 +402,14 @@ export default function Home() {
           </div>
 
           <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 md:gap-x-12 gap-y-4 md:gap-y-12 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
-            {PRODUCTS.slice(4, 8).map((product, idx) => (
+            {loading ? (
+              [...Array(4)].map((_, idx) => (
+                <div key={idx} className="w-[45vw] animate-pulse">
+                  <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
+                  <div className="h-6 bg-surface-container-low w-3/4 mb-2"></div>
+                </div>
+              ))
+            ) : products.slice(4, 8).map((product, idx) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -435,7 +467,13 @@ export default function Home() {
             <h3 className="font-headline text-5xl text-primary">Masterpiece Gallery</h3>
           </div>
           <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-16 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
-            {PRODUCTS.slice(0, 4).map((product, idx) => (
+            {loading ? (
+              [...Array(4)].map((_, idx) => (
+                <div key={idx} className="w-[45vw] md:w-auto animate-pulse">
+                  <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
+                </div>
+              ))
+            ) : products.slice(0, 4).map((product, idx) => (
               <div key={product.id} className="w-[45vw] md:w-auto h-auto md:h-full snap-start">
                 <ProductCard product={product} />
               </div>

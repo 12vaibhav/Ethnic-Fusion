@@ -1,6 +1,7 @@
 export interface Product {
   id: string;
   name: string;
+  handle?: string;
   price: number;
   originalPrice?: number;
   image: string;
@@ -9,6 +10,7 @@ export interface Product {
   fabric: string;
   description: string;
   isNew?: boolean;
+  variantId?: string;
 }
 
 export interface Order {

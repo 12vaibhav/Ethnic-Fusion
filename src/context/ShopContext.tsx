@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product, CartItem } from '../types';
+import { createCheckout } from '../lib/shopify';
+import { toast } from 'sonner';
 
 interface ShopContextType {
   cart: CartItem[];
@@ -11,6 +13,7 @@ interface ShopContextType {
   isInWishlist: (productId: string) => boolean;
   cartTotal: number;
   cartCount: number;
+  initiateCheckout: () => Promise<void>;
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
@@ -73,6 +76,30 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return wishlist.some(item => item.id === productId);
   };
 
+  const initiateCheckout = async () => {
+    if (cart.length === 0) {
+      toast.error('Cart is empty');
+      return;
+    }
+
+    const lineItems = cart.map(item => ({
+      variantId: item.variantId || '', // Fallback to empty if variantId is missing
+      quantity: item.quantity,
+    })).filter(item => item.variantId !== '');
+
+    if (lineItems.length === 0) {
+      toast.error('Could not find Shopify variants for items in cart');
+      return;
+    }
+
+    const checkoutUrl = await createCheckout(lineItems);
+    if (checkoutUrl) {
+      window.location.href = checkoutUrl;
+    } else {
+      toast.error('Failed to create checkout. Please try again.');
+    }
+  };
+
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
@@ -86,7 +113,8 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       toggleWishlist,
       isInWishlist,
       cartTotal,
-      cartCount
+      cartCount,
+      initiateCheckout
     }}>
       {children}
     </ShopContext.Provider>

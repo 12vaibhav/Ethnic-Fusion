@@ -150,11 +150,19 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     <span>₹{cartTotal.toLocaleString()}</span>
                   </div>
                 </div>
-                <Link to="/checkout" onClick={onClose} className="block w-full">
-                  <button className="w-full bg-primary text-white py-4 md:py-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary transition-all flex items-center justify-center gap-2 md:gap-3 shadow-xl">
-                    Proceed to Checkout <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" aria-hidden="true" />
-                  </button>
-                </Link>
+                <button 
+                  onClick={async () => {
+                    const checkoutPromise = initiateCheckout();
+                    toast.promise(checkoutPromise, {
+                      loading: 'Preparing your heritage pieces...',
+                      success: 'Redirecting to secure checkout...',
+                      error: 'Failed to initiate checkout.'
+                    });
+                  }}
+                  className="w-full bg-primary text-white py-4 md:py-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary transition-all flex items-center justify-center gap-2 md:gap-3 shadow-xl"
+                >
+                  Proceed to Checkout <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" aria-hidden="true" />
+                </button>
                 <p className="text-[7px] md:text-[9px] text-center text-outline uppercase tracking-widest">
                   Secure Checkout • 100% Authentic Heritage Wear
                 </p>

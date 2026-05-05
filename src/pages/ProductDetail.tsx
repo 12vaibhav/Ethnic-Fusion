@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState, FormEvent } from 'react';
-import { Heart, ShoppingBag, Share2, Ruler, Truck, RotateCcw, Star, ChevronRight, Plus } from 'lucide-react';
-import { PRODUCTS } from '../constants';
+import { useState, FormEvent, useEffect } from 'react';
+import { Heart, ShoppingBag, Share2, Ruler, Truck, RotateCcw, Star, ChevronRight, Plus, Loader2, ArrowLeft } from 'lucide-react';
+import { getProductByHandle } from '../lib/shopify';
 import ProductCard from '../components/ProductCard';
 import { motion } from 'motion/react';
 import { useShop } from '../context/ShopContext';
@@ -27,15 +27,49 @@ const PinterestIcon = (props: any) => (
 );
 
 export default function ProductDetail() {
-  const { id } = useParams();
+  const { id: handle } = useParams();
   const navigate = useNavigate();
-  const product = PRODUCTS.find((p) => p.id === id) || PRODUCTS[0];
+  const [product, setProduct] = useState<any>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedSize, setSelectedSize] = useState('M');
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedColor, setSelectedColor] = useState('');
   const [activeTab, setActiveTab] = useState('description');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
-  const isWishlisted = isInWishlist(product.id);
+
+  useEffect(() => {
+    async function loadData() {
+      if (!handle) return;
+      setLoading(true);
+      try {
+        const [productData, allProducts] = await Promise.all([
+          getProductByHandle(handle),
+          getProducts()
+        ]);
+        
+        if (productData) {
+          setProduct(productData);
+          if (productData.colors && productData.colors.length > 0) {
+            setSelectedColor(productData.colors[0]);
+          }
+        }
+        
+        // Filter out current product and take 4 related ones
+        const filtered = allProducts
+          .filter(p => p.handle !== handle)
+          .slice(0, 4);
+        setRelatedProducts(filtered);
+      } catch (error) {
+        console.error('Failed to load product data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [handle]);
+
+  const isWishlisted = product ? isInWishlist(product.id) : false;
 
   const [reviews, setReviews] = useState([
     { id: '1', name: 'Ananya Sharma', rating: 5, comment: 'Absolutely stunning! The embroidery is even more intricate in person. A true heirloom piece.', date: '2024-03-15' },
@@ -126,6 +160,51 @@ export default function ProductDetail() {
     announce('Bundle added to cart.');
   };
 
+  if (loading) {
+    return (
+      <div className="bg-surface min-h-screen flex flex-col items-center justify-center gap-6">
+        <div className="relative">
+          <Loader2 className="w-16 h-16 text-tertiary animate-spin" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-8 h-8 bg-surface rounded-full"></div>
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <h2 className="font-headline text-2xl text-primary animate-pulse">Unveiling Masterpiece</h2>
+          <p className="text-on-surface-variant font-medium tracking-widest text-xs uppercase">Curating the finest details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="bg-surface min-h-screen flex flex-col items-center justify-center p-4 text-center">
+        <div className="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mb-8">
+          <ShoppingBag className="w-10 h-10 text-outline" />
+        </div>
+        <h1 className="font-headline text-3xl md:text-5xl text-primary mb-4">Piece Not Found</h1>
+        <p className="text-on-surface-variant max-w-md mx-auto mb-10 leading-relaxed">
+          The heritage piece you're looking for might have been archived or is temporarily unavailable in our current collection.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <button 
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center gap-2 px-8 py-4 border border-primary text-primary text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> Go Back
+          </button>
+          <Link 
+            to="/collections"
+            className="flex items-center justify-center gap-2 px-10 py-4 bg-primary text-white text-xs font-bold uppercase tracking-widest hover:bg-tertiary transition-all"
+          >
+            Explore Collections
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-surface min-h-screen pt-16 md:pt-20 pb-8 md:pb-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-12">
@@ -145,11 +224,11 @@ export default function ProductDetail() {
                     if (index !== activeImageIndex) setActiveImageIndex(index);
                   }}
                 >
-                  {[1, 2, 3, 4].map((i, index) => (
-                    <div key={i} className="flex-shrink-0 w-[calc(100vw-32px)] snap-start aspect-[3/4] bg-surface-container-low overflow-hidden mr-4 last:mr-0">
+                  {product.images?.map((img: string, index: number) => (
+                    <div key={index} className="flex-shrink-0 w-[calc(100vw-32px)] snap-start aspect-[3/4] bg-surface-container-low overflow-hidden mr-4 last:mr-0">
                       <img
-                        src={product.image}
-                        alt={`${product.name} view ${i}`}
+                        src={img}
+                        alt={`${product.name} view ${index + 1}`}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
                       />
@@ -170,7 +249,7 @@ export default function ProductDetail() {
 
                 {/* Pagination Dots */}
                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-                  {[0, 1, 2, 3].map((i) => (
+                  {product.images?.map((_: any, i: number) => (
                     <div 
                       key={i} 
                       className={cn(
@@ -184,7 +263,7 @@ export default function ProductDetail() {
 
               {/* Mobile Thumbnails */}
               <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
-                {[0, 1, 2, 3].map((i) => (
+                {product.images?.map((img: string, i: number) => (
                   <button 
                     key={i}
                     onClick={() => {
@@ -202,7 +281,7 @@ export default function ProductDetail() {
                       activeImageIndex === i ? "border-primary" : "border-transparent opacity-60"
                     )}
                   >
-                    <img src={product.image} alt="Thumbnail" className="w-full h-full object-cover" />
+                    <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -212,22 +291,26 @@ export default function ProductDetail() {
             <div className="hidden lg:block space-y-6">
               <div className="aspect-[3/4] overflow-hidden bg-surface-container-low">
                 <img
-                  src={product.image}
+                  src={product.images?.[activeImageIndex] || product.image}
                   alt={`Main view of ${product.name}`}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="grid grid-cols-4 gap-4">
-                {[1, 2, 3, 4].map((i) => (
+                {product.images?.map((img: string, i: number) => (
                   <button 
                     key={i} 
-                    className="aspect-square overflow-hidden bg-surface-container-low cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
-                    aria-label={`View product image ${i}`}
+                    onClick={() => setActiveImageIndex(i)}
+                    className={cn(
+                      "aspect-square overflow-hidden bg-surface-container-low cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
+                      activeImageIndex === i && "ring-2 ring-tertiary"
+                    )}
+                    aria-label={`View product image ${i + 1}`}
                   >
                     <img
-                      src={product.image}
-                      alt={`${product.name} detail view ${i}`}
+                      src={img}
+                      alt={`${product.name} detail view ${i + 1}`}
                       referrerPolicy="no-referrer"
                       loading="lazy"
                       className="w-full h-full object-cover"
@@ -591,11 +674,19 @@ export default function ProductDetail() {
             </Link>
           </div>
           <div className="flex md:grid md:grid-cols-4 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 -mx-4 px-4 md:mx-0 hide-scrollbar scroll-pl-4">
-            {PRODUCTS.slice(4, 8).map((p) => (
-              <div key={p.id} className="flex-shrink-0 w-[70vw] md:w-auto snap-start">
-                <ProductCard product={p} />
-              </div>
-            ))}
+            {relatedProducts.length > 0 ? (
+              relatedProducts.map((p) => (
+                <div key={p.id} className="flex-shrink-0 w-[70vw] md:w-auto snap-start">
+                  <ProductCard product={p} />
+                </div>
+              ))
+            ) : (
+              [...Array(4)].map((_, idx) => (
+                <div key={idx} className="flex-shrink-0 w-[70vw] md:w-auto animate-pulse">
+                  <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
+                </div>
+              ))
+            )}
           </div>
         </section>
       </div>

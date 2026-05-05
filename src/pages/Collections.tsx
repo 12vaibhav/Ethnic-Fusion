@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Search, Heart, ShoppingBag, Filter, X, ChevronDown } from 'lucide-react';
-import { PRODUCTS } from '../constants';
+import { ChevronLeft, ChevronRight, Search, Heart, ShoppingBag, Filter, X, ChevronDown, Loader2 } from 'lucide-react';
+import { getProducts } from '../lib/shopify';
 import ProductCard from '../components/ProductCard';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
+import { Product } from '../types';
 
 export default function Collections() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState(250000);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
@@ -16,6 +19,16 @@ export default function Collections() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedFabrics, setSelectedFabrics] = useState<string[]>([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      setLoading(true);
+      const data = await getProducts();
+      setProducts(data as Product[]);
+      setLoading(false);
+    }
+    loadProducts();
+  }, []);
 
   const toggleFilter = (filterType: 'category' | 'color' | 'fabric', value: string) => {
     if (filterType === 'category') {
@@ -27,9 +40,9 @@ export default function Collections() {
     }
   };
 
-  const filteredProducts = PRODUCTS.filter(product => {
+  const filteredProducts = products.filter(product => {
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
-    const matchesColor = selectedColors.length === 0 || product.colors.some(c => selectedColors.includes(c));
+    const matchesColor = selectedColors.length === 0 || (product.colors && product.colors.some(c => selectedColors.includes(c)));
     const matchesFabric = selectedFabrics.length === 0 || selectedFabrics.includes(product.fabric);
     const matchesPrice = product.price <= priceRange;
     return matchesCategory && matchesColor && matchesFabric && matchesPrice;
@@ -242,11 +255,37 @@ export default function Collections() {
 
         {/* Product Grid */}
         <div className="flex-grow">
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-8 md:gap-y-16 gap-x-4 md:gap-x-8">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+              <Loader2 className="w-12 h-12 text-tertiary animate-spin" />
+              <p className="text-on-surface-variant font-medium animate-pulse">Fetching latest collections...</p>
+            </div>
+          ) : filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-8 md:gap-y-16 gap-x-4 md:gap-x-8">
+              {filteredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
+              <div className="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mb-6">
+                <Search className="w-10 h-10 text-outline" />
+              </div>
+              <h3 className="text-xl font-headline text-primary mb-2">No masterpieces found</h3>
+              <p className="text-on-surface-variant max-w-xs mx-auto">We couldn't find any items matching your current filters. Try adjusting them or clear all filters.</p>
+              <button 
+                onClick={() => {
+                  setSelectedCategories([]);
+                  setSelectedColors([]);
+                  setSelectedFabrics([]);
+                  setPriceRange(250000);
+                }}
+                className="mt-8 px-8 py-3 border border-primary text-primary text-[10px] uppercase tracking-widest font-bold hover:bg-primary hover:text-white transition-all"
+              >
+                Clear All Filters
+              </button>
+            </div>
+          )}
 
           {/* Pagination */}
           <div className="mt-12 md:mt-24 flex flex-col items-center gap-6 md:gap-8">
