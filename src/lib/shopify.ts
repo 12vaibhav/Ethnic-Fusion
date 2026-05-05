@@ -1,5 +1,5 @@
-const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN;
-const SHOPIFY_STOREFRONT_ACCESS_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN?.replace(/['"]+/g, '').trim();
+const SHOPIFY_STOREFRONT_ACCESS_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN?.replace(/['"]+/g, '').trim();
 
 async function shopifyFetch({ query, variables = {} }: { query: string, variables?: any }) {
   if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
@@ -18,14 +18,22 @@ async function shopifyFetch({ query, variables = {} }: { query: string, variable
       body: JSON.stringify({ query, variables }),
     });
 
-    if (!response.ok) {
-      throw new Error(`Shopify API error: ${response.statusText}`);
+    const result = await response.json();
+
+    if (result.errors) {
+      console.error('Shopify GraphQL Errors:', result.errors);
+      return null;
     }
 
-    const result = await response.json();
+    if (!response.ok) {
+      console.error('Shopify HTTP Error:', response.status, response.statusText);
+      return null;
+    }
+
+    console.log('Shopify Data Received:', result.data);
     return result.data;
   } catch (error) {
-    console.error('Error fetching from Shopify:', error);
+    console.error('Network Error fetching from Shopify:', error);
     return null;
   }
 }
