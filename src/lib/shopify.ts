@@ -49,27 +49,30 @@ export const getProducts = async () => {
     query getProducts {
       products(first: 20, sortKey: CREATED_AT, reverse: true) {
         edges {
+      products(first: 50) {
+        edges {
           node {
             id
             title
             handle
             description
-            priceRange {
-              minVariantPrice {
-                amount
-                currencyCode
+            productType
+            tags
+            collections(first: 5) {
+              edges {
+                node {
+                  handle
+                  title
+                }
               }
             }
             images(first: 1) {
               edges {
                 node {
                   url
-                  altText
                 }
               }
             }
-            tags
-            productType
             variants(first: 1) {
               edges {
                 node {
@@ -90,7 +93,7 @@ export const getProducts = async () => {
   `;
 
   const data = await shopifyFetch({ query });
-  if (!data) return [];
+  if (!data?.products) return [];
 
   return data.products.edges.map(({ node }: any) => ({
     id: node.id,
@@ -100,6 +103,7 @@ export const getProducts = async () => {
     originalPrice: node.variants.edges[0].node.compareAtPrice ? parseFloat(node.variants.edges[0].node.compareAtPrice.amount) : undefined,
     image: node.images.edges[0]?.node.url || '',
     category: node.productType,
+    collections: node.collections.edges.map(({ node: col }: any) => col.handle),
     description: node.description,
     variantId: node.variants.edges[0].node.id,
     tags: node.tags || [],
