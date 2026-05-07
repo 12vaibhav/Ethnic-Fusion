@@ -197,7 +197,15 @@ export default function Home() {
                 </div>
                 <div className="flex-grow overflow-hidden">
                   <h4 className="font-headline text-xl md:text-2xl text-primary mb-1 truncate">{item.title || item.name}</h4>
-                  <p className="font-body text-on-surface-variant text-xs md:text-sm leading-relaxed line-clamp-2">{item.description || item.category}</p>
+                  {item.subtitle ? (
+                    <p className="text-[10px] text-tertiary italic font-medium leading-tight mb-2">
+                      {item.subtitle}
+                    </p>
+                  ) : (
+                    <p className="font-body text-on-surface-variant text-xs md:text-sm leading-relaxed line-clamp-2">
+                      {item.category || (typeof item.description === 'string' && !item.description.includes('<') ? item.description : '')}
+                    </p>
+                  )}
                 </div>
                 <div className="hidden md:block mt-2 pt-3 border-t border-outline-variant/30 flex-shrink-0">
                   <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-tertiary flex items-center gap-2 group-hover:gap-4 transition-all">
