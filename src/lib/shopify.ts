@@ -186,7 +186,11 @@ export const getProductByHandle = async (handle: string) => {
             }
           }
         }
-        variants(first: 10) {
+        options {
+          name
+          values
+        }
+        variants(first: 100) {
           edges {
             node {
               id
@@ -221,11 +225,13 @@ export const getProductByHandle = async (handle: string) => {
     image: product.images.edges[0]?.node.url || '',
     price: parseFloat(product.variants.edges[0].node.price.amount),
     originalPrice: product.variants.edges[0].node.compareAtPrice ? parseFloat(product.variants.edges[0].node.compareAtPrice.amount) : undefined,
-    variants: product.variants.edges.map(({ node }: any) => ({
-      id: node.id,
-      title: node.title,
-      price: parseFloat(node.price.amount),
-      selectedOptions: node.selectedOptions,
+    options: product.options,
+    variants: product.variants.edges.map(({ node: variant }: any) => ({
+      id: variant.id,
+      title: variant.title,
+      price: parseFloat(variant.price.amount),
+      compareAtPrice: variant.compareAtPrice ? parseFloat(variant.compareAtPrice.amount) : undefined,
+      selectedOptions: variant.selectedOptions,
     })),
   };
 };

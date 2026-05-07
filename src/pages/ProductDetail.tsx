@@ -63,15 +63,20 @@ export default function ProductDetail() {
     loadData();
   }, [handle]);
 
-  // Extract unique options (like Size, Color) from variants with safety checks
-  const options = product?.variants?.reduce((acc: any, variant: any) => {
-    if (!variant.selectedOptions) return acc;
-    variant.selectedOptions.forEach((opt: any) => {
-      if (!acc[opt.name]) acc[opt.name] = [];
-      if (!acc[opt.name].includes(opt.value)) acc[opt.name].push(opt.value);
-    });
-    return acc;
-  }, {}) || {};
+  // Get options directly from Shopify, or fallback to reconstructing them from variants
+  const options = product?.options ? 
+    product.options.reduce((acc: any, opt: any) => {
+      acc[opt.name] = opt.values;
+      return acc;
+    }, {}) : 
+    (product?.variants?.reduce((acc: any, variant: any) => {
+      if (!variant.selectedOptions) return acc;
+      variant.selectedOptions.forEach((opt: any) => {
+        if (!acc[opt.name]) acc[opt.name] = [];
+        if (!acc[opt.name].includes(opt.value)) acc[opt.name].push(opt.value);
+      });
+      return acc;
+    }, {}) || {});
 
   // Smart Parser for Shopify Description Tabs
   const parseDescription = (desc: string) => {
