@@ -18,10 +18,27 @@ export interface Product {
 
 export interface Order {
   id: string;
-  date: string;
-  status: 'Shipped' | 'Delivered' | 'Processing';
-  total: number;
-  image: string;
+  orderNumber: string;
+  processedAt: string;
+  totalPrice: {
+    amount: string;
+    currencyCode: string;
+  };
+  financialStatus: string;
+  fulfillmentStatus: string;
+  lineItems: {
+    title: string;
+    quantity: number;
+    image: string;
+  }[];
+}
+
+export interface Customer {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  orders: Order[];
 }
 
 export interface CartItem extends Product {

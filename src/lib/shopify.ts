@@ -297,3 +297,102 @@ export const getCollections = async () => {
     image: node.image?.url || '',
   }));
 };
+
+// --- Customer Authentication ---
+
+export const customerLogin = async (email: string, password: string) => {
+  const query = `
+    mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+      customerAccessTokenCreate(input: $input) {
+        customerAccessToken {
+          accessToken
+          expiresAt
+        }
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const data = await shopifyFetch({ 
+    query, 
+    variables: { input: { email, password } } 
+  });
+
+  return data?.customerAccessTokenCreate;
+};
+
+export const customerRegister = async (firstName: string, lastName: string, email: string, password: string) => {
+  const query = `
+    mutation customerCreate($input: CustomerCreateInput!) {
+      customerCreate(input: $input) {
+        customer {
+          id
+        }
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const data = await shopifyFetch({ 
+    query, 
+    variables: { input: { firstName, lastName, email, password } } 
+  });
+
+  return data?.customerCreate;
+};
+
+export const getCustomerData = async (customerAccessToken: string) => {
+  const query = `
+    query getCustomer($customerAccessToken: String!) {
+      customer(customerAccessToken: $customerAccessToken) {
+        firstName
+        lastName
+        email
+        phone
+        orders(first: 10, reverse: true) {
+          edges {
+            node {
+              id
+              orderNumber
+              processedAt
+              totalPrice {
+                amount
+                currencyCode
+              }
+              financialStatus
+              fulfillmentStatus
+              lineItems(first: 5) {
+                edges {
+                  node {
+                    title
+                    quantity
+                    variant {
+                      image {
+                        url
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await shopifyFetch({ 
+    query, 
+    variables: { customerAccessToken } 
+  });
+
+  return data?.customer;
+};

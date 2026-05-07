@@ -20,6 +20,7 @@ import Checkout from './pages/Checkout';
 import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
 import { ShopProvider } from './context/ShopContext';
+import { AuthProvider } from './context/AuthContext';
 import { Toaster } from 'sonner';
 
 function ScrollToTop() {
@@ -73,7 +74,8 @@ export default function App() {
   }, []);
 
   return (
-    <ShopProvider>
+    <AuthProvider>
+      <ShopProvider>
       <Toaster position="bottom-center" expand={false} richColors />
       <Router>
         <ScrollToTop />
@@ -103,7 +105,8 @@ export default function App() {
           <WishlistDrawer isOpen={isWishlistOpen} onClose={() => setIsWishlistOpen(false)} />
         </div>
       </Router>
-    </ShopProvider>
+      </ShopProvider>
+    </AuthProvider>
   );
 }
 

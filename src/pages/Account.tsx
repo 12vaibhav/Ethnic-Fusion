@@ -1,13 +1,37 @@
 import { useState } from 'react';
-import { User, Package, Heart, CreditCard, Settings, LogOut, ChevronRight, ExternalLink } from 'lucide-react';
-import { ORDERS } from '../constants';
+import { User, Package, Heart, CreditCard, Settings, LogOut, ChevronRight, ExternalLink, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
+import { useAuth } from '../context/AuthContext';
+import { LoginForm, RegisterForm } from '../components/AuthForms';
 
 export default function Account() {
+  const { customer, loading, logout, isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState('Dashboard');
-  const [profile, setProfile] = useState({ name: 'Anjali Sharma', email: 'anjali.s@gmail.com' });
+  const [authView, setAuthView] = useState<'login' | 'register'>('login');
   const [trackingNumber, setTrackingNumber] = useState('');
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-surface">
+        <Loader2 className="w-8 h-8 animate-spin text-tertiary" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="bg-surface min-h-screen pt-20 md:pt-32 pb-20 px-6">
+        <AnimatePresence mode="wait">
+          {authView === 'login' ? (
+            <LoginForm key="login" onSwitchToRegister={() => setAuthView('register')} />
+          ) : (
+            <RegisterForm key="register" onSwitchToLogin={() => setAuthView('login')} />
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
 
   const sidebarLinks = [
     { name: 'Dashboard', icon: User },
@@ -19,9 +43,9 @@ export default function Account() {
   ];
 
   const stats = [
-    { label: 'Recent Orders', value: '12', sub: 'Last 6 months' },
-    { label: 'Wishlist Items', value: '08', sub: 'Save for later' },
-    { label: 'Loyalty Points', value: '2,450', sub: 'Gold Member' },
+    { label: 'Total Orders', value: customer?.orders.length || 0, sub: 'Lifetime history' },
+    { label: 'Member Status', value: 'Silver', sub: 'Member since 2024' },
+    { label: 'Saved Designs', value: '08', sub: 'In your wishlist' },
   ];
 
   const handleTrackOrder = () => {
@@ -32,12 +56,8 @@ export default function Account() {
     toast.loading(`Tracking order ${trackingNumber}...`);
     setTimeout(() => {
       toast.dismiss();
-      toast.success(`Order ${trackingNumber} is on its way!`);
+      toast.success(`Order ${trackingNumber} is being processed`);
     }, 2000);
-  };
-
-  const handleSignOut = () => {
-    toast.success('Signed out successfully');
   };
 
   const renderContent = () => {
@@ -46,8 +66,8 @@ export default function Account() {
         return (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-12">
             <header>
-              <h1 className="font-headline text-4xl text-primary mb-2">Welcome Back, {profile.name.split(' ')[0]}</h1>
-              <p className="text-on-surface-variant text-sm">Manage your orders, wishlist, and profile settings here.</p>
+              <h1 className="font-headline text-4xl text-primary mb-2">Namaste, {customer?.firstName}</h1>
+              <p className="text-on-surface-variant text-sm italic font-medium">Your curated heritage collection awaits.</p>
             </header>
 
             <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 hide-scrollbar scroll-pl-6">
@@ -67,33 +87,39 @@ export default function Account() {
               </div>
 
               <div className="space-y-4">
-                {ORDERS.slice(0, 2).map((order) => (
-                  <div key={order.id} className="bg-white p-4 md:p-6 border border-outline-variant/30 flex flex-row items-center gap-4 md:gap-8 group hover:shadow-lg transition-all">
-                    <div className="w-16 h-20 md:w-24 md:h-32 bg-surface-container-low flex-shrink-0 overflow-hidden">
-                      <img src={order.image} alt={order.id} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex-grow grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
-                      <div>
-                        <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">ID</p>
-                        <p className="text-[10px] md:text-sm font-bold text-primary truncate">{order.id}</p>
-                      </div>
-                      <div className="hidden md:block">
-                        <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Placed On</p>
-                        <p className="text-sm font-medium text-on-surface-variant">{order.date}</p>
-                      </div>
-                      <div>
-                        <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">Status</p>
-                        <span className={`text-[8px] md:text-[10px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-tertiary/10 text-tertiary'}`}>
-                          {order.status}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">Total</p>
-                        <p className="text-[10px] md:text-sm font-bold text-primary">₹{order.total.toLocaleString()}</p>
-                      </div>
-                    </div>
+                {customer?.orders.length === 0 ? (
+                  <div className="bg-surface-container-low p-10 text-center border border-dashed border-outline-variant/50">
+                    <p className="text-on-surface-variant italic">No orders found yet. Start your collection today.</p>
                   </div>
-                ))}
+                ) : (
+                  customer?.orders.slice(0, 3).map((order) => (
+                    <div key={order.id} className="bg-white p-4 md:p-6 border border-outline-variant/30 flex flex-row items-center gap-4 md:gap-8 group hover:shadow-lg transition-all">
+                      <div className="w-16 h-20 md:w-24 md:h-32 bg-surface-container-low flex-shrink-0 overflow-hidden">
+                        <img src={order.lineItems[0]?.image} alt={order.orderNumber} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-grow grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
+                        <div>
+                          <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">Order #</p>
+                          <p className="text-[10px] md:text-sm font-bold text-primary truncate">{order.orderNumber}</p>
+                        </div>
+                        <div className="hidden md:block">
+                          <p className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">Date</p>
+                          <p className="text-sm font-medium text-on-surface-variant">{new Date(order.processedAt).toLocaleDateString()}</p>
+                        </div>
+                        <div>
+                          <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">Status</p>
+                          <span className="text-[8px] md:text-[10px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary">
+                            {order.fulfillmentStatus}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-outline font-bold mb-0.5 md:mb-1">Total</p>
+                          <p className="text-[10px] md:text-sm font-bold text-primary">₹{parseFloat(order.totalPrice.amount).toLocaleString()}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </section>
           </motion.div>
@@ -101,11 +127,48 @@ export default function Account() {
       case 'My Profile':
         return (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-surface-container-low p-8 border border-outline-variant/30 rounded-sm">
-            <h3 className="font-headline text-2xl text-primary mb-6">My Profile</h3>
+            <h3 className="font-headline text-2xl text-primary mb-6">Profile Settings</h3>
+            <div className="space-y-6 max-w-md">
+              <div className="space-y-1">
+                <p className="text-[10px] uppercase tracking-widest text-outline font-bold">Full Name</p>
+                <p className="text-lg text-primary">{customer?.firstName} {customer?.lastName}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] uppercase tracking-widest text-outline font-bold">Email Address</p>
+                <p className="text-lg text-primary">{customer?.email}</p>
+              </div>
+              <div className="pt-4">
+                <button disabled className="bg-surface-container-high text-outline px-6 py-3 text-[10px] uppercase tracking-widest font-bold cursor-not-allowed">Edit Profile (Coming Soon)</button>
+              </div>
+            </div>
+          </motion.div>
+        );
+      case 'My Orders':
+        return (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
+            <h3 className="font-headline text-2xl text-primary">Order History</h3>
             <div className="space-y-4">
-              <input type="text" value={profile.name} onChange={(e) => setProfile({...profile, name: e.target.value})} className="w-full p-4 border border-outline-variant/30" placeholder="Name" />
-              <input type="email" value={profile.email} onChange={(e) => setProfile({...profile, email: e.target.value})} className="w-full p-4 border border-outline-variant/30" placeholder="Email" />
-              <button onClick={() => toast.success('Profile updated')} className="bg-primary text-white px-6 py-3 text-xs uppercase tracking-widest font-bold hover:bg-tertiary">Save Changes</button>
+              {customer?.orders.map((order) => (
+                <div key={order.id} className="bg-white p-4 border border-outline-variant/30 hover:border-tertiary transition-all">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <p className="text-xs font-bold text-primary">Order {order.orderNumber}</p>
+                      <p className="text-[10px] text-outline">{new Date(order.processedAt).toLocaleDateString()}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs font-bold text-tertiary">₹{parseFloat(order.totalPrice.amount).toLocaleString()}</p>
+                      <p className="text-[10px] uppercase font-bold tracking-widest text-outline-variant">{order.fulfillmentStatus}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 overflow-x-auto pb-2">
+                    {order.lineItems.map((item, idx) => (
+                      <div key={idx} className="w-12 h-16 flex-shrink-0 bg-surface-container-low">
+                        <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </motion.div>
         );
@@ -113,7 +176,7 @@ export default function Account() {
         return (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
             <h3 className="font-headline text-2xl text-primary mb-4">{activeTab}</h3>
-            <p className="text-on-surface-variant">This section is currently under development.</p>
+            <p className="text-on-surface-variant italic">This section will be available soon as part of your premium experience.</p>
           </motion.div>
         );
     }
@@ -123,17 +186,19 @@ export default function Account() {
     <div className="bg-surface min-h-screen pt-20 md:pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
       <div className="flex flex-col lg:flex-row gap-8 md:gap-16">
         <aside className="lg:w-64 flex-shrink-0">
-          <div className="bg-surface-container-low p-6 md:p-8 border border-outline-variant/30 rounded-sm">
+          <div className="bg-surface-container-low p-6 md:p-8 border border-outline-variant/30 rounded-sm sticky top-32">
             <div className="flex flex-row lg:flex-col items-center text-left lg:text-center mb-6 lg:mb-10 gap-4 lg:gap-0 relative">
               <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-tertiary/10 flex items-center justify-center lg:mb-4 border-2 border-tertiary flex-shrink-0">
-                <span className="text-xl lg:text-3xl font-headline text-tertiary">{profile.name.split(' ').map(n => n[0]).join('')}</span>
+                <span className="text-xl lg:text-3xl font-headline text-tertiary">
+                  {customer?.firstName?.[0]}{customer?.lastName?.[0]}
+                </span>
               </div>
               <div className="overflow-hidden">
-                <h2 className="font-headline text-lg lg:text-xl text-primary truncate">{profile.name}</h2>
-                <p className="text-[9px] lg:text-[10px] uppercase tracking-widest text-outline font-bold mt-1 truncate">{profile.email}</p>
+                <h2 className="font-headline text-lg lg:text-xl text-primary truncate">{customer?.firstName} {customer?.lastName}</h2>
+                <p className="text-[9px] lg:text-[10px] uppercase tracking-widest text-outline font-bold mt-1 truncate">{customer?.email}</p>
               </div>
               <button 
-                onClick={handleSignOut} 
+                onClick={logout} 
                 className="lg:hidden ml-auto p-2 text-ba1a1a hover:bg-ba1a1a/10 transition-colors rounded-full"
                 aria-label="Sign Out"
               >
@@ -152,7 +217,7 @@ export default function Account() {
                   {link.name}
                 </button>
               ))}
-              <button onClick={handleSignOut} className="hidden lg:flex items-center gap-3 lg:gap-4 px-4 py-2.5 lg:py-3 text-[10px] lg:text-xs uppercase tracking-widest font-bold text-ba1a1a hover:bg-ba1a1a/10 transition-all rounded-sm lg:mt-8 border border-transparent">
+              <button onClick={logout} className="hidden lg:flex items-center gap-3 lg:gap-4 px-4 py-2.5 lg:py-3 text-[10px] lg:text-xs uppercase tracking-widest font-bold text-ba1a1a hover:bg-ba1a1a/10 transition-all rounded-sm lg:mt-8 border border-transparent">
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Sign Out</span>
               </button>

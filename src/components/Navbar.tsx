@@ -3,6 +3,7 @@ import { Search, ShoppingBag, Heart, User, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useState, useEffect } from 'react';
 import { useShop } from '../context/ShopContext';
+import { useAuth } from '../context/AuthContext';
 import CartDrawer from './CartDrawer';
 import WishlistDrawer from './WishlistDrawer';
 import { motion, AnimatePresence } from 'motion/react';
@@ -18,6 +19,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartCount, wishlist } = useShop();
+  const { customer, isAuthenticated } = useAuth();
   const location = useLocation();
   const isHome = location.pathname === '/';
 
@@ -114,7 +116,7 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
               )}
             />
           </div>
-          <div className={cn('flex gap-5', isScrolled || !isHome ? 'text-primary' : 'text-white')}>
+          <div className={cn('flex gap-5 items-center', isScrolled || !isHome ? 'text-primary' : 'text-white')}>
             <button 
               className="hidden lg:flex relative cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary" 
               onClick={() => setIsWishlistOpen(true)}
@@ -144,9 +146,12 @@ export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setI
             <Link 
               to="/account" 
               aria-label="Account Settings"
-              className="hidden lg:flex focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary"
+              className="hidden lg:flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary group"
             >
               <User className="w-5 h-5 cursor-pointer hover:text-tertiary transition-colors" aria-hidden="true" />
+              <span className="text-[10px] uppercase tracking-widest font-bold group-hover:text-tertiary transition-colors">
+                {isAuthenticated ? `Hi, ${customer?.firstName}` : 'Sign In'}
+              </span>
             </Link>
             <button 
               onClick={() => setIsMobileMenuOpen(true)} 
