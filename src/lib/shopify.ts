@@ -70,6 +70,14 @@ export const getProducts = async () => {
             }
             tags
             productType
+            collections(first: 5) {
+              edges {
+                node {
+                  title
+                  handle
+                }
+              }
+            }
             variants(first: 1) {
               edges {
                 node {
@@ -100,6 +108,8 @@ export const getProducts = async () => {
     originalPrice: node.variants.edges[0].node.compareAtPrice ? parseFloat(node.variants.edges[0].node.compareAtPrice.amount) : undefined,
     image: node.images.edges[0]?.node.url || '',
     category: node.productType,
+    collections: node.collections.edges.map(({ node: col }: any) => col.title),
+    collectionHandles: node.collections.edges.map(({ node: col }: any) => col.handle),
     description: node.description,
     variantId: node.variants.edges[0].node.id,
     tags: node.tags || [],

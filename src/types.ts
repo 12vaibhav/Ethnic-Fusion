@@ -12,6 +12,8 @@ export interface Product {
   isNew?: boolean;
   variantId?: string;
   tags?: string[];
+  collections?: string[];
+  collectionHandles?: string[];
 }
 
 export interface Order {

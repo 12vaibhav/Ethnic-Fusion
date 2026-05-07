@@ -51,7 +51,11 @@ export default function Collections() {
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = selectedCategories.length === 0 || 
-      selectedCategories.some(cat => cat.toLowerCase() === product.category?.toLowerCase());
+      selectedCategories.some(cat => 
+        cat.toLowerCase() === product.category?.toLowerCase() ||
+        product.collections?.some((col: string) => col.toLowerCase() === cat.toLowerCase()) ||
+        product.collectionHandles?.some((handle: string) => handle.toLowerCase() === cat.toLowerCase())
+      );
     
     const matchesColor = selectedColors.length === 0 || (product.colors && product.colors.some(c => selectedColors.includes(c)));
     const matchesFabric = selectedFabrics.length === 0 || selectedFabrics.includes(product.fabric);
