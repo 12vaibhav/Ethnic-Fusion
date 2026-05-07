@@ -39,6 +39,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="absolute inset-0 bg-primary/10 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
             {/* Quick Add overlay will be handled by the button below */}
           </div>
+        </div>
         <div className="space-y-1">
           <h3 className="text-sm font-bold text-on-surface uppercase tracking-wide">{product.name}</h3>
           {product.subtitle && (
