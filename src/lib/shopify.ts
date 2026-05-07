@@ -7,6 +7,7 @@ async function shopifyFetch({ query, variables = {} }: { query: string, variable
     return null;
   }
   const endpoint = `https://${SHOPIFY_STORE_DOMAIN}/api/2024-01/graphql.json`;
+  console.log('Attempting to fetch from:', endpoint);
   
   try {
     const response = await fetch(endpoint, {
