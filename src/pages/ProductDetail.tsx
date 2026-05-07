@@ -451,22 +451,38 @@ export default function ProductDetail() {
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {values.map((val: string) => {
+                {/* Color swatch resolver helper */}
+                {values.map((val: string) => {
                     const isSelected = selectedVariant?.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val);
-                    const isColor = optionName.toLowerCase().includes('color') || optionName.toLowerCase().includes('colour');
-                    
-                    // Smart Color Matching (Case-insensitive & trimmed)
+
+                    // Step 1: Check our color map (case-insensitive)
                     const normalizedVal = val.trim();
                     const matchedKey = Object.keys(colorMap).find(
                       key => key.toLowerCase() === normalizedVal.toLowerCase()
                     );
-                    const colorHex = matchedKey ? colorMap[matchedKey] : '#E6D5B8'; // Default to a soft silk/gold tone if unmatched
+                    let resolvedColor = matchedKey ? colorMap[matchedKey] : null;
+
+                    // Step 2: If not in colorMap, try it as a direct CSS color name
+                    if (!resolvedColor) {
+                      try {
+                        const s = new Option().style;
+                        s.color = normalizedVal;
+                        if (s.color !== '') resolvedColor = normalizedVal;
+                      } catch (_) {}
+                    }
+
+                    // Step 3: Determine if this option is color-typed
+                    const isColorOption = optionName.toLowerCase().includes('color') || optionName.toLowerCase().includes('colour') || optionName.toLowerCase().includes('shade');
+                    // Show as swatch if the option is named color/colour/shade, OR if the value resolved to a color
+                    const showAsSwatch = isColorOption || resolvedColor !== null;
+                    const swatchColor = resolvedColor || '#E6D5B8';
 
                     return (
                       <button
                         key={val}
                         type="button"
-                        title={isColor ? val : undefined}
+                        title={showAsSwatch ? val : undefined}
+                        aria-label={showAsSwatch ? `Select color: ${val}` : val}
                         onClick={() => {
                           const newVariant = product.variants.find((v: any) => 
                             v.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val) &&
@@ -480,18 +496,18 @@ export default function ProductDetail() {
                         }}
                         className={cn(
                           "transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
-                          isColor 
-                            ? "w-8 h-8 md:w-10 md:h-10 rounded-full border-2 p-0.5" 
+                          showAsSwatch
+                            ? "w-9 h-9 md:w-11 md:h-11 rounded-full border-2 p-[3px] flex-shrink-0" 
                             : "px-4 py-2 border text-[10px] md:text-xs font-bold",
                           isSelected 
-                            ? isColor ? "border-tertiary scale-110" : "bg-primary text-white border-primary" 
-                            : isColor ? "border-outline-variant/30 hover:border-outline" : "border-outline-variant text-outline hover:border-primary hover:text-primary"
+                            ? showAsSwatch ? "border-tertiary scale-110 shadow-md" : "bg-primary text-white border-primary" 
+                            : showAsSwatch ? "border-outline-variant hover:border-primary hover:scale-105" : "border-outline-variant text-outline hover:border-primary hover:text-primary"
                         )}
                       >
-                        {isColor ? (
-                          <div 
-                            className="w-full h-full rounded-full shadow-inner border border-black/10" 
-                            style={{ backgroundColor: colorHex }}
+                        {showAsSwatch ? (
+                          <span 
+                            className="block w-full h-full rounded-full shadow-inner border border-black/10" 
+                            style={{ backgroundColor: swatchColor }}
                           />
                         ) : val}
                       </button>
