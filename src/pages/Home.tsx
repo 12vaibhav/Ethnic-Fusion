@@ -30,18 +30,10 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  // Section Filtering Logic
-  const stylistPicks = products.filter(p => p.tags?.includes('stylist-pick')).length > 0
-    ? products.filter(p => p.tags?.includes('stylist-pick'))
-    : products.slice(0, 6);
-
-  const featuredArrivals = products.filter(p => p.tags?.includes('featured')).length > 0
-    ? products.filter(p => p.tags?.includes('featured'))
-    : products.slice(4, 8);
-
-  const masterpieceGallery = products.filter(p => p.tags?.includes('masterpiece')).length > 0
-    ? products.filter(p => p.tags?.includes('masterpiece'))
-    : products.slice(0, 4);
+  // Section Filtering Logic (Strict Tagging)
+  const stylistPicks = products.filter(p => p.tags?.includes('stylist-pick'));
+  const featuredArrivals = products.filter(p => p.tags?.includes('featured'));
+  const masterpieceGallery = products.filter(p => p.tags?.includes('masterpiece'));
 
   const desktopHeroImages = [
     '/Assets/hero section/herosection banner.webp',
@@ -233,112 +225,113 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stylist's Picks */}
-      <section className="bg-surface-container-low py-6 md:py-10 overflow-hidden relative">
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-12 gap-8">
-            <div className="text-center md:text-left">
-              <span className="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] mb-3 font-bold block">Curated Excellence</span>
-              <h3 className="font-headline text-4xl md:text-6xl text-primary uppercase">Stylist's Picks</h3>
-              <div className="w-16 md:w-24 h-1 bg-tertiary mt-2 mx-auto md:mx-0"></div>
+      {stylistPicks.length > 0 && (
+        <section className="bg-surface-container-low py-6 md:py-10 overflow-hidden relative">
+          <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-12 gap-8">
+              <div className="text-center md:text-left">
+                <span className="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] mb-3 font-bold block">Curated Excellence</span>
+                <h3 className="font-headline text-4xl md:text-6xl text-primary uppercase">Stylist's Picks</h3>
+                <div className="w-16 md:w-24 h-1 bg-tertiary mt-2 mx-auto md:mx-0"></div>
+              </div>
+              
+              <div className="hidden md:flex gap-4">
+                <button 
+                  onClick={() => scroll('left')}
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-500"
+                  aria-label="Scroll Left"
+                >
+                  <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                </button>
+                <button 
+                  onClick={() => scroll('right')}
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-500"
+                  aria-label="Scroll Right"
+                >
+                  <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                </button>
+              </div>
             </div>
-            
-            <div className="hidden md:flex gap-4">
-              <button 
-                onClick={() => scroll('left')}
-                className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-500"
-                aria-label="Scroll Left"
-              >
-                <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-              </button>
-              <button 
-                onClick={() => scroll('right')}
-                className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-500"
-                aria-label="Scroll Right"
-              >
-                <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-              </button>
+
+            <div 
+              ref={scrollRef}
+              className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:flex gap-x-4 gap-y-4 md:gap-8 overflow-x-auto pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto"
+            >
+              {loading ? (
+                [...Array(4)].map((_, idx) => (
+                  <div key={idx} className="w-[45vw] md:min-w-[360px] animate-pulse">
+                    <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
+                    <div className="h-6 bg-surface-container-low w-3/4 mb-2"></div>
+                    <div className="h-4 bg-surface-container-low w-1/2"></div>
+                  </div>
+                ))
+              ) : stylistPicks.map((item, idx) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="w-[45vw] md:min-w-[360px] md:w-auto h-auto md:h-auto snap-start group relative"
+                >
+                  <Link to={`/product/${item.id}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                    <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-sm border border-outline-variant/10 flex-shrink-0 mb-3 md:mb-8">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        referrerPolicy="no-referrer"
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      />
+                      
+                      {/* Badge */}
+                      <div className="absolute top-3 left-3 md:top-8 md:left-8">
+                        <span className="bg-white/90 backdrop-blur-md text-primary px-3 py-1 md:px-4 md:py-1.5 text-[8px] md:text-[9px] uppercase tracking-widest font-bold border border-outline-variant/20 shadow-sm transition-opacity group-hover:opacity-0">
+                          Best Seller
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-start px-2 overflow-hidden">
+                      <div className="space-y-1 overflow-hidden">
+                        <h5 className="font-headline text-xl md:text-2xl text-primary group-hover:text-tertiary transition-colors truncate">{item.name}</h5>
+                        <p className="font-body text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-medium truncate">{item.fabric} • Limited Edition</p>
+                      </div>
+                      <div className="text-right flex-shrink-0 ml-4">
+                        <p className="font-headline text-xl md:text-2xl text-tertiary">₹{item.price.toLocaleString()}</p>
+                        {item.originalPrice && (
+                          <p className="text-outline line-through text-xs mt-1 opacity-60">₹{item.originalPrice.toLocaleString()}</p>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+
+                  {/* Quick Add Overlay - Styled button to sit on top of Link */}
+                  <div className="absolute inset-0 top-0 left-0 w-full h-[75%] md:h-[80%] pointer-events-none flex flex-col justify-end p-8">
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        addToCart(item);
+                      }}
+                      className="w-full bg-white text-primary py-5 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all transform translate-y-6 opacity-0 md:group-hover:opacity-100 md:group-hover:translate-y-0 duration-500 shadow-2xl flex items-center justify-center gap-3 pointer-events-none md:group-hover:pointer-events-auto"
+                    >
+                      <ShoppingBag className="w-5 h-5" /> Quick Add to Bag
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Scroll Indicator */}
+            <div className="flex justify-center gap-3 mt-4">
+              {stylistPicks.map((_, i) => (
+                <div key={i} className={`h-[2px] transition-all duration-700 ${i === 0 ? 'w-12 bg-tertiary' : 'w-4 bg-outline-variant/40'}`}></div>
+              ))}
             </div>
           </div>
-
-          <div 
-            ref={scrollRef}
-            className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:flex gap-x-4 gap-y-4 md:gap-8 overflow-x-auto pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto"
-          >
-            {loading ? (
-              [...Array(4)].map((_, idx) => (
-                <div key={idx} className="w-[45vw] md:min-w-[360px] animate-pulse">
-                  <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
-                  <div className="h-6 bg-surface-container-low w-3/4 mb-2"></div>
-                  <div className="h-4 bg-surface-container-low w-1/2"></div>
-                </div>
-              ))
-            ) : stylistPicks.map((item, idx) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="w-[45vw] md:min-w-[360px] md:w-auto h-auto md:h-auto snap-start group relative"
-              >
-                <Link to={`/product/${item.id}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
-                  <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-sm border border-outline-variant/10 flex-shrink-0 mb-3 md:mb-8">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                    />
-                    
-                    {/* Badge */}
-                    <div className="absolute top-3 left-3 md:top-8 md:left-8">
-                      <span className="bg-white/90 backdrop-blur-md text-primary px-3 py-1 md:px-4 md:py-1.5 text-[8px] md:text-[9px] uppercase tracking-widest font-bold border border-outline-variant/20 shadow-sm transition-opacity group-hover:opacity-0">
-                        Best Seller
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-start px-2 overflow-hidden">
-                    <div className="space-y-1 overflow-hidden">
-                      <h5 className="font-headline text-xl md:text-2xl text-primary group-hover:text-tertiary transition-colors truncate">{item.name}</h5>
-                      <p className="font-body text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-medium truncate">{item.fabric} • Limited Edition</p>
-                    </div>
-                    <div className="text-right flex-shrink-0 ml-4">
-                      <p className="font-headline text-xl md:text-2xl text-tertiary">₹{item.price.toLocaleString()}</p>
-                      {item.originalPrice && (
-                        <p className="text-outline line-through text-xs mt-1 opacity-60">₹{item.originalPrice.toLocaleString()}</p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-
-                {/* Quick Add Overlay - Styled button to sit on top of Link */}
-                <div className="absolute inset-0 top-0 left-0 w-full h-[75%] md:h-[80%] pointer-events-none flex flex-col justify-end p-8">
-                  <button 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      addToCart(item);
-                    }}
-                    className="w-full bg-white text-primary py-5 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all transform translate-y-6 opacity-0 md:group-hover:opacity-100 md:group-hover:translate-y-0 duration-500 shadow-2xl flex items-center justify-center gap-3 pointer-events-none md:group-hover:pointer-events-auto"
-                  >
-                    <ShoppingBag className="w-5 h-5" /> Quick Add to Bag
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="flex justify-center gap-3 mt-4">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className={`h-[2px] transition-all duration-700 ${i === 0 ? 'w-12 bg-tertiary' : 'w-4 bg-outline-variant/40'}`}></div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      ))}
 
       {/* Shop by Occasion */}
       <section className="py-6 md:py-10 px-6 md:px-12 bg-surface">
@@ -405,95 +398,97 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Arrivals */}
-      <section className="py-6 md:py-10 px-6 md:px-12 bg-surface-container-high">
-        <div className="max-w-screen-2xl mx-auto">
-          <div className="flex flex-col items-center mb-6 md:mb-12 text-center">
-            <span className="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] mb-2 font-bold block">The New Season</span>
-            <h3 className="font-headline text-4xl md:text-6xl text-primary uppercase">Featured Arrivals</h3>
-            <div className="w-16 md:w-24 h-1 bg-tertiary mt-2"></div>
-          </div>
+      {featuredArrivals.length > 0 && (
+        <section className="py-6 md:py-10 px-6 md:px-12 bg-surface-container-high">
+          <div className="max-w-screen-2xl mx-auto">
+            <div className="flex flex-col items-center mb-6 md:mb-12 text-center">
+              <span className="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] mb-2 font-bold block">The New Season</span>
+              <h3 className="font-headline text-4xl md:text-6xl text-primary uppercase">Featured Arrivals</h3>
+              <div className="w-16 md:w-24 h-1 bg-tertiary mt-2"></div>
+            </div>
 
-          <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 md:gap-x-12 gap-y-4 md:gap-y-12 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
-            {loading ? (
-              [...Array(4)].map((_, idx) => (
-                <div key={idx} className="w-[45vw] animate-pulse">
-                  <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
-                  <div className="h-6 bg-surface-container-low w-3/4 mb-2"></div>
-                </div>
-              ))
-            ) : featuredArrivals.map((product, idx) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="group relative cursor-pointer flex-shrink-0 w-[45vw] md:w-auto h-auto md:h-full snap-start"
-              >
-                <Link to={`/product/${product.id}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
-                  <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-lg md:shadow-2xl border border-outline-variant/10 flex-shrink-0 mb-3 md:mb-6">
-                    <img 
-                      src={product.image} 
-                      alt={product.name} 
-                      referrerPolicy="no-referrer" 
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-                    />
-                    
-                    {/* Hover Overlay with Fabric Details */}
-                    <div className="absolute inset-0 bg-primary/90 opacity-0 md:group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center text-center p-6 md:p-8 backdrop-blur-md">
-                      <span className="text-tertiary font-label text-[10px] uppercase tracking-[0.4em] mb-2 md:mb-3 font-bold">Artisan Fabric</span>
-                      <h4 className="text-white font-headline text-2xl md:text-3xl mb-2 md:mb-3 italic">{product.fabric}</h4>
-                      <div className="w-10 md:w-12 h-[1px] bg-white/30 mb-3 md:mb-4"></div>
-                      <p className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.2em] leading-relaxed mb-4 md:mb-6 line-clamp-3">Hand-crafted heritage textile with intricate detailing and modern precision.</p>
+            <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 md:gap-x-12 gap-y-4 md:gap-y-12 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
+              {loading ? (
+                [...Array(4)].map((_, idx) => (
+                  <div key={idx} className="w-[45vw] animate-pulse">
+                    <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
+                    <div className="h-6 bg-surface-container-low w-3/4 mb-2"></div>
+                  </div>
+                ))
+              ) : featuredArrivals.map((product, idx) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="group relative cursor-pointer flex-shrink-0 w-[45vw] md:w-auto h-auto md:h-full snap-start"
+                >
+                  <Link to={`/product/${product.id}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                    <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-lg md:shadow-2xl border border-outline-variant/10 flex-shrink-0 mb-3 md:mb-6">
+                      <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        referrerPolicy="no-referrer" 
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                      />
                       
-                      <button 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          addToCart(product);
-                        }}
-                        className="w-full bg-white text-primary px-6 md:px-10 py-2.5 md:py-3.5 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all duration-300 pointer-events-auto"
-                      >
-                        Add to Bag
-                      </button>
+                      {/* Hover Overlay with Fabric Details */}
+                      <div className="absolute inset-0 bg-primary/90 opacity-0 md:group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center text-center p-6 md:p-8 backdrop-blur-md">
+                        <span className="text-tertiary font-label text-[10px] uppercase tracking-[0.4em] mb-2 md:mb-3 font-bold">Artisan Fabric</span>
+                        <h4 className="text-white font-headline text-2xl md:text-3xl mb-2 md:mb-3 italic">{product.fabric}</h4>
+                        <div className="w-10 md:w-12 h-[1px] bg-white/30 mb-3 md:mb-4"></div>
+                        <p className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.2em] leading-relaxed mb-4 md:mb-6 line-clamp-3">Hand-crafted heritage textile with intricate detailing and modern precision.</p>
+                        
+                        <button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            addToCart(product);
+                          }}
+                          className="w-full bg-white text-primary px-6 md:px-10 py-2.5 md:py-3.5 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all duration-300 pointer-events-auto"
+                        >
+                          Add to Bag
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="text-center px-4 overflow-hidden">
-                    <h5 className="font-headline text-xl md:text-2xl text-primary mb-1 group-hover:text-tertiary transition-colors truncate">{product.name}</h5>
-                    <p className="font-headline text-lg md:text-xl text-tertiary">₹{product.price.toLocaleString()}</p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                    
+                    <div className="text-center px-4 overflow-hidden">
+                      <h5 className="font-headline text-xl md:text-2xl text-primary mb-1 group-hover:text-tertiary transition-colors truncate">{product.name}</h5>
+                      <p className="font-headline text-lg md:text-xl text-tertiary">₹{product.price.toLocaleString()}</p>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
 
-      {/* Masterpiece Gallery */}
-      <section className="py-6 md:py-10 px-6 md:px-12 bg-surface">
-        <div className="max-w-screen-2xl mx-auto">
-          <div className="flex flex-col items-center mb-6 text-center">
-            <span className="font-label text-tertiary uppercase tracking-widest text-sm mb-4">Hand-Picked For You</span>
-            <h3 className="font-headline text-5xl text-primary">Masterpiece Gallery</h3>
-          </div>
-          <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-16 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
-            {loading ? (
-              [...Array(4)].map((_, idx) => (
-                <div key={idx} className="w-[45vw] md:w-auto animate-pulse">
-                  <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
+      {masterpieceGallery.length > 0 && (
+        <section className="py-6 md:py-10 px-6 md:px-12 bg-surface">
+          <div className="max-w-screen-2xl mx-auto">
+            <div className="flex flex-col items-center mb-6 text-center">
+              <span className="font-label text-tertiary uppercase tracking-widest text-sm mb-4">Hand-Picked For You</span>
+              <h3 className="font-headline text-5xl text-primary">Masterpiece Gallery</h3>
+            </div>
+            <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-16 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-6 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
+              {loading ? (
+                [...Array(4)].map((_, idx) => (
+                  <div key={idx} className="w-[45vw] md:w-auto animate-pulse">
+                    <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
+                  </div>
+                ))
+              ) : masterpieceGallery.map((product, idx) => (
+                <div key={product.id} className="w-[45vw] md:w-auto h-auto md:h-full snap-start">
+                  <ProductCard product={product} />
                 </div>
-              ))
-            ) : masterpieceGallery.map((product, idx) => (
-              <div key={product.id} className="w-[45vw] md:w-auto h-auto md:h-full snap-start">
-                <ProductCard product={product} />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Testimonial */}
       <section className="py-6 md:py-10 bg-surface-container-low">
