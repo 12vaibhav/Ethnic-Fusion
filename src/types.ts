@@ -8,7 +8,6 @@ export interface Product {
   category: string;
   colors: string[];
   fabric: string;
-  collections?: string[];
   description: string;
   isNew?: boolean;
   variantId?: string;

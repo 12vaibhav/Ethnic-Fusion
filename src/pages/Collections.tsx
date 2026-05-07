@@ -51,13 +51,7 @@ export default function Collections() {
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = selectedCategories.length === 0 || 
-      selectedCategories.some(cat => {
-        const lowerCat = cat.toLowerCase();
-        return (
-          product.category?.toLowerCase() === lowerCat || 
-          product.collections?.some(col => col.toLowerCase() === lowerCat)
-        );
-      });
+      selectedCategories.some(cat => cat.toLowerCase() === product.category?.toLowerCase());
     
     const matchesColor = selectedColors.length === 0 || (product.colors && product.colors.some(c => selectedColors.includes(c)));
     const matchesFabric = selectedFabrics.length === 0 || selectedFabrics.includes(product.fabric);
@@ -102,21 +96,13 @@ export default function Collections() {
         <nav className="hidden md:flex text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant mb-4 gap-2">
           <Link to="/" className="hover:text-tertiary transition-colors">Home</Link>
           <span>/</span>
-          <Link to="/collections" className="hover:text-tertiary transition-colors">Collections</Link>
-          {selectedCategories.length > 0 && (
-            <>
-              <span>/</span>
-              <span className="text-tertiary font-bold">{selectedCategories[0]}</span>
-            </>
-          )}
+          <span className="text-tertiary font-bold">All Products</span>
         </nav>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
           <div>
-            <h1 className="font-headline text-3xl sm:text-5xl md:text-6xl text-primary tracking-tight -ml-1">
-              {selectedCategories.length === 1 ? selectedCategories[0] : 'Collections'}
-            </h1>
+            <h1 className="font-headline text-3xl sm:text-5xl md:text-6xl text-primary tracking-tight -ml-1">Collections</h1>
             <p className="text-on-surface-variant mt-1 md:mt-2 font-medium text-xs md:text-base">
-              Curated elegance for {selectedCategories.length === 1 ? selectedCategories[0].toLowerCase() : 'every occasion'} — <span className="text-tertiary">{filteredProducts.length} products</span>
+              Curated elegance for every occasion — <span className="text-tertiary">248 products</span>
             </p>
           </div>
           <div className="flex items-center justify-between md:justify-end gap-4">
