@@ -100,11 +100,15 @@ export default function Collections() {
         <nav className="hidden md:flex text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant mb-4 gap-2">
           <Link to="/" className="hover:text-tertiary transition-colors">Home</Link>
           <span>/</span>
-          <span className="text-tertiary font-bold">All Products</span>
+          <span className="text-tertiary font-bold">
+            {selectedCategories.length === 1 ? selectedCategories[0] : 'All Products'}
+          </span>
         </nav>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
           <div>
-            <h1 className="font-headline text-3xl sm:text-5xl md:text-6xl text-primary tracking-tight -ml-1">Collections</h1>
+            <h1 className="font-headline text-3xl sm:text-5xl md:text-6xl text-primary tracking-tight -ml-1">
+              {selectedCategories.length === 1 ? selectedCategories[0] : 'Collections'}
+            </h1>
             <p className="text-on-surface-variant mt-1 md:mt-2 font-medium text-xs md:text-base">
               Curated elegance for every occasion — <span className="text-tertiary">248 products</span>
             </p>
