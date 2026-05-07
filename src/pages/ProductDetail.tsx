@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, FormEvent, useEffect } from 'react';
 import { Heart, ShoppingBag, Share2, Ruler, Truck, RotateCcw, Star, ChevronRight, Plus, Loader2, ArrowLeft } from 'lucide-react';
-import { getProductByHandle } from '../lib/shopify';
+import { getProductByHandle, getProducts } from '../lib/shopify';
 import ProductCard from '../components/ProductCard';
 import { motion } from 'motion/react';
 import { useShop } from '../context/ShopContext';
