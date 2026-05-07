@@ -36,6 +36,7 @@ export default function Home() {
   }, []);
 
   // Section Filtering Logic (Strict Tagging)
+  const signatureProducts = products.filter(p => p.tags?.includes('signature'));
   const stylistPicks = products.filter(p => p.tags?.includes('stylist-pick'));
   const featuredArrivals = products.filter(p => p.tags?.includes('featured'));
   const masterpieceGallery = products.filter(p => p.tags?.includes('masterpiece'));
@@ -170,12 +171,13 @@ export default function Home() {
         </div>
 
         <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-0 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
-          {(collections.length > 0 ? collections : [
+          {(signatureProducts.length > 0 ? signatureProducts.slice(0, 4) : 
+            collections.length > 0 ? collections : [
             { title: 'Festive Fusion', image: '/Assets/Signature Collections/Festive Fusion.webp', description: 'Vibrant colors', handle: 'collections' },
             { title: 'Indo-Western', image: '/Assets/Signature Collections/Everyday Indo-Western.webp', description: 'Modern silhouettes', handle: 'collections' },
             { title: 'Bridal Edit', image: '/Assets/Signature Collections/Bridal Edit.webp', description: 'Timeless heirlooms', handle: 'collections' },
             { title: 'Sustainable', image: '/Assets/Signature Collections/Sustainable Luxe.webp', description: 'Eco-conscious', handle: 'collections' }
-          ]).map((col, idx) => (
+          ]).map((item, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
@@ -184,24 +186,24 @@ export default function Home() {
               transition={{ delay: idx * 0.1 }}
               className="group cursor-pointer flex flex-col h-auto md:h-full w-[45vw] md:w-auto snap-start"
             >
-              <Link to={col.handle ? `/collections` : "/collections"} className="flex flex-col h-full w-full">
+              <Link to={item.handle ? `/product/${item.id}` : "/collections"} className="flex flex-col h-full w-full">
                 <div className="relative aspect-[3/4] overflow-hidden mb-2 md:mb-4 bg-surface-container-low flex-shrink-0">
                   <img
-                    src={col.image || '/Assets/placeholder.webp'}
-                    alt={col.title}
+                    src={item.image || '/Assets/placeholder.webp'}
+                    alt={item.title || item.name}
                     referrerPolicy="no-referrer"
                     loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                     <button className="bg-white text-primary px-8 py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-tertiary hover:text-white transition-all">
-                      Shop Collection
+                      {item.name ? 'Shop Product' : 'Shop Collection'}
                     </button>
                   </div>
                 </div>
                 <div className="flex-grow overflow-hidden">
-                  <h4 className="font-headline text-xl md:text-2xl text-primary mb-1 truncate">{col.title}</h4>
-                  <p className="font-body text-on-surface-variant text-xs md:text-sm leading-relaxed line-clamp-2">{col.description}</p>
+                  <h4 className="font-headline text-xl md:text-2xl text-primary mb-1 truncate">{item.title || item.name}</h4>
+                  <p className="font-body text-on-surface-variant text-xs md:text-sm leading-relaxed line-clamp-2">{item.description || item.category}</p>
                 </div>
                 <div className="hidden md:block mt-2 pt-3 border-t border-outline-variant/30 flex-shrink-0">
                   <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-tertiary flex items-center gap-2 group-hover:gap-4 transition-all">
