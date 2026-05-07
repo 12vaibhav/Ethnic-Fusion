@@ -331,7 +331,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      ))}
+      )}
 
       {/* Shop by Occasion */}
       <section className="py-6 md:py-10 px-6 md:px-12 bg-surface">
@@ -464,7 +464,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      ))}
+      )}
 
       {masterpieceGallery.length > 0 && (
         <section className="py-6 md:py-10 px-6 md:px-12 bg-surface">
