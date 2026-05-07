@@ -171,13 +171,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-0 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
-          {(signatureProducts.length > 0 ? signatureProducts.slice(0, 4) : 
-            collections.length > 0 ? collections : [
-            { title: 'Festive Fusion', image: '/Assets/Signature Collections/Festive Fusion.webp', description: 'Vibrant colors', handle: 'collections' },
-            { title: 'Indo-Western', image: '/Assets/Signature Collections/Everyday Indo-Western.webp', description: 'Modern silhouettes', handle: 'collections' },
-            { title: 'Bridal Edit', image: '/Assets/Signature Collections/Bridal Edit.webp', description: 'Timeless heirlooms', handle: 'collections' },
-            { title: 'Sustainable', image: '/Assets/Signature Collections/Sustainable Luxe.webp', description: 'Eco-conscious', handle: 'collections' }
-          ]).map((item, idx) => (
+          {(signatureProducts.length > 0 ? signatureProducts.slice(0, 4) : collections).map((item, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
@@ -275,18 +269,19 @@ export default function Home() {
                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                       />
                       
-                      {/* Badge */}
-                      <div className="absolute top-3 left-3 md:top-8 md:left-8">
-                        <span className="bg-white/90 backdrop-blur-md text-primary px-3 py-1 md:px-4 md:py-1.5 text-[8px] md:text-[9px] uppercase tracking-widest font-bold border border-outline-variant/20 shadow-sm transition-opacity group-hover:opacity-0">
-                          Best Seller
-                        </span>
-                      </div>
+                      {item.subtitle && (
+                        <div className="absolute top-3 left-3 md:top-8 md:left-8">
+                          <span className="bg-white/90 backdrop-blur-md text-primary px-3 py-1 md:px-4 md:py-1.5 text-[8px] md:text-[9px] uppercase tracking-widest font-bold border border-outline-variant/20 shadow-sm">
+                            {item.subtitle}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex justify-between items-start px-2 overflow-hidden">
                       <div className="space-y-1 overflow-hidden">
                         <h5 className="font-headline text-xl md:text-2xl text-primary group-hover:text-tertiary transition-colors truncate">{item.name}</h5>
-                        <p className="font-body text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-medium truncate">{item.fabric} • Limited Edition</p>
+                        <p className="font-body text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-medium truncate">{item.category}</p>
                       </div>
                       <div className="text-right flex-shrink-0 ml-4">
                         <p className="font-headline text-xl md:text-2xl text-tertiary">₹{item.price.toLocaleString()}</p>
@@ -405,10 +400,13 @@ export default function Home() {
                       
                       {/* Hover Overlay with Fabric Details */}
                       <div className="absolute inset-0 bg-primary/90 opacity-0 md:group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center text-center p-6 md:p-8 backdrop-blur-md">
-                        <span className="text-tertiary font-label text-[10px] uppercase tracking-[0.4em] mb-2 md:mb-3 font-bold">Artisan Fabric</span>
-                        <h4 className="text-white font-headline text-2xl md:text-3xl mb-2 md:mb-3 italic">{product.fabric}</h4>
-                        <div className="w-10 md:w-12 h-[1px] bg-white/30 mb-3 md:mb-4"></div>
-                        <p className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.2em] leading-relaxed mb-4 md:mb-6 line-clamp-3">Hand-crafted heritage textile with intricate detailing and modern precision.</p>
+                        {product.subtitle && (
+                          <>
+                            <span className="text-tertiary font-label text-[10px] uppercase tracking-[0.4em] mb-2 md:mb-3 font-bold">Collection Detail</span>
+                            <h4 className="text-white font-headline text-lg md:text-xl mb-4 italic leading-tight">{product.subtitle}</h4>
+                            <div className="w-10 md:w-12 h-[1px] bg-white/30 mb-4 md:mb-6"></div>
+                          </>
+                        )}
                         
                         <button 
                           onClick={(e) => {

@@ -39,14 +39,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="absolute inset-0 bg-primary/10 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
             {/* Quick Add overlay will be handled by the button below */}
           </div>
-          {product.isNew && (
-            <div className="absolute top-2 left-2 md:top-4 md:left-4">
-              <span className="bg-tertiary text-white px-1.5 py-0.5 md:px-2 md:py-1 text-[8px] md:text-[10px] uppercase tracking-widest font-bold">
-                New Season
-              </span>
-            </div>
-          )}
-        </div>
         <div className="space-y-1">
           <h3 className="text-sm font-bold text-on-surface uppercase tracking-wide">{product.name}</h3>
           {product.subtitle && (
@@ -54,7 +46,9 @@ export default function ProductCard({ product }: ProductCardProps) {
               {product.subtitle}
             </p>
           )}
-          <p className="text-xs text-on-surface-variant font-medium">{product.category} • {product.fabric}</p>
+          {product.category && (
+            <p className="text-xs text-on-surface-variant font-medium uppercase tracking-wider">{product.category}</p>
+          )}
           <div className="flex items-baseline gap-2 pt-1">
             <span className="text-primary font-headline text-lg">₹{product.price.toLocaleString()}</span>
             {product.originalPrice && (
