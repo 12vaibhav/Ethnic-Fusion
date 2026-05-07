@@ -41,7 +41,7 @@ async function shopifyFetch({ query, variables = {} }: { query: string, variable
 export const getProducts = async () => {
   const query = `
     query getProducts {
-      products(first: 20) {
+      products(first: 20, sortKey: CREATED_AT, reverse: true) {
         edges {
           node {
             id
