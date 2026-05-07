@@ -1,4 +1,9 @@
-const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN?.replace(/['"]+/g, '').trim();
+const SHOPIFY_STORE_DOMAIN = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN
+  ?.replace(/['"]+/g, '') // Remove quotes
+  ?.replace(/^https?:\/\//, '') // Remove http:// or https://
+  ?.replace(/\/+$/, '') // Remove trailing slashes
+  ?.trim();
+
 const SHOPIFY_STOREFRONT_ACCESS_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN?.replace(/['"]+/g, '').trim();
 
 async function shopifyFetch({ query, variables = {} }: { query: string, variables?: any }) {
