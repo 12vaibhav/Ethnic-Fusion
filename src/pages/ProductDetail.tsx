@@ -453,7 +453,7 @@ export default function ProductDetail() {
                 <div className="flex flex-wrap gap-2">
                   {values.map((val: string) => {
                     const isSelected = selectedVariant?.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val);
-                    const isColor = optionName.toLowerCase() === 'color' || optionName.toLowerCase() === 'colour';
+                    const isColor = optionName.toLowerCase().includes('color') || optionName.toLowerCase().includes('colour');
                     
                     // Smart Color Matching (Case-insensitive & trimmed)
                     const normalizedVal = val.trim();
@@ -490,7 +490,7 @@ export default function ProductDetail() {
                       >
                         {isColor ? (
                           <div 
-                            className="w-full h-full rounded-full shadow-inner" 
+                            className="w-full h-full rounded-full shadow-inner border border-black/10" 
                             style={{ backgroundColor: colorHex }}
                           />
                         ) : val}
