@@ -77,6 +77,57 @@ export default function ProductDetail() {
     return acc;
   }, {}) || {};
 
+  // Smart Parser for Shopify Description Tabs
+  const parseDescription = (desc: string) => {
+    if (!desc) return { description: '', quality: '', styling: '', shipping: '' };
+    
+    const sections = {
+      description: desc,
+      quality: '',
+      styling: '',
+      shipping: ''
+    };
+
+    // Look for common markers like "Quality:", "Styling:", "Shipping:" 
+    // or HTML tags like <h3>Quality</h3>
+    const markers = [
+      { key: 'quality', patterns: [/quality:/i, /<h3>quality<\/h3>/i, /<h2>quality<\/h2>/i] },
+      { key: 'styling', patterns: [/styling:/i, /styling tips:/i, /<h3>styling<\/h3>/i, /<h2>styling<\/h2>/i] },
+      { key: 'shipping', patterns: [/shipping:/i, /shipping & returns:/i, /<h3>shipping<\/h3>/i, /<h2>shipping<\/h2>/i] }
+    ];
+
+    let currentDesc = desc;
+    const foundSections: any = {};
+
+    // Sort markers by where they appear in the text to split correctly
+    const detected = markers.map(m => {
+      const match = m.patterns.map(p => desc.search(p)).filter(idx => idx !== -1);
+      return { key: m.key, index: match.length > 0 ? Math.min(...match) : -1 };
+    }).filter(m => m.index !== -1).sort((a, b) => a.index - b.index);
+
+    if (detected.length > 0) {
+      // The text before the first marker is the "Description"
+      sections.description = desc.substring(0, detected[0].index).trim();
+
+      // Extract each section
+      detected.forEach((d, i) => {
+        const start = d.index;
+        const end = detected[i + 1] ? detected[i + 1].index : desc.length;
+        
+        // Remove the marker itself from the content
+        let content = desc.substring(start, end).trim();
+        markers.find(m => m.key === d.key)?.patterns.forEach(p => {
+          content = content.replace(p, '');
+        });
+        
+        sections[d.key as keyof typeof sections] = content.trim();
+      });
+    }
+
+    return sections;
+  };
+
+  const tabContent = parseDescription(product?.description || '');
   const isWishlisted = product ? isInWishlist(product.id) : false;
 
   const [reviews, setReviews] = useState([
@@ -534,24 +585,16 @@ export default function ProductDetail() {
                 tabIndex={0}
               >
                 {activeTab === 'description' && (
-                  <p>{product.description || "This piece is a testament to the rich heritage of Indian textiles, featuring intricate Zardosi embroidery and hand-woven silk. Each motif is carefully placed to create a balanced, royal aesthetic."}</p>
+                  <div dangerouslySetInnerHTML={{ __html: tabContent.description || "No description available." }} />
                 )}
                 {activeTab === 'quality' && (
-                  <div className="space-y-4">
-                    <p>At Ethnic Fusion, quality is our hallmark. Every masterpiece undergoes a rigorous 5-point quality check before it reaches you:</p>
-                    <ul className="list-disc pl-5 space-y-2">
-                      <li><strong>Pure Fabrics:</strong> We use only 100% authentic hand-woven silks, organzas, and velvets.</li>
-                      <li><strong>Artisan Craftsmanship:</strong> Hand-embroidery executed by master craftsmen with decades of heritage experience.</li>
-                      <li><strong>Color Fastness:</strong> Eco-friendly, high-grade dyes that maintain their vibrancy for generations.</li>
-                      <li><strong>Structural Integrity:</strong> Reinforced stitching and premium lining for a perfect, lasting silhouette.</li>
-                    </ul>
-                  </div>
+                  <div dangerouslySetInnerHTML={{ __html: tabContent.quality || "At Ethnic Fusion, quality is our hallmark. Every masterpiece undergoes a rigorous quality check before it reaches you." }} />
                 )}
                 {activeTab === 'styling' && (
-                  <p>Pair this masterpiece with heavy kundan jewelry and a sleek bun for a classic bridal look. For a more contemporary fusion appeal, try a contrasting sheer dupatta and statement earrings.</p>
+                  <div dangerouslySetInnerHTML={{ __html: tabContent.styling || "Pair this masterpiece with heritage jewelry for a classic look." }} />
                 )}
                 {activeTab === 'shipping' && (
-                  <p>Complimentary express shipping on all orders above ₹50,000. Each piece is made to order and will be delivered within 4-6 weeks of purchase.</p>
+                  <div dangerouslySetInnerHTML={{ __html: tabContent.shipping || "Complimentary express shipping on all orders." }} />
                 )}
               </div>
             </div>
