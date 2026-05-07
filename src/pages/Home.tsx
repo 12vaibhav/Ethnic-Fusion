@@ -346,7 +346,7 @@ export default function Home() {
                 transition={{ delay: idx * 0.1 }}
                 className="flex flex-col items-center group cursor-pointer"
               >
-                <Link to={`/collections?category=${item.handle}`} className="flex flex-col items-center">
+                <Link to={`/collections?category=${item.title || item.label}`} className="flex flex-col items-center">
                   <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mb-3 border-2 border-outline-variant/30 md:group-hover:border-tertiary transition-all duration-500 shadow-lg">
                     <img
                       src={item.image || '/Assets/placeholder.webp'}
