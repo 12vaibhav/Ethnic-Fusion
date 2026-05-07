@@ -30,6 +30,19 @@ export default function Home() {
     fetchProducts();
   }, []);
 
+  // Section Filtering Logic
+  const stylistPicks = products.filter(p => p.tags?.includes('stylist-pick')).length > 0
+    ? products.filter(p => p.tags?.includes('stylist-pick'))
+    : products.slice(0, 6);
+
+  const featuredArrivals = products.filter(p => p.tags?.includes('featured')).length > 0
+    ? products.filter(p => p.tags?.includes('featured'))
+    : products.slice(4, 8);
+
+  const masterpieceGallery = products.filter(p => p.tags?.includes('masterpiece')).length > 0
+    ? products.filter(p => p.tags?.includes('masterpiece'))
+    : products.slice(0, 4);
+
   const desktopHeroImages = [
     '/Assets/hero section/herosection banner.webp',
     '/Assets/hero section/banner_1.webp',
@@ -260,7 +273,7 @@ export default function Home() {
                   <div className="h-4 bg-surface-container-low w-1/2"></div>
                 </div>
               ))
-            ) : products.slice(0, 6).map((item, idx) => (
+            ) : stylistPicks.map((item, idx) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -409,7 +422,7 @@ export default function Home() {
                   <div className="h-6 bg-surface-container-low w-3/4 mb-2"></div>
                 </div>
               ))
-            ) : products.slice(4, 8).map((product, idx) => (
+            ) : featuredArrivals.map((product, idx) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -473,7 +486,7 @@ export default function Home() {
                   <div className="aspect-[3/4] bg-surface-container-low mb-4"></div>
                 </div>
               ))
-            ) : products.slice(0, 4).map((product, idx) => (
+            ) : masterpieceGallery.map((product, idx) => (
               <div key={product.id} className="w-[45vw] md:w-auto h-auto md:h-full snap-start">
                 <ProductCard product={product} />
               </div>

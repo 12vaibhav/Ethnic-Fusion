@@ -62,6 +62,7 @@ export const getProducts = async () => {
                 }
               }
             }
+            tags
             productType
             variants(first: 1) {
               edges {
@@ -95,6 +96,7 @@ export const getProducts = async () => {
     category: node.productType,
     description: node.description,
     variantId: node.variants.edges[0].node.id,
+    tags: node.tags || [],
   }));
 };
 
