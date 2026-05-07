@@ -138,6 +138,29 @@ export default function ProductDetail() {
 
   const [newReview, setNewReview] = useState({ name: '', rating: 5, comment: '' });
   const [showReviewForm, setShowReviewForm] = useState(false);
+
+  // Color Mapping for swatches
+  const colorMap: Record<string, string> = {
+    'Ruby Red': '#ba1a1a',
+    'Peacock Teal': '#004d51',
+    'Royal Blue': '#435b9f',
+    'Emerald Green': '#006b5b',
+    'Maroon': '#800000',
+    'Gold': '#d4af37',
+    'Ivory': '#fffff0',
+    'Black': '#000000',
+    'Midnight Blue': '#191970',
+    'Fuschia': '#ff00ff',
+    'Burgundy': '#800020',
+    'Champagne': '#f7e7ce',
+    'Rose Gold': '#b76e79',
+    'Navy': '#000080',
+    'Forest Green': '#228b22',
+    'Charcoal': '#36454f',
+    'Silver': '#c0c0c0',
+    'Plum': '#8e4585',
+    'Mustard': '#ffdb58'
+  };
   const [announcement, setAnnouncement] = useState('');
 
   const announce = (message: string) => {
@@ -420,10 +443,14 @@ export default function ProductDetail() {
                 <div className="flex flex-wrap gap-2">
                   {values.map((val: string) => {
                     const isSelected = selectedVariant?.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val);
+                    const isColor = optionName.toLowerCase() === 'color' || optionName.toLowerCase() === 'colour';
+                    const colorHex = colorMap[val] || '#ccc';
+
                     return (
                       <button
                         key={val}
                         type="button"
+                        title={isColor ? val : undefined}
                         onClick={() => {
                           const newVariant = product.variants.find((v: any) => 
                             v.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val) &&
@@ -436,13 +463,21 @@ export default function ProductDetail() {
                           if (newVariant) setSelectedVariant(newVariant);
                         }}
                         className={cn(
-                          "px-4 py-2 border text-[10px] md:text-xs font-bold transition-all",
+                          "transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary",
+                          isColor 
+                            ? "w-8 h-8 md:w-10 md:h-10 rounded-full border-2 p-0.5" 
+                            : "px-4 py-2 border text-[10px] md:text-xs font-bold",
                           isSelected 
-                            ? "bg-primary text-white border-primary" 
-                            : "border-outline-variant text-outline hover:border-primary hover:text-primary"
+                            ? isColor ? "border-tertiary scale-110" : "bg-primary text-white border-primary" 
+                            : isColor ? "border-outline-variant/30 hover:border-outline" : "border-outline-variant text-outline hover:border-primary hover:text-primary"
                         )}
                       >
-                        {val}
+                        {isColor ? (
+                          <div 
+                            className="w-full h-full rounded-full shadow-inner" 
+                            style={{ backgroundColor: colorHex }}
+                          />
+                        ) : val}
                       </button>
                     );
                   })}
