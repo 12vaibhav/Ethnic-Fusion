@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState, FormEvent, useEffect, useMemo } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { Heart, ShoppingBag, Share2, Ruler, Truck, RotateCcw, Star, ChevronRight, Plus, Loader2, ArrowLeft } from 'lucide-react';
 import { getProductByHandle, getProducts, getProductRecommendations } from '../lib/shopify';
 import ProductCard from '../components/ProductCard';
@@ -63,31 +63,20 @@ export default function ProductDetail() {
     loadData();
   }, [handle]);
 
-  // Get options directly from Shopify and merge with variant options to ensure nothing is missed
-  const options = useMemo(() => {
-    if (!product) return {};
-    
-    const allOptions: Record<string, string[]> = {};
-
-    // 1. Start with explicit options from Shopify
-    if (product.options) {
-      product.options.forEach((opt: any) => {
-        allOptions[opt.name] = [...opt.values];
+  // Get options directly from Shopify, or fallback to reconstructing them from variants
+  const options = product?.options ? 
+    product.options.reduce((acc: any, opt: any) => {
+      acc[opt.name] = opt.values;
+      return acc;
+    }, {}) : 
+    (product?.variants?.reduce((acc: any, variant: any) => {
+      if (!variant.selectedOptions) return acc;
+      variant.selectedOptions.forEach((opt: any) => {
+        if (!acc[opt.name]) acc[opt.name] = [];
+        if (!acc[opt.name].includes(opt.value)) acc[opt.name].push(opt.value);
       });
-    }
-
-    // 2. Cross-reference with all variants to catch any missing values
-    product.variants?.forEach((variant: any) => {
-      variant.selectedOptions?.forEach((opt: any) => {
-        if (!allOptions[opt.name]) allOptions[opt.name] = [];
-        if (!allOptions[opt.name].includes(opt.value)) {
-          allOptions[opt.name].push(opt.value);
-        }
-      });
-    });
-
-    return allOptions;
-  }, [product]);
+      return acc;
+    }, {}) || {});
 
   // Smart Parser for Shopify Description Tabs
   const parseDescription = (desc: string) => {
@@ -170,7 +159,17 @@ export default function ProductDetail() {
     'Charcoal': '#36454f',
     'Silver': '#c0c0c0',
     'Plum': '#8e4585',
-    'Mustard': '#ffdb58'
+    'Mustard': '#ffdb58',
+    'Saffron': '#ff9933',
+    'Mehendi Green': '#4a5d23',
+    'Deep Wine': '#722f37',
+    'Wine': '#722f37',
+    'Teal': '#008080',
+    'Coral': '#ff7f50',
+    'Pink': '#ffc0cb',
+    'Orange': '#ffa500',
+    'Yellow': '#ffff00',
+    'White': '#ffffff'
   };
   const [announcement, setAnnouncement] = useState('');
 
@@ -455,7 +454,13 @@ export default function ProductDetail() {
                   {values.map((val: string) => {
                     const isSelected = selectedVariant?.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val);
                     const isColor = optionName.toLowerCase() === 'color' || optionName.toLowerCase() === 'colour';
-                    const colorHex = colorMap[val] || '#ccc';
+                    
+                    // Smart Color Matching (Case-insensitive & trimmed)
+                    const normalizedVal = val.trim();
+                    const matchedKey = Object.keys(colorMap).find(
+                      key => key.toLowerCase() === normalizedVal.toLowerCase()
+                    );
+                    const colorHex = matchedKey ? colorMap[matchedKey] : '#E6D5B8'; // Default to a soft silk/gold tone if unmatched
 
                     return (
                       <button
