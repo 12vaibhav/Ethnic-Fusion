@@ -585,16 +585,16 @@ export default function ProductDetail() {
                 tabIndex={0}
               >
                 {activeTab === 'description' && (
-                  <div dangerouslySetInnerHTML={{ __html: tabContent.description || "No description available." }} />
+                  <div className="prose-custom" dangerouslySetInnerHTML={{ __html: tabContent.description || "No description available." }} />
                 )}
                 {activeTab === 'quality' && (
-                  <div dangerouslySetInnerHTML={{ __html: tabContent.quality || "At Ethnic Fusion, quality is our hallmark. Every masterpiece undergoes a rigorous quality check before it reaches you." }} />
+                  <div className="prose-custom" dangerouslySetInnerHTML={{ __html: tabContent.quality || "At Ethnic Fusion, quality is our hallmark. Every masterpiece undergoes a rigorous quality check before it reaches you." }} />
                 )}
                 {activeTab === 'styling' && (
-                  <div dangerouslySetInnerHTML={{ __html: tabContent.styling || "Pair this masterpiece with heritage jewelry for a classic look." }} />
+                  <div className="prose-custom" dangerouslySetInnerHTML={{ __html: tabContent.styling || "Pair this masterpiece with heritage jewelry for a classic look." }} />
                 )}
                 {activeTab === 'shipping' && (
-                  <div dangerouslySetInnerHTML={{ __html: tabContent.shipping || "Complimentary express shipping on all orders." }} />
+                  <div className="prose-custom" dangerouslySetInnerHTML={{ __html: tabContent.shipping || "Complimentary express shipping on all orders." }} />
                 )}
               </div>
             </div>

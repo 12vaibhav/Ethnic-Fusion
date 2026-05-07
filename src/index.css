@@ -73,3 +73,23 @@
     display: none !important; /* Hide "Chat With Us" text on mobile to save space */
   }
 }
+
+/* Rich Text Styles from Shopify */
+.prose-custom {
+  @apply text-on-surface-variant leading-relaxed;
+}
+.prose-custom b, .prose-custom strong {
+  @apply font-bold text-primary;
+}
+.prose-custom ul {
+  @apply list-disc pl-5 my-4 space-y-2;
+}
+.prose-custom ol {
+  @apply list-decimal pl-5 my-4 space-y-2;
+}
+.prose-custom p {
+  @apply mb-4 last:mb-0;
+}
+.prose-custom h1, .prose-custom h2, .prose-custom h3 {
+  @apply font-headline text-primary mt-6 mb-2;
+}

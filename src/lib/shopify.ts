@@ -53,7 +53,7 @@ export const getProducts = async () => {
             id
             title
             handle
-            description
+            descriptionHtml
             priceRange {
               minVariantPrice {
                 amount
@@ -110,7 +110,7 @@ export const getProducts = async () => {
     category: node.productType,
     collections: node.collections.edges.map(({ node: col }: any) => col.title),
     collectionHandles: node.collections.edges.map(({ node: col }: any) => col.handle),
-    description: node.description,
+    description: node.descriptionHtml,
     variantId: node.variants.edges[0].node.id,
     tags: node.tags || [],
   }));
@@ -123,7 +123,7 @@ export const getProductByHandle = async (handle: string) => {
         id
         title
         handle
-        description
+        descriptionHtml
         images(first: 5) {
           edges {
             node {
@@ -162,7 +162,7 @@ export const getProductByHandle = async (handle: string) => {
     id: product.id,
     name: product.title,
     handle: product.handle,
-    description: product.description,
+    description: product.descriptionHtml,
     images: product.images.edges.map(({ node }: any) => node.url),
     image: product.images.edges[0]?.node.url || '',
     price: parseFloat(product.variants.edges[0].node.price.amount),
