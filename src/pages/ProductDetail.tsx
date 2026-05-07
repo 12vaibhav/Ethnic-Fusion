@@ -512,7 +512,7 @@ export default function ProductDetail() {
             {/* Tabs */}
             <div className="pt-3 md:pt-6">
               <div className="flex justify-center md:justify-start border-b border-outline-variant/30 gap-6 md:gap-8" role="tablist" aria-label="Product information tabs">
-                {['description', 'styling', 'shipping'].map((tab) => (
+                {['description', 'quality', 'styling', 'shipping'].map((tab) => (
                   <button
                     key={tab}
                     id={`tab-${tab}`}
@@ -534,7 +534,18 @@ export default function ProductDetail() {
                 tabIndex={0}
               >
                 {activeTab === 'description' && (
-                  <p>{product.description} This piece is a testament to the rich heritage of Indian textiles, featuring intricate Zardosi embroidery and hand-woven silk. Each motif is carefully placed to create a balanced, royal aesthetic.</p>
+                  <p>{product.description || "This piece is a testament to the rich heritage of Indian textiles, featuring intricate Zardosi embroidery and hand-woven silk. Each motif is carefully placed to create a balanced, royal aesthetic."}</p>
+                )}
+                {activeTab === 'quality' && (
+                  <div className="space-y-4">
+                    <p>At Ethnic Fusion, quality is our hallmark. Every masterpiece undergoes a rigorous 5-point quality check before it reaches you:</p>
+                    <ul className="list-disc pl-5 space-y-2">
+                      <li><strong>Pure Fabrics:</strong> We use only 100% authentic hand-woven silks, organzas, and velvets.</li>
+                      <li><strong>Artisan Craftsmanship:</strong> Hand-embroidery executed by master craftsmen with decades of heritage experience.</li>
+                      <li><strong>Color Fastness:</strong> Eco-friendly, high-grade dyes that maintain their vibrancy for generations.</li>
+                      <li><strong>Structural Integrity:</strong> Reinforced stitching and premium lining for a perfect, lasting silhouette.</li>
+                    </ul>
+                  </div>
                 )}
                 {activeTab === 'styling' && (
                   <p>Pair this masterpiece with heavy kundan jewelry and a sleek bun for a classic bridal look. For a more contemporary fusion appeal, try a contrasting sheer dupatta and statement earrings.</p>
