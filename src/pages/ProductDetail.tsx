@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect, useMemo } from 'react';
 import { Heart, ShoppingBag, Share2, Ruler, Truck, RotateCcw, Star, ChevronRight, Plus, Loader2, ArrowLeft } from 'lucide-react';
 import { getProductByHandle, getProducts, getProductRecommendations } from '../lib/shopify';
 import ProductCard from '../components/ProductCard';
@@ -63,20 +63,31 @@ export default function ProductDetail() {
     loadData();
   }, [handle]);
 
-  // Get options directly from Shopify, or fallback to reconstructing them from variants
-  const options = product?.options ? 
-    product.options.reduce((acc: any, opt: any) => {
-      acc[opt.name] = opt.values;
-      return acc;
-    }, {}) : 
-    (product?.variants?.reduce((acc: any, variant: any) => {
-      if (!variant.selectedOptions) return acc;
-      variant.selectedOptions.forEach((opt: any) => {
-        if (!acc[opt.name]) acc[opt.name] = [];
-        if (!acc[opt.name].includes(opt.value)) acc[opt.name].push(opt.value);
+  // Get options directly from Shopify and merge with variant options to ensure nothing is missed
+  const options = useMemo(() => {
+    if (!product) return {};
+    
+    const allOptions: Record<string, string[]> = {};
+
+    // 1. Start with explicit options from Shopify
+    if (product.options) {
+      product.options.forEach((opt: any) => {
+        allOptions[opt.name] = [...opt.values];
       });
-      return acc;
-    }, {}) || {});
+    }
+
+    // 2. Cross-reference with all variants to catch any missing values
+    product.variants?.forEach((variant: any) => {
+      variant.selectedOptions?.forEach((opt: any) => {
+        if (!allOptions[opt.name]) allOptions[opt.name] = [];
+        if (!allOptions[opt.name].includes(opt.value)) {
+          allOptions[opt.name].push(opt.value);
+        }
+      });
+    });
+
+    return allOptions;
+  }, [product]);
 
   // Smart Parser for Shopify Description Tabs
   const parseDescription = (desc: string) => {
