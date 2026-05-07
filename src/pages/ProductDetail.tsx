@@ -32,8 +32,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<any>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSize, setSelectedSize] = useState('M');
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [activeTab, setActiveTab] = useState('description');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { addToCart, toggleWishlist, isInWishlist } = useShop();
@@ -50,12 +49,11 @@ export default function ProductDetail() {
         
         if (productData) {
           setProduct(productData);
-          if (productData.colors && productData.colors.length > 0) {
-            setSelectedColor(productData.colors[0]);
+          if (productData.variants && productData.variants.length > 0) {
+            setSelectedVariant(productData.variants[0]);
           }
         }
         
-        // Filter out current product and take 4 related ones
         const filtered = allProducts
           .filter(p => p.handle !== handle)
           .slice(0, 4);
@@ -68,6 +66,15 @@ export default function ProductDetail() {
     }
     loadData();
   }, [handle]);
+
+  // Extract unique options (like Size, Color) from variants
+  const options = product?.variants?.reduce((acc: any, variant: any) => {
+    variant.selectedOptions.forEach((opt: any) => {
+      if (!acc[opt.name]) acc[opt.name] = [];
+      if (!acc[opt.name].includes(opt.value)) acc[opt.name].push(opt.value);
+    });
+    return acc;
+  }, {}) || {};
 
   const isWishlisted = product ? isInWishlist(product.id) : false;
 
@@ -343,52 +350,52 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Color Selection */}
-            <fieldset className="space-y-2 md:space-y-4 border-none p-0 pb-5 md:pb-6 m-0">
-              <div className="flex justify-between items-center">
-                <legend className="text-xs uppercase tracking-widest text-primary font-bold">Select Color</legend>
-                <span className="text-[10px] text-outline uppercase tracking-widest font-bold">Midnight Teal</span>
-              </div>
-              <div className="flex gap-4">
-                {product.colors.map((color) => (
-                  <button
-                    key={color}
-                    type="button"
-                    onClick={() => setSelectedColor(color)}
-                    style={{ backgroundColor: color }}
-                    aria-label={`Select color ${color}`}
-                    aria-pressed={selectedColor === color}
-                    className={`w-7 h-7 md:w-10 md:h-10 rounded-full ring-1 ring-offset-2 md:ring-offset-4 transition-all focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tertiary ${selectedColor === color ? 'ring-tertiary' : 'ring-transparent hover:ring-outline'}`}
-                  />
-                ))}
-              </div>
-            </fieldset>
-
-            {/* Size Selection */}
-            <fieldset className="space-y-2 md:space-y-4 border-none p-0 m-0">
-              <div className="flex justify-between items-center">
-                <legend className="text-xs uppercase tracking-widest text-primary font-bold">Select Size</legend>
-                <button 
-                  type="button"
-                  className="flex items-center gap-2 text-[10px] text-tertiary uppercase tracking-widest font-bold hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
-                >
-                  <Ruler className="w-3 h-3" aria-hidden="true" /> Size Guide
-                </button>
-              </div>
-              <div className="grid grid-cols-6 gap-2">
-                {sizes.map((size) => (
-                  <button
-                    key={size}
-                    type="button"
-                    onClick={() => setSelectedSize(size)}
-                    aria-pressed={selectedSize === size}
-                    className={`h-12 flex items-center justify-center border text-xs font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary ${selectedSize === size ? 'bg-primary text-white border-primary' : 'border-outline-variant text-outline hover:border-primary hover:text-primary'}`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
+            {/* Dynamic Options Selection */}
+            {Object.entries(options).map(([optionName, values]: [string, any]) => (
+              <fieldset key={optionName} className="space-y-2 md:space-y-4 border-none p-0 m-0">
+                <div className="flex justify-between items-center">
+                  <legend className="text-xs uppercase tracking-widest text-primary font-bold">Select {optionName}</legend>
+                  {optionName.toLowerCase() === 'size' && (
+                    <button 
+                      type="button"
+                      className="flex items-center gap-2 text-[10px] text-tertiary uppercase tracking-widest font-bold hover:underline"
+                    >
+                      <Ruler className="w-3 h-3" aria-hidden="true" /> Size Guide
+                    </button>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {values.map((val: string) => {
+                    const isSelected = selectedVariant?.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val);
+                    return (
+                      <button
+                        key={val}
+                        type="button"
+                        onClick={() => {
+                          const newVariant = product.variants.find((v: any) => 
+                            v.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val) &&
+                            v.selectedOptions.every((opt: any) => {
+                              if (opt.name === optionName) return true;
+                              return selectedVariant?.selectedOptions.some((sOpt: any) => sOpt.name === opt.name && sOpt.value === opt.value);
+                            })
+                          ) || product.variants.find((v: any) => v.selectedOptions.some((opt: any) => opt.name === optionName && opt.value === val));
+                          
+                          if (newVariant) setSelectedVariant(newVariant);
+                        }}
+                        className={cn(
+                          "px-4 py-2 border text-[10px] md:text-xs font-bold transition-all",
+                          isSelected 
+                            ? "bg-primary text-white border-primary" 
+                            : "border-outline-variant text-outline hover:border-primary hover:text-primary"
+                        )}
+                      >
+                        {val}
+                      </button>
+                    );
+                  })}
+                </div>
+              </fieldset>
+            ))}
 
             {/* Actions */}
             <div className="space-y-3 md:space-y-4 pt-3 md:pt-4">
@@ -396,7 +403,13 @@ export default function ProductDetail() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   <button 
                     onClick={() => {
-                      addToCart(product);
+                      const itemToCart = {
+                        ...product,
+                        variantId: selectedVariant?.id || product.variantId,
+                        price: selectedVariant?.price || product.price,
+                        selectedOptions: selectedVariant?.selectedOptions
+                      };
+                      addToCart(itemToCart);
                       toast.success('Added to Bag', {
                         description: `${product.name} has been added to your bag.`
                       });
@@ -408,7 +421,12 @@ export default function ProductDetail() {
                   </button>
                   <button 
                     onClick={() => {
-                      addToCart(product);
+                      const itemToCart = {
+                        ...product,
+                        variantId: selectedVariant?.id || product.variantId,
+                        price: selectedVariant?.price || product.price
+                      };
+                      addToCart(itemToCart);
                       navigate('/cart');
                     }}
                     className="bg-tertiary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-primary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
