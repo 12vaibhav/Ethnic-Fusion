@@ -2,12 +2,15 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Search, Heart, ShoppingBag, Filter, X, ChevronDown, Loader2 } from 'lucide-react';
 import { getProducts } from '../lib/shopify';
 import ProductCard from '../components/ProductCard';
-import { Link } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 import { Product } from '../types';
 
 export default function Collections() {
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get('category');
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState(250000);
@@ -15,8 +18,7 @@ export default function Collections() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState('Recommended');
   const sortRef = useRef<HTMLDivElement>(null);
-
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategory ? [initialCategory] : []);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedFabrics, setSelectedFabrics] = useState<string[]>([]);
 
@@ -29,6 +31,13 @@ export default function Collections() {
     }
     loadProducts();
   }, []);
+
+  // Update selection if URL changes
+  useEffect(() => {
+    if (initialCategory && !selectedCategories.includes(initialCategory)) {
+      setSelectedCategories([initialCategory]);
+    }
+  }, [initialCategory]);
 
   const toggleFilter = (filterType: 'category' | 'color' | 'fabric', value: string) => {
     if (filterType === 'category') {
@@ -65,14 +74,12 @@ export default function Collections() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const categories = [
-    { name: 'Lehengas', count: 84 },
-    { name: 'Sarees', count: 62 },
-    { name: 'Anarkalis', count: 31 },
-    { name: 'Indo-Western', count: 29 },
-    { name: 'Fusion Dresses', count: 18 },
-    { name: 'Kurtis', count: 15 },
-  ];
+  const categories = Array.from(new Set(products.map(p => p.category)))
+    .filter(Boolean)
+    .map(name => ({
+      name,
+      count: products.filter(p => p.category === name).length
+    }));
 
   const colors = [
     '#004d51', '#435b9f', '#735c00', '#ba1a1a', '#ffffff', '#e9c349'

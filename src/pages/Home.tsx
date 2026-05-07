@@ -334,32 +334,10 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-8 md:gap-6">
-            {[
-              { 
-                label: 'Wedding', 
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAsW9Ewf0A-IG-mqxRZTC4FUtNCiOYRtFxWUNGDz-jy6vi__olfaIPYKtkGQGf1kNL6tLlJOADCAsmCSQ4mmJXblsRXnA_N41l7ZphjiunAwgzwM08rd1Rf-gyz8apvkgAbvYX8imcjXRRVCYcfstMePe1FYQQIKxB3r-kBesFpnWWI0NRdmVphxW0s0Vc2jCsaScc4qkIWsZr5W7mML8sXmAGRFhDtAadY8qgyuU1uZ21qXSs4trlRhateC66FXGfOX20v2xX-COii' 
-              },
-              { 
-                label: 'Haldi & Mehendi', 
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBipIWa8MawnwdauQ9wVSxZQ-vQ8KIt3GB_uDqupycYGT7fS_y8XuCzwky2mQn2uTMHkM7jGKoZsFt_qF7lnIXrAd_PyoRWHbRkokrETEheiEuxaTqIkSKVxGEV8T32UNf9DGZIHpmtlD10fhYHRCjSeA4PJWq-uNsZN7J2LyRDTQjZqxKKfvgzBWsrifbqXeziIYYyeA1YBJEqWz4IMensuev6MAT2WfJvGKomf-p0oNHWIODC7zCz8rfb_mJOcaL9uXRnQLVY43ss' 
-              },
-              { 
-                label: 'Cocktail Party', 
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCFN4vLlNvCIb5qhfwUuzpxaHYYin1tnSOJIw7AeDaGpqvyikpFqSlHFeBW2Ouox925XPUjgu2HaIFcbWMKHGsiRiUOO2RAGUJrp_pgSX-a3VgQRGfDt0mlHfNB3woHUs-7Zzh5KC6fYuU1eK5RrpQ5ozAkbD1vDtpT5XCUPCOc0WWanZEKW8fXA8DjGSvLvG04fsHzDxkJIFu6eVQG_HiGupxJRxjfXwFxQVozXgzcm97442GYbgSLdU187ZnAq3zkeK3J1S-hBcIA' 
-              },
-              { 
-                label: 'Office to Event', 
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDJnD1vz3ir9EgbMgdmusanhGZYe-wjwFhidDPSXkIInNDcNawpAnkwKH2gX7kQQ9Pf_JHARQIBWM449fTnZWbGYqyLfk1Z8RWC7NSPQmXA6qsD2mDv1jNJcCEAJuEwrvwJ736ab3dTm4wj6OG8xMo6jUhkbsVMGqx2At3cIfEX4-37i4Yz9bqirbt9Ntr_KDXLPhcC6JXUY4rELhz-bsYZlFMr_697oTfVBWzdHj5Ch1guzf9hLsVIeHeZsgf63_b16eqYlNW6aFGo' 
-              },
-              { 
-                label: 'Festive Casual', 
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDA3Q6iJKgy_dpsq5X2Yguczq0vg7bdGDFD0BQ5OWku2GbKncg5yGvppGxPC76q-tX5JJ8M6izY1m2kPfpzazxv_qZHdNg85OQ-iQyDMIrR1v7KiuWF5wu03Hnjy2cRm0b1xtUh1dCSRnSsjoCdogOBVUEoq80tj7CH6exxAecTtqjxuZL6RSMTfGjghWH6L2IrQNFEzwCioca_fjNVbgQiBcM278YhCjwxT5jKTEYQUhqt5-KpiJuVuIAVIhfau9Rd82fZjs3HPh4-' 
-              },
-              { 
-                label: 'Summer Brunch', 
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDomFbZ6QHBrI9kz3UVyYT2EvgAvSAPz8umWvm0RgrUxjWizxcgG-pSuU07FfrL-nUkXweHnPt6PxFNRHQWvMIWWN_sG8uwf5pnyUcWcm8t5FHaWF7gwXFKSFG36WGNlWlFEDhFXHzfD1w1n0IpKX3MZLhdi0z4tdrB_Mi3cnWW0uOu3OuAHK1Lr9RmAcff9j_OJDHDApHUnSDrDbIWZKwLY_cgcXeShyeXftPUvY7La1XnMZLVa4c9Z5K2zC0KRntB6UChFR-HCraY' 
-              }
-            ].map((item, idx) => (
+            {(collections.length > 0 ? collections : [
+              { label: 'Wedding', image: '/Assets/placeholder.webp', handle: 'wedding' },
+              { label: 'Festive', image: '/Assets/placeholder.webp', handle: 'festive' }
+            ]).map((item, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
@@ -368,11 +346,11 @@ export default function Home() {
                 transition={{ delay: idx * 0.1 }}
                 className="flex flex-col items-center group cursor-pointer"
               >
-                <Link to="/collections" className="flex flex-col items-center">
+                <Link to={`/collections?category=${item.handle}`} className="flex flex-col items-center">
                   <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mb-3 border-2 border-outline-variant/30 md:group-hover:border-tertiary transition-all duration-500 shadow-lg">
                     <img
-                      src={item.image}
-                      alt={item.label}
+                      src={item.image || '/Assets/placeholder.webp'}
+                      alt={item.title || item.label}
                       referrerPolicy="no-referrer"
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110"
@@ -380,7 +358,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-primary/10 md:group-hover:bg-transparent transition-colors duration-500"></div>
                   </div>
                   <span className="font-label text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-primary text-center md:group-hover:text-tertiary transition-colors">
-                    {item.label}
+                    {item.title || item.label}
                   </span>
                 </Link>
               </motion.div>
