@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, FormEvent, useEffect } from 'react';
 import { Heart, ShoppingBag, Share2, Ruler, Truck, RotateCcw, Star, ChevronRight, Plus, Loader2, ArrowLeft } from 'lucide-react';
-import { getProductByHandle, getProducts } from '../lib/shopify';
+import { getProductByHandle, getProducts, getProductRecommendations } from '../lib/shopify';
 import ProductCard from '../components/ProductCard';
 import { motion } from 'motion/react';
 import { useShop } from '../context/ShopContext';
@@ -42,22 +42,18 @@ export default function ProductDetail() {
       if (!handle) return;
       setLoading(true);
       try {
-        const [productData, allProducts] = await Promise.all([
-          getProductByHandle(handle),
-          getProducts()
-        ]);
+        const productData = await getProductByHandle(handle);
         
         if (productData) {
           setProduct(productData);
           if (productData.variants && productData.variants.length > 0) {
             setSelectedVariant(productData.variants[0]);
           }
+
+          // Fetch smart recommendations from Shopify
+          const recommendations = await getProductRecommendations(productData.id);
+          setRelatedProducts(recommendations.slice(0, 4));
         }
-        
-        const filtered = allProducts
-          .filter(p => p.handle !== handle)
-          .slice(0, 4);
-        setRelatedProducts(filtered);
       } catch (error) {
         console.error('Failed to load product data:', error);
       } finally {

@@ -116,6 +116,60 @@ export const getProducts = async () => {
   }));
 };
 
+export const getProductRecommendations = async (productId: string) => {
+  const query = `
+    query getProductRecommendations($productId: ID!) {
+      productRecommendations(productId: $productId) {
+        id
+        title
+        handle
+        descriptionHtml
+        priceRange {
+          minVariantPrice {
+            amount
+          }
+        }
+        images(first: 1) {
+          edges {
+            node {
+              url
+            }
+          }
+        }
+        productType
+        variants(first: 1) {
+          edges {
+            node {
+              id
+              price {
+                amount
+              }
+              compareAtPrice {
+                amount
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await shopifyFetch({ query, variables: { productId } });
+  if (!data || !data.productRecommendations) return [];
+
+  return data.productRecommendations.map((node: any) => ({
+    id: node.id,
+    name: node.title,
+    handle: node.handle,
+    price: parseFloat(node.variants.edges[0].node.price.amount),
+    originalPrice: node.variants.edges[0].node.compareAtPrice ? parseFloat(node.variants.edges[0].node.compareAtPrice.amount) : undefined,
+    image: node.images.edges[0]?.node.url || '',
+    category: node.productType,
+    description: node.descriptionHtml,
+    variantId: node.variants.edges[0].node.id,
+  }));
+};
+
 export const getProductByHandle = async (handle: string) => {
   const query = `
     query getProduct($handle: String!) {
