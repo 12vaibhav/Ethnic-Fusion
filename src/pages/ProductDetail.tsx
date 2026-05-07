@@ -67,8 +67,9 @@ export default function ProductDetail() {
     loadData();
   }, [handle]);
 
-  // Extract unique options (like Size, Color) from variants
+  // Extract unique options (like Size, Color) from variants with safety checks
   const options = product?.variants?.reduce((acc: any, variant: any) => {
+    if (!variant.selectedOptions) return acc;
     variant.selectedOptions.forEach((opt: any) => {
       if (!acc[opt.name]) acc[opt.name] = [];
       if (!acc[opt.name].includes(opt.value)) acc[opt.name].push(opt.value);

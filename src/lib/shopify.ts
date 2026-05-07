@@ -140,6 +140,9 @@ export const getProductByHandle = async (handle: string) => {
               price {
                 amount
               }
+              compareAtPrice {
+                amount
+              }
               selectedOptions {
                 name
                 value
@@ -161,11 +164,14 @@ export const getProductByHandle = async (handle: string) => {
     handle: product.handle,
     description: product.description,
     images: product.images.edges.map(({ node }: any) => node.url),
+    image: product.images.edges[0]?.node.url || '',
     price: parseFloat(product.variants.edges[0].node.price.amount),
+    originalPrice: product.variants.edges[0].node.compareAtPrice ? parseFloat(product.variants.edges[0].node.compareAtPrice.amount) : undefined,
     variants: product.variants.edges.map(({ node }: any) => ({
       id: node.id,
       title: node.title,
       price: parseFloat(node.price.amount),
+      selectedOptions: node.selectedOptions,
     })),
   };
 };
