@@ -49,6 +49,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         <div className="space-y-1">
           <h3 className="text-sm font-bold text-on-surface uppercase tracking-wide">{product.name}</h3>
+          {product.subtitle && (
+            <p className="text-[10px] text-tertiary italic font-medium leading-tight">
+              {product.subtitle}
+            </p>
+          )}
           <p className="text-xs text-on-surface-variant font-medium">{product.category} • {product.fabric}</p>
           <div className="flex items-baseline gap-2 pt-1">
             <span className="text-primary font-headline text-lg">₹{product.price.toLocaleString()}</span>

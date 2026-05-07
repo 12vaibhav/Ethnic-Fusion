@@ -113,6 +113,7 @@ export const getProducts = async () => {
     description: node.descriptionHtml,
     variantId: node.variants.edges[0].node.id,
     tags: node.tags || [],
+    subtitle: node.tags?.find((tag: string) => tag.startsWith('subtitle:'))?.replace('subtitle:', '').trim() || ''
   }));
 };
 
@@ -137,6 +138,7 @@ export const getProductRecommendations = async (productId: string) => {
           }
         }
         productType
+        tags
         variants(first: 1) {
           edges {
             node {
@@ -167,6 +169,7 @@ export const getProductRecommendations = async (productId: string) => {
     category: node.productType,
     description: node.descriptionHtml,
     variantId: node.variants.edges[0].node.id,
+    subtitle: node.tags?.find((tag: string) => tag.startsWith('subtitle:'))?.replace('subtitle:', '').trim() || ''
   }));
 };
 
@@ -178,6 +181,7 @@ export const getProductByHandle = async (handle: string) => {
         title
         handle
         descriptionHtml
+        tags
         images(first: 5) {
           edges {
             node {
@@ -226,6 +230,7 @@ export const getProductByHandle = async (handle: string) => {
     price: parseFloat(product.variants.edges[0].node.price.amount),
     originalPrice: product.variants.edges[0].node.compareAtPrice ? parseFloat(product.variants.edges[0].node.compareAtPrice.amount) : undefined,
     options: product.options,
+    subtitle: product.tags?.find((tag: string) => tag.startsWith('subtitle:'))?.replace('subtitle:', '').trim() || '',
     variants: product.variants.edges.map(({ node: variant }: any) => ({
       id: variant.id,
       title: variant.title,
