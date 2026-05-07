@@ -185,3 +185,34 @@ export const createCheckout = async (lineItems: { variantId: string, quantity: n
   const data = await shopifyFetch({ query, variables });
   return data?.checkoutCreate?.checkout?.webUrl;
 };
+
+export const getCollections = async () => {
+  const query = `
+    query getCollections {
+      collections(first: 4) {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+            image {
+              url
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await shopifyFetch({ query });
+  if (!data?.collections) return [];
+
+  return data.collections.edges.map(({ node }: any) => ({
+    id: node.id,
+    title: node.title,
+    handle: node.handle,
+    description: node.description,
+    image: node.image?.url || '',
+  }));
+};

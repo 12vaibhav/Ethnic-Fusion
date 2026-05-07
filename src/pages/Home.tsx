@@ -5,29 +5,34 @@ import { useRef, useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
 import ProductCard from '../components/ProductCard';
 import { useShop } from '../context/ShopContext';
-import { getProducts } from '../lib/shopify';
+import { getProducts, getCollections } from '../lib/shopify';
 import { Product } from '../types';
 
 export default function Home() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useShop();
   const [products, setProducts] = useState<Product[]>([]);
+  const [collections, setCollections] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const fetchedProducts = await getProducts();
+        const [fetchedProducts, fetchedCollections] = await Promise.all([
+          getProducts(),
+          getCollections()
+        ]);
         setProducts(fetchedProducts);
+        setCollections(fetchedCollections);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
-    fetchProducts();
+    fetchData();
   }, []);
 
   // Section Filtering Logic (Strict Tagging)
@@ -165,28 +170,12 @@ export default function Home() {
         </div>
 
         <div className="grid grid-rows-2 grid-flow-col md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-0 md:pb-0 -mx-6 pl-4 pr-6 md:mx-0 md:px-0 scroll-pl-4 h-auto md:h-auto hide-scrollbar">
-          {[
-            {
-              title: 'Festive Fusion',
-              image: '/Assets/Signature Collections/Festive Fusion.webp',
-              description: 'Vibrant colors for celebration'
-            },
-            {
-              title: 'Everyday Indo-Western',
-              image: '/Assets/Signature Collections/Everyday Indo-Western.webp',
-              description: 'Modern silhouettes for daily grace'
-            },
-            {
-              title: 'Bridal Edit',
-              image: '/Assets/Signature Collections/Bridal Edit.webp',
-              description: 'Timeless heirlooms for your big day'
-            },
-            {
-              title: 'Sustainable Luxe',
-              image: '/Assets/Signature Collections/Sustainable Luxe.webp',
-              description: 'Eco-conscious heritage textiles'
-            }
-          ].map((col, idx) => (
+          {(collections.length > 0 ? collections : [
+            { title: 'Festive Fusion', image: '/Assets/Signature Collections/Festive Fusion.webp', description: 'Vibrant colors', handle: 'collections' },
+            { title: 'Indo-Western', image: '/Assets/Signature Collections/Everyday Indo-Western.webp', description: 'Modern silhouettes', handle: 'collections' },
+            { title: 'Bridal Edit', image: '/Assets/Signature Collections/Bridal Edit.webp', description: 'Timeless heirlooms', handle: 'collections' },
+            { title: 'Sustainable', image: '/Assets/Signature Collections/Sustainable Luxe.webp', description: 'Eco-conscious', handle: 'collections' }
+          ]).map((col, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
@@ -195,10 +184,10 @@ export default function Home() {
               transition={{ delay: idx * 0.1 }}
               className="group cursor-pointer flex flex-col h-auto md:h-full w-[45vw] md:w-auto snap-start"
             >
-              <Link to="/collections" className="flex flex-col h-full w-full">
+              <Link to={col.handle ? `/collections` : "/collections"} className="flex flex-col h-full w-full">
                 <div className="relative aspect-[3/4] overflow-hidden mb-2 md:mb-4 bg-surface-container-low flex-shrink-0">
                   <img
-                    src={col.image}
+                    src={col.image || '/Assets/placeholder.webp'}
                     alt={col.title}
                     referrerPolicy="no-referrer"
                     loading="lazy"
