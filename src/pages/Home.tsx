@@ -186,7 +186,7 @@ export default function Home() {
               transition={{ delay: idx * 0.1 }}
               className="group cursor-pointer flex flex-col h-auto md:h-full w-[45vw] md:w-auto snap-start"
             >
-              <Link to={item.handle ? `/product/${item.id}` : "/collections"} className="flex flex-col h-full w-full">
+              <Link to={item.handle ? `/product/${item.handle}` : "/collections"} className="flex flex-col h-full w-full">
                 <div className="relative aspect-[3/4] overflow-hidden mb-2 md:mb-4 bg-surface-container-low flex-shrink-0">
                   <img
                     src={item.image || '/Assets/placeholder.webp'}
@@ -265,7 +265,7 @@ export default function Home() {
                   transition={{ delay: idx * 0.1 }}
                   className="w-[45vw] md:min-w-[360px] md:w-auto h-auto md:h-auto snap-start group relative"
                 >
-                  <Link to={`/product/${item.id}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                  <Link to={`/product/${item.handle}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
                     <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-sm border border-outline-variant/10 flex-shrink-0 mb-3 md:mb-8">
                       <img
                         src={item.image}
@@ -393,7 +393,7 @@ export default function Home() {
                   transition={{ delay: idx * 0.1 }}
                   className="group relative cursor-pointer flex-shrink-0 w-[45vw] md:w-auto h-auto md:h-full snap-start"
                 >
-                  <Link to={`/product/${product.id}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                  <Link to={`/product/${product.handle}`} className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
                     <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-lg md:shadow-2xl border border-outline-variant/10 flex-shrink-0 mb-3 md:mb-6">
                       <img 
                         src={product.image} 

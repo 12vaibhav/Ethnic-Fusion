@@ -24,7 +24,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       className="group cursor-pointer relative"
     >
       <Link 
-        to={`/product/${product.handle || product.id}`}
+        to={`/product/${product.handle}`}
         className="block w-full h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
         aria-label={`View details for ${product.name}`}
       >
