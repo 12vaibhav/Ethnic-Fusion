@@ -19,7 +19,7 @@ import Account from './pages/Account';
 import Checkout from './pages/Checkout';
 import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
-import { ShopProvider } from './context/ShopContext';
+import { ShopProvider, useShop } from './context/ShopContext';
 import { AuthProvider } from './context/AuthContext';
 import { Toaster } from 'sonner';
 
