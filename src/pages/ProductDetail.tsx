@@ -547,7 +547,7 @@ export default function ProductDetail() {
                         price: selectedVariant?.price || product.price
                       };
                       addToCart(itemToCart);
-                      navigate('/cart');
+                      navigate('/checkout');
                     }}
                     className="bg-tertiary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-primary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
                   >

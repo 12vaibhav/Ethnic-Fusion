@@ -394,5 +394,82 @@ export const getCustomerData = async (customerAccessToken: string) => {
     variables: { customerAccessToken } 
   });
 
-  return data?.customer;
-};
+  return data.customer;
+}
+
+/**
+ * Checkout & Order Placement
+ */
+
+export async function createCheckout(lineItems: any[]) {
+  const query = `
+    mutation checkoutCreate($input: CheckoutCreateInput!) {
+      checkoutCreate(input: $input) {
+        checkout {
+          id
+          webUrl
+        }
+        checkoutUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const input = {
+    lineItems: lineItems.map(item => ({
+      variantId: item.variantId,
+      quantity: item.quantity
+    }))
+  };
+
+  const { data } = await shopifyFetch({ query, variables: { input } });
+  
+  if (data.checkoutCreate.checkoutUserErrors.length > 0) {
+    throw new Error(data.checkoutCreate.checkoutUserErrors[0].message);
+  }
+
+  return data.checkoutCreate.checkout;
+}
+
+export async function updateCheckoutAddress(checkoutId: string, address: any) {
+  const query = `
+    mutation checkoutShippingAddressUpdateV2($shippingAddress: MailingAddressInput!, $checkoutId: ID!) {
+      checkoutShippingAddressUpdateV2(shippingAddress: $shippingAddress, checkoutId: $checkoutId) {
+        checkout {
+          id
+          webUrl
+        }
+        checkoutUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const { data } = await shopifyFetch({ 
+    query, 
+    variables: { 
+      checkoutId, 
+      shippingAddress: {
+        address1: address.address,
+        city: address.city,
+        zip: address.postalCode,
+        firstName: address.firstName,
+        lastName: address.lastName,
+        phone: address.phone,
+        country: 'India' // Defaulting to India for Ethnic Fusion
+      }
+    } 
+  });
+
+  if (data.checkoutShippingAddressUpdateV2.checkoutUserErrors.length > 0) {
+    throw new Error(data.checkoutShippingAddressUpdateV2.checkoutUserErrors[0].message);
+  }
+
+  return data.checkoutShippingAddressUpdateV2.checkout;
+}

@@ -14,6 +14,7 @@ interface ShopContextType {
   cartTotal: number;
   cartCount: number;
   initiateCheckout: () => Promise<void>;
+  clearCart: () => void;
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
@@ -100,6 +101,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
@@ -114,7 +119,8 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       isInWishlist,
       cartTotal,
       cartCount,
-      initiateCheckout
+      initiateCheckout,
+      clearCart
     }}>
       {children}
     </ShopContext.Provider>

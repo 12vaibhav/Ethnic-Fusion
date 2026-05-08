@@ -17,12 +17,16 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { cn } from '../lib/utils';
+import { createCheckout, updateCheckoutAddress } from '../lib/shopify';
+import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
 type CheckoutStep = 'shipping' | 'payment' | 'confirmation';
 
 export default function Checkout() {
   const [step, setStep] = useState<CheckoutStep>('shipping');
-  const { cart, cartTotal, updateQuantity, removeFromCart } = useShop();
+  const [loading, setLoading] = useState(false);
+  const { cart, cartTotal, updateQuantity, removeFromCart, clearCart } = useShop();
   const [showMobileSummary, setShowMobileSummary] = useState(false);
   const navigate = useNavigate();
 
@@ -42,12 +46,46 @@ export default function Checkout() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleNextStep = () => {
-    if (step === 'shipping') setStep('payment');
-    else if (step === 'payment') {
-      // Logic for actual order placement would go here
+  const handleNextStep = async () => {
+    if (step === 'shipping') {
+      // Basic validation
+      if (!formData.email || !formData.firstName || !formData.address) {
+        toast.error('Missing Information', {
+          description: 'Please provide your email, name, and delivery address.'
+        });
+        return;
+      }
+      setStep('payment');
       window.scrollTo(0, 0);
-      setStep('confirmation');
+    } else if (step === 'payment') {
+      setLoading(true);
+      try {
+        // 1. Create Shopify Checkout
+        const checkout = await createCheckout(cart);
+        
+        // 2. Update Shipping Address
+        await updateCheckoutAddress(checkout.id, formData);
+        
+        // 3. Success! Clear local cart
+        clearCart();
+        
+        // 4. Redirect to Shopify for Payment
+        toast.success('Redirecting to secure payment...', {
+          description: 'You will be redirected to Shopify to complete your purchase.'
+        });
+        
+        // Short delay for the toast to be seen
+        setTimeout(() => {
+          window.location.href = checkout.webUrl;
+        }, 1500);
+        
+      } catch (error: any) {
+        console.error('Checkout error:', error);
+        toast.error('Checkout Failed', {
+          description: error.message || 'Something went wrong. Please try again.'
+        });
+        setLoading(false);
+      }
     }
   };
 
@@ -230,6 +268,14 @@ export default function Checkout() {
                           placeholder="110001"
                         />
                       </div>
+                      <div className="flex flex-col border-b border-outline-variant/30 hover:border-tertiary focus-within:border-tertiary transition-all">
+                        <label className="text-[9px] uppercase tracking-[0.2em] font-bold text-outline ml-4 mt-2">Phone Number</label>
+                        <input 
+                          type="tel" name="phone" value={formData.phone} onChange={handleInputChange}
+                          className="w-full bg-transparent px-4 py-2.5 outline-none font-body text-base placeholder:text-outline-variant/50"
+                          placeholder="+91 98765 43210"
+                        />
+                      </div>
                     </div>
                   </section>
 
@@ -362,9 +408,21 @@ export default function Checkout() {
 
                   <button 
                     onClick={handleNextStep}
-                    className="w-full bg-primary text-white py-4 md:py-6 px-8 md:px-10 text-[11px] md:text-[12px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold hover:bg-tertiary hover:shadow-2xl transition-all flex items-center justify-center gap-3 md:gap-4 group"
+                    disabled={loading}
+                    className={cn(
+                      "w-full bg-primary text-white py-4 md:py-6 px-8 md:px-10 text-[11px] md:text-[12px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold hover:bg-tertiary hover:shadow-2xl transition-all flex items-center justify-center gap-3 md:gap-4 group",
+                      loading && "opacity-80 cursor-wait"
+                    )}
                   >
-                    Place Secure Order <ChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-2 transition-transform" />
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" /> Processing Your Order...
+                      </>
+                    ) : (
+                      <>
+                        Place Secure Order <ChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-2 transition-transform" />
+                      </>
+                    )}
                   </button>
                 </motion.div>
               )}
