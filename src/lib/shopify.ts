@@ -447,7 +447,7 @@ export async function updateCheckoutAddress(cartId: string, address: any) {
           firstName: address.firstName,
           lastName: address.lastName,
           phone: address.phone,
-          countryCode: 'IN' // Using ISO code for India
+          country: 'India' // Using full name for India as countryCode is not defined on MailingAddressInput
         }
       }
     ]
