@@ -379,13 +379,13 @@ export const getCustomerData = async (customerAccessToken: string) => {
 
 export async function createCheckout(lineItems: any[]) {
   const query = `
-    mutation checkoutCreate($input: CheckoutCreateInput!) {
-      checkoutCreate(input: $input) {
-        checkout {
+    mutation cartCreate($input: CartInput!) {
+      cartCreate(input: $input) {
+        cart {
           id
-          webUrl
+          checkoutUrl
         }
-        checkoutUserErrors {
+        userErrors {
           code
           field
           message
@@ -395,32 +395,40 @@ export async function createCheckout(lineItems: any[]) {
   `;
 
   const input = {
-    lineItems: lineItems
-      .filter(item => item.variantId) // Ensure we only send items with variant IDs
+    lines: lineItems
+      .filter(item => item.variantId)
       .map(item => ({
-        variantId: item.variantId,
+        merchandiseId: item.variantId,
         quantity: item.quantity
       }))
   };
 
   const data = await shopifyFetch({ query, variables: { input } });
   
-  if (data.checkoutCreate.checkoutUserErrors.length > 0) {
-    throw new Error(data.checkoutCreate.checkoutUserErrors[0].message);
+  if (!data || !data.cartCreate) {
+    throw new Error('Failed to create cart. Please try again.');
   }
 
-  return data.checkoutCreate.checkout;
+  if (data.cartCreate.userErrors.length > 0) {
+    throw new Error(data.cartCreate.userErrors[0].message);
+  }
+
+  // Returning an object that mimics the previous checkout structure to minimize breaking changes
+  return {
+    id: data.cartCreate.cart.id,
+    webUrl: data.cartCreate.cart.checkoutUrl
+  };
 }
 
-export async function updateCheckoutAddress(checkoutId: string, address: any) {
+export async function updateCheckoutAddress(cartId: string, address: any) {
   const query = `
-    mutation checkoutShippingAddressUpdateV2($shippingAddress: MailingAddressInput!, $checkoutId: ID!) {
-      checkoutShippingAddressUpdateV2(shippingAddress: $shippingAddress, checkoutId: $checkoutId) {
-        checkout {
+    mutation cartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+      cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+        cart {
           id
-          webUrl
+          checkoutUrl
         }
-        checkoutUserErrors {
+        userErrors {
           code
           field
           message
@@ -429,25 +437,40 @@ export async function updateCheckoutAddress(checkoutId: string, address: any) {
     }
   `;
 
+  const buyerIdentity = {
+    deliveryAddressPreferences: [
+      {
+        deliveryAddress: {
+          address1: address.address,
+          city: address.city,
+          zip: address.postalCode,
+          firstName: address.firstName,
+          lastName: address.lastName,
+          phone: address.phone,
+          countryCode: 'IN' // Using ISO code for India
+        }
+      }
+    ]
+  };
+
   const data = await shopifyFetch({ 
     query, 
     variables: { 
-      checkoutId, 
-      shippingAddress: {
-        address1: address.address,
-        city: address.city,
-        zip: address.postalCode,
-        firstName: address.firstName,
-        lastName: address.lastName,
-        phone: address.phone,
-        country: 'India' // Defaulting to India for Ethnic Fusion
-      }
+      cartId, 
+      buyerIdentity
     } 
   });
 
-  if (data.checkoutShippingAddressUpdateV2.checkoutUserErrors.length > 0) {
-    throw new Error(data.checkoutShippingAddressUpdateV2.checkoutUserErrors[0].message);
+  if (!data || !data.cartBuyerIdentityUpdate) {
+    throw new Error('Failed to update cart identity. Please try again.');
   }
 
-  return data.checkoutShippingAddressUpdateV2.checkout;
+  if (data.cartBuyerIdentityUpdate.userErrors.length > 0) {
+    throw new Error(data.cartBuyerIdentityUpdate.userErrors[0].message);
+  }
+
+  return {
+    id: data.cartBuyerIdentityUpdate.cart.id,
+    webUrl: data.cartBuyerIdentityUpdate.cart.checkoutUrl
+  };
 }
