@@ -9,16 +9,13 @@ import WishlistDrawer from './WishlistDrawer';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
-  isCartOpen: boolean;
-  setIsCartOpen: (isOpen: boolean) => void;
-  isWishlistOpen: boolean;
-  setIsWishlistOpen: (isOpen: boolean) => void;
+  // No longer needs props passed from App
 }
 
-export default function Navbar({ isCartOpen, setIsCartOpen, isWishlistOpen, setIsWishlistOpen }: NavbarProps) {
+export default function Navbar({}: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { cartCount, wishlist } = useShop();
+  const { cartCount, wishlist, setIsCartOpen, setIsWishlistOpen } = useShop();
   const { customer, isAuthenticated } = useAuth();
   const location = useLocation();
   const isHome = location.pathname === '/';

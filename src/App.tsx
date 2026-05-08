@@ -38,9 +38,6 @@ function ScrollToTop() {
 }
 
 export default function App() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-
   useEffect(() => {
     // Open chatbot immediately when button appears
     const attemptClick = () => {
@@ -80,12 +77,7 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <div className="min-h-screen flex flex-col font-body selection:bg-tertiary selection:text-white">
-          <Navbar 
-            isCartOpen={isCartOpen} 
-            setIsCartOpen={setIsCartOpen} 
-            isWishlistOpen={isWishlistOpen} 
-            setIsWishlistOpen={setIsWishlistOpen} 
-          />
+          <Navbar />
           <BackToTop />
           <main className="flex-grow">
             <Routes>
@@ -101,12 +93,26 @@ export default function App() {
             </Routes>
           </main>
           <Footer />
-          <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-          <WishlistDrawer isOpen={isWishlistOpen} onClose={() => setIsWishlistOpen(false)} />
+          <CartDrawerContainer />
+          <WishlistDrawerContainer />
         </div>
       </Router>
       </ShopProvider>
     </AuthProvider>
   );
+}
+
+// Helper components to avoid hook issues if needed, or just use useShop in the main App if it's inside ShopProvider.
+// Wait, App is the one rendering ShopProvider, so it CANNOT use useShop.
+// I should keep the state in App OR create a wrapper.
+
+function CartDrawerContainer() {
+  const { isCartOpen, setIsCartOpen } = useShop();
+  return <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />;
+}
+
+function WishlistDrawerContainer() {
+  const { isWishlistOpen, setIsWishlistOpen } = useShop();
+  return <WishlistDrawer isOpen={isWishlistOpen} onClose={() => setIsWishlistOpen(false)} />;
 }
 

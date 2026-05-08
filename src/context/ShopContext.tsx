@@ -11,10 +11,13 @@ interface ShopContextType {
   updateQuantity: (productId: string, quantity: number) => void;
   toggleWishlist: (product: Product) => void;
   isInWishlist: (productId: string) => boolean;
-  cartTotal: number;
   cartCount: number;
   initiateCheckout: () => Promise<void>;
   clearCart: () => void;
+  isCartOpen: boolean;
+  setIsCartOpen: (open: boolean) => void;
+  isWishlistOpen: boolean;
+  setIsWishlistOpen: (open: boolean) => void;
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
@@ -105,6 +108,9 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCart([]);
   };
 
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
@@ -120,7 +126,11 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       cartTotal,
       cartCount,
       initiateCheckout,
-      clearCart
+      clearCart,
+      isCartOpen,
+      setIsCartOpen,
+      isWishlistOpen,
+      setIsWishlistOpen
     }}>
       {children}
     </ShopContext.Provider>

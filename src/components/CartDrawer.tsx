@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { toast } from 'sonner';
 
@@ -12,6 +12,7 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { cart, removeFromCart, updateQuantity, cartTotal } = useShop();
+  const navigate = useNavigate();
 
   return (
     <AnimatePresence>
@@ -151,13 +152,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   </div>
                 </div>
                 <button 
-                  onClick={async () => {
-                    const checkoutPromise = initiateCheckout();
-                    toast.promise(checkoutPromise, {
-                      loading: 'Preparing your heritage pieces...',
-                      success: 'Redirecting to secure checkout...',
-                      error: 'Failed to initiate checkout.'
-                    });
+                  onClick={() => {
+                    onClose();
+                    navigate('/checkout');
                   }}
                   className="w-full bg-primary text-white py-4 md:py-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary transition-all flex items-center justify-center gap-2 md:gap-3 shadow-xl"
                 >

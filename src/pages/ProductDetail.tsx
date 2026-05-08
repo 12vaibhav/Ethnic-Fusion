@@ -35,7 +35,7 @@ export default function ProductDetail() {
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [activeTab, setActiveTab] = useState('description');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const { addToCart, toggleWishlist, isInWishlist } = useShop();
+  const { addToCart, toggleWishlist, isInWishlist, setIsCartOpen } = useShop();
 
   useEffect(() => {
     async function loadData() {
@@ -544,10 +544,11 @@ export default function ProductDetail() {
                       const itemToCart = {
                         ...product,
                         variantId: selectedVariant?.id || product.variantId,
-                        price: selectedVariant?.price || product.price
+                        price: selectedVariant?.price || product.price,
+                        selectedOptions: selectedVariant?.selectedOptions
                       };
                       addToCart(itemToCart);
-                      navigate('/checkout');
+                      setIsCartOpen(true);
                     }}
                     className="bg-tertiary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-primary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
                   >
