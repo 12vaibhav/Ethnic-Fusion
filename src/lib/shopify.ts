@@ -27,20 +27,21 @@ async function shopifyFetch({ query, variables = {} }: { query: string, variable
     const result = await response.json();
 
     if (result.errors) {
-      console.error('Shopify GraphQL Errors:', result.errors);
-      return null;
+      const errorMessage = result.errors.map((e: any) => e.message).join(', ');
+      console.error('Shopify GraphQL Errors:', errorMessage);
+      throw new Error(`Shopify API Error: ${errorMessage}`);
     }
 
     if (!response.ok) {
       console.error('Shopify HTTP Error:', response.status, response.statusText);
-      return null;
+      throw new Error(`Shopify HTTP Error: ${response.status} ${response.statusText}`);
     }
 
     console.log('Shopify Data Received:', result.data);
     return result.data;
-  } catch (error) {
-    console.error('Network Error fetching from Shopify:', error);
-    return null;
+  } catch (error: any) {
+    console.error('Fetch Error:', error);
+    throw error;
   }
 }
 
@@ -394,18 +395,16 @@ export async function createCheckout(lineItems: any[]) {
   `;
 
   const input = {
-    lineItems: lineItems.map(item => ({
-      variantId: item.variantId,
-      quantity: item.quantity
-    }))
+    lineItems: lineItems
+      .filter(item => item.variantId) // Ensure we only send items with variant IDs
+      .map(item => ({
+        variantId: item.variantId,
+        quantity: item.quantity
+      }))
   };
 
   const data = await shopifyFetch({ query, variables: { input } });
   
-  if (!data || !data.checkoutCreate) {
-    throw new Error('Failed to create checkout. Please check your connection or cart items.');
-  }
-
   if (data.checkoutCreate.checkoutUserErrors.length > 0) {
     throw new Error(data.checkoutCreate.checkoutUserErrors[0].message);
   }
@@ -445,10 +444,6 @@ export async function updateCheckoutAddress(checkoutId: string, address: any) {
       }
     } 
   });
-
-  if (!data || !data.checkoutShippingAddressUpdateV2) {
-    throw new Error('Failed to update shipping address. Please try again.');
-  }
 
   if (data.checkoutShippingAddressUpdateV2.checkoutUserErrors.length > 0) {
     throw new Error(data.checkoutShippingAddressUpdateV2.checkoutUserErrors[0].message);
