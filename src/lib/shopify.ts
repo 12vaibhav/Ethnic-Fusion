@@ -377,7 +377,7 @@ export const getCustomerData = async (customerAccessToken: string) => {
  * Checkout & Order Placement
  */
 
-export async function createCheckout(lineItems: any[]) {
+export async function createCheckout(lineItems: any[], address?: any) {
   const query = `
     mutation cartCreate($input: CartInput!) {
       cartCreate(input: $input) {
@@ -394,7 +394,7 @@ export async function createCheckout(lineItems: any[]) {
     }
   `;
 
-  const input = {
+  const input: any = {
     lines: lineItems
       .filter(item => item.variantId)
       .map(item => ({
@@ -403,23 +403,42 @@ export async function createCheckout(lineItems: any[]) {
       }))
   };
 
+  // If address is provided, include it in the initial cart creation
+  if (address) {
+    input.buyerIdentity = {
+      deliveryAddressPreferences: [
+        {
+          deliveryAddress: {
+            address1: address.address,
+            city: address.city,
+            zip: address.postalCode,
+            firstName: address.firstName,
+            lastName: address.lastName,
+            phone: address.phone,
+            country: 'India'
+          }
+        }
+      ]
+    };
+  }
+
   const data = await shopifyFetch({ query, variables: { input } });
   
   if (!data || !data.cartCreate) {
-    throw new Error('Failed to create cart. Please try again.');
+    throw new Error('Failed to initiate checkout. Please try again.');
   }
 
   if (data.cartCreate.userErrors.length > 0) {
     throw new Error(data.cartCreate.userErrors[0].message);
   }
 
-  // Returning an object that mimics the previous checkout structure to minimize breaking changes
   return {
     id: data.cartCreate.cart.id,
     webUrl: data.cartCreate.cart.checkoutUrl
   };
 }
 
+// Deprecated: Kept for compatibility but createCheckout now handles address
 export async function updateCheckoutAddress(cartId: string, address: any) {
   const query = `
     mutation cartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
@@ -447,7 +466,7 @@ export async function updateCheckoutAddress(cartId: string, address: any) {
           firstName: address.firstName,
           lastName: address.lastName,
           phone: address.phone,
-          country: 'India' // Using full name for India as countryCode is not defined on MailingAddressInput
+          country: 'India'
         }
       }
     ]
@@ -462,7 +481,7 @@ export async function updateCheckoutAddress(cartId: string, address: any) {
   });
 
   if (!data || !data.cartBuyerIdentityUpdate) {
-    throw new Error('Failed to update cart identity. Please try again.');
+    throw new Error('Failed to update cart identity.');
   }
 
   if (data.cartBuyerIdentityUpdate.userErrors.length > 0) {

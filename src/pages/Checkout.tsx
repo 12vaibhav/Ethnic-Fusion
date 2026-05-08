@@ -60,13 +60,10 @@ export default function Checkout() {
     } else if (step === 'payment') {
       setLoading(true);
       try {
-        // 1. Create Shopify Checkout
-        const checkout = await createCheckout(cart);
+        // 1. Create Shopify Checkout with Address in one go
+        const checkout = await createCheckout(cart, formData);
         
-        // 2. Update Shipping Address
-        await updateCheckoutAddress(checkout.id, formData);
-        
-        // 3. Redirect to Shopify for Payment
+        // 2. Redirect to Shopify for Payment
         toast.success('Redirecting to secure payment...', {
           description: 'You will be redirected to Shopify to complete your purchase.'
         });
