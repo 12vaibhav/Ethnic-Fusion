@@ -66,16 +66,16 @@ export default function Checkout() {
         // 2. Update Shipping Address
         await updateCheckoutAddress(checkout.id, formData);
         
-        // 3. Success! Clear local cart
-        clearCart();
-        
-        // 4. Redirect to Shopify for Payment
+        // 3. Redirect to Shopify for Payment
         toast.success('Redirecting to secure payment...', {
           description: 'You will be redirected to Shopify to complete your purchase.'
         });
         
+        console.log('Redirecting to Shopify Checkout:', checkout.webUrl);
+        
         // Short delay for the toast to be seen
         setTimeout(() => {
+          clearCart(); // Clear cart just before redirecting
           window.location.href = checkout.webUrl;
         }, 1500);
         
@@ -94,7 +94,7 @@ export default function Checkout() {
     else navigate(-1);
   };
 
-  if (cart.length === 0 && step !== 'confirmation') {
+  if (cart.length === 0 && step !== 'confirmation' && !loading) {
     return (
       <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-6 text-center">
         <div className="w-20 h-20 bg-surface-container-low rounded-full flex items-center justify-center mb-8">
