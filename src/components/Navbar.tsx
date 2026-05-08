@@ -15,7 +15,7 @@ interface NavbarProps {
 export default function Navbar({}: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { cartCount, wishlist, setIsCartOpen, setIsWishlistOpen } = useShop();
+  const { cartCount, wishlist, isCartOpen, setIsCartOpen, isWishlistOpen, setIsWishlistOpen } = useShop();
   const { customer, isAuthenticated } = useAuth();
   const location = useLocation();
   const isHome = location.pathname === '/';
