@@ -1,10 +1,28 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, FormEvent, useEffect } from 'react';
-import { Heart, ShoppingBag, Share2, Ruler, Truck, RotateCcw, Star, ChevronRight, Plus, Loader2, ArrowLeft } from 'lucide-react';
+import { 
+  ShoppingBag, 
+  Heart, 
+  ChevronRight, 
+  Star, 
+  Truck, 
+  RotateCcw, 
+  Share2, 
+  Plus, 
+  Minus,
+  Facebook as FacebookIcon,
+  Twitter as TwitterIcon,
+  MessageCircle as PinterestIcon,
+  Loader2,
+  ArrowLeft,
+  Ruler
+} from 'lucide-react';
 import { getProductByHandle, getProducts, getProductRecommendations } from '../lib/shopify';
 import ProductCard from '../components/ProductCard';
 import { motion } from 'motion/react';
 import { useShop } from '../context/ShopContext';
+import { createCheckout } from '../lib/shopify';
+import { toast } from 'sonner';
 import { cn } from '../lib/utils';
 import { toast } from 'sonner';
 
@@ -32,6 +50,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<any>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isBuying, setIsBuying] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [activeTab, setActiveTab] = useState('description');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -534,13 +553,9 @@ export default function ProductDetail() {
                         description: `${product.name} has been added to your bag.`
                       });
                       announce(`${product.name} added to cart.`);
-                    }}
-                    className="bg-primary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-tertiary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
-                  >
-                    <ShoppingBag className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" /> Add to Cart
-                  </button>
                   <button 
                     onClick={() => {
+                      if (!product) return;
                       const itemToCart = {
                         ...product,
                         variantId: selectedVariant?.id || product.variantId,
@@ -549,10 +564,58 @@ export default function ProductDetail() {
                       };
                       addToCart(itemToCart);
                       setIsCartOpen(true);
+                      toast.success('Added to Bag', {
+                        description: `${product.name} is now in your cart.`
+                      });
                     }}
-                    className="bg-tertiary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-primary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
+                    className="bg-primary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-tertiary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
                   >
-                    Buy Now
+                    <ShoppingBag className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" /> Add to Cart
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      if (!product) return;
+                      
+                      setIsBuying(true);
+                      const itemToCart = {
+                        ...product,
+                        variantId: selectedVariant?.id || product.variantId,
+                        price: selectedVariant?.price || product.price,
+                        selectedOptions: selectedVariant?.selectedOptions
+                      };
+                      addToCart(itemToCart);
+                      setIsCartOpen(true);
+                      
+                      try {
+                        const checkout = await createCheckout([{
+                          variantId: itemToCart.variantId,
+                          quantity: 1
+                        }]);
+                        
+                        toast.success('Proceeding to checkout...', {
+                          description: 'Opening secure payment page.'
+                        });
+                        
+                        setTimeout(() => {
+                          window.location.href = checkout.webUrl;
+                        }, 1000);
+                        
+                      } catch (error: any) {
+                        console.error('Fast-track checkout error:', error);
+                        toast.error('Checkout failed', {
+                          description: error.message || 'Please try from the bag drawer.'
+                        });
+                        setIsBuying(false);
+                      }
+                    }}
+                    disabled={isBuying}
+                    className="bg-tertiary text-white py-3.5 md:py-5 uppercase tracking-[0.1em] text-[10px] md:text-xs font-bold flex items-center justify-center gap-2 hover:bg-primary transition-all duration-500 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary disabled:opacity-50"
+                  >
+                    {isBuying ? (
+                      <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
+                    ) : (
+                      "Buy Now"
+                    )}
                   </button>
                 </div>
                 <button 
