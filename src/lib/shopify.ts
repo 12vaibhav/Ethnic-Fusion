@@ -400,8 +400,12 @@ export async function createCheckout(lineItems: any[]) {
     }))
   };
 
-  const { data } = await shopifyFetch({ query, variables: { input } });
+  const data = await shopifyFetch({ query, variables: { input } });
   
+  if (!data || !data.checkoutCreate) {
+    throw new Error('Failed to create checkout. Please check your connection or cart items.');
+  }
+
   if (data.checkoutCreate.checkoutUserErrors.length > 0) {
     throw new Error(data.checkoutCreate.checkoutUserErrors[0].message);
   }
@@ -426,7 +430,7 @@ export async function updateCheckoutAddress(checkoutId: string, address: any) {
     }
   `;
 
-  const { data } = await shopifyFetch({ 
+  const data = await shopifyFetch({ 
     query, 
     variables: { 
       checkoutId, 
@@ -441,6 +445,10 @@ export async function updateCheckoutAddress(checkoutId: string, address: any) {
       }
     } 
   });
+
+  if (!data || !data.checkoutShippingAddressUpdateV2) {
+    throw new Error('Failed to update shipping address. Please try again.');
+  }
 
   if (data.checkoutShippingAddressUpdateV2.checkoutUserErrors.length > 0) {
     throw new Error(data.checkoutShippingAddressUpdateV2.checkoutUserErrors[0].message);
