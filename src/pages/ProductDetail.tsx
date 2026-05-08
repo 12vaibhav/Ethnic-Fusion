@@ -542,19 +542,6 @@ export default function ProductDetail() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   <button 
                     onClick={() => {
-                      const itemToCart = {
-                        ...product,
-                        variantId: selectedVariant?.id || product.variantId,
-                        price: selectedVariant?.price || product.price,
-                        selectedOptions: selectedVariant?.selectedOptions
-                      };
-                      addToCart(itemToCart);
-                      toast.success('Added to Bag', {
-                        description: `${product.name} has been added to your bag.`
-                      });
-                      announce(`${product.name} added to cart.`);
-                  <button 
-                    onClick={() => {
                       if (!product) return;
                       const itemToCart = {
                         ...product,
