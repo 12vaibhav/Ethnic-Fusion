@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
+import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { toast } from 'sonner';
+import { createCheckout } from '../lib/shopify';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -12,7 +13,36 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { cart, removeFromCart, updateQuantity, cartTotal } = useShop();
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const navigate = useNavigate();
+
+  const handleCheckout = async () => {
+    if (cart.length === 0) return;
+    
+    setIsRedirecting(true);
+    try {
+      const checkout = await createCheckout(cart.map(item => ({
+        variantId: item.variantId,
+        quantity: item.quantity
+      })));
+      
+      toast.success('Redirecting to secure checkout...', {
+        description: 'You will be redirected to the Shopify payment page.'
+      });
+      
+      // Small delay for UX
+      setTimeout(() => {
+        window.location.href = checkout.webUrl;
+      }, 800);
+      
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      toast.error('Checkout failed', {
+        description: error.message || 'Please try again later.'
+      });
+      setIsRedirecting(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -152,13 +182,20 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   </div>
                 </div>
                 <button 
-                  onClick={() => {
-                    onClose();
-                    navigate('/checkout');
-                  }}
-                  className="w-full bg-primary text-white py-4 md:py-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary transition-all flex items-center justify-center gap-2 md:gap-3 shadow-xl"
+                  onClick={handleCheckout}
+                  disabled={isRedirecting}
+                  className="w-full bg-primary text-white py-4 md:py-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-tertiary transition-all flex items-center justify-center gap-2 md:gap-3 shadow-xl disabled:opacity-50"
                 >
-                  Proceed to Checkout <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" aria-hidden="true" />
+                  {isRedirecting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      Proceed to Checkout <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" aria-hidden="true" />
+                    </>
+                  )}
                 </button>
                 <p className="text-[7px] md:text-[9px] text-center text-outline uppercase tracking-widest">
                   Secure Checkout • 100% Authentic Heritage Wear
