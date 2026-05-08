@@ -93,9 +93,9 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
 
-    const checkoutUrl = await createCheckout(lineItems);
-    if (checkoutUrl) {
-      window.location.href = checkoutUrl;
+    const checkout = await createCheckout(lineItems);
+    if (checkout?.webUrl) {
+      window.location.href = checkout.webUrl;
     } else {
       toast.error('Failed to create checkout. Please try again.');
     }

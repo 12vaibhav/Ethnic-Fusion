@@ -241,31 +241,6 @@ export const getProductByHandle = async (handle: string) => {
   };
 };
 
-export const createCheckout = async (lineItems: { variantId: string, quantity: number }[]) => {
-  const query = `
-    mutation checkoutCreate($input: CheckoutCreateInput!) {
-      checkoutCreate(input: $input) {
-        checkout {
-          webUrl
-        }
-        checkoutUserErrors {
-          code
-          field
-          message
-        }
-      }
-    }
-  `;
-
-  const variables = {
-    input: {
-      lineItems,
-    },
-  };
-
-  const data = await shopifyFetch({ query, variables });
-  return data?.checkoutCreate?.checkout?.webUrl;
-};
 
 export const getCollections = async () => {
   const query = `
